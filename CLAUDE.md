@@ -27,6 +27,67 @@ This project has two hard constraints that must never be violated:
 - A toggle for light and dark theme, with the choice remembered
   across visits.
 
+## Design Direction (hard constraint — do not deviate)
+
+"Studio Light": clean, academic/editorial. Applies to the whole portal,
+every phase, both themes. Express these tokens as Tailwind arbitrary-value
+utilities (e.g. `bg-[oklch(98%_0.01_70)]`) or a small inline
+`tailwind.config.theme.extend` color block — never hand-rolled CSS files
+(that would violate the single-file/no-build constraints above).
+
+- **Palette — light** (oklch):
+  - Page background: `oklch(98% 0.01 70)`
+  - Card surface: `oklch(100% 0.003 70)`
+  - Ghost/placeholder card surface: `oklch(98% 0.006 70)`
+  - Hairline border: `oklch(90% 0.01 70)`; dashed ghost-card border:
+    `oklch(85% 0.01 70)`
+  - Text primary: `oklch(22% 0.02 250)`
+  - Text secondary/muted: `oklch(45% 0.02 250)`; footer/caption text:
+    `oklch(55% 0.02 70)`
+  - Accent (single, teal, hue 200): `oklch(45% 0.09 200)` — used for
+    links, icons, active toggle state, eyebrow labels. Tinted
+    backgrounds: 10% opacity for icon chips, 6% for decorative blobs.
+  - Card shadow: soft, e.g. `0 2px 10px oklch(0% 0 0 / 0.04)`.
+- **Palette — dark** (derived to match the required theme toggle; not
+  lifted from a mockup — treat as a starting point, adjust if it doesn't
+  look right once built):
+  - Page background: `oklch(20% 0.015 250)`; card surface:
+    `oklch(24% 0.02 250)`
+  - Hairline border: `oklch(32% 0.02 250)`
+  - Text primary: `oklch(95% 0.01 250)`; text secondary/muted:
+    `oklch(70% 0.02 250)`
+  - Accent: same hue, lightened for contrast: `oklch(75% 0.09 200)`;
+    tinted backgrounds at 14% opacity.
+- **Typography**:
+  - Display/headings: Newsreader (serif), weight 600. Sizes: site title
+    22px, page/category heading 38px, card title 19px, ghost-card title
+    16.5px.
+  - Body/UI: Public Sans, weights 400/500/600. Sizes: body copy
+    14–15.5px, eyebrow label 12px (uppercase, letter-spacing 0.12em,
+    weight 600, accent color), caption/footer 12–13px.
+  - Google Fonts: `https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap`
+  - Fallback stacks: `'Newsreader', serif` / `'Public Sans', system-ui, sans-serif`.
+- **Spacing/layout**:
+  - Page horizontal padding: 60px (desktop).
+  - Header vertical padding: 30px; content top padding: 48px; grid
+    section padding: 38px 60px.
+  - Card padding: 30px; grid gap: 26px.
+  - Radii: card 14px, icon chip 12px, pill toggle 999px (fully round).
+  - Icon chip size: 46×46px.
+  - Borders: 1px solid hairline (real content); 1.5px dashed (ghost
+    cards/placeholders).
+- **Reusable component patterns** (apply automatically to new tools too):
+  - Eyebrow label: uppercase, tracked, accent-colored (e.g. "PHASE 1 · 2
+    of a growing set").
+  - Icon chip: rounded-12px square, tinted accent background (10%
+    light / 14% dark), accent-colored line icon (24px viewBox, ~1.75
+    stroke-width, no emoji).
+  - Ghost/"coming soon" card: dashed border, muted icon circle, italic
+    caption — the standard pattern for any future placeholder/empty
+    state.
+  - Theme toggle: pill-shaped, two icon buttons (sun/moon), active
+    state gets a tinted accent background.
+
 ## Working conventions
 - Before implementing any non-trivial feature, ask clarifying
   questions about scope, edge cases, and constraints first —
