@@ -26,3 +26,8 @@ This project has two hard constraints that must never be violated:
 - No backend, no database. Fully static site.
 - A toggle for light and dark theme, with the choice remembered
   across visits.
+
+## Working conventions
+- Before implementing any non-trivial feature, ask clarifying
+  questions about scope, edge cases, and constraints first —
+  don't propose a plan until you've asked.
