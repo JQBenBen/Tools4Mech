@@ -119,13 +119,10 @@ history for details.") so the section stays skimmable as it grows.
 - **Key flows**: delegated click handling (`data-tool-id` → show tool,
   `data-action="show-home"` → show home) — implemented and proven. The
   shared dynamic add/remove-row pattern (`<template>`-based, min 1 row,
-  default 2 rows) is still to be built when the first calculator's real
-  logic is implemented.
-- Both tools currently render as placeholders ("Calculator coming soon")
-  inside their `#tool-view-<id>` sections — proves the navigation
-  mechanism without any real calculation logic yet.
+  default 2 rows, `addRow`/`removeRow`/`updateRemoveButtons` + a
+  `rows-changed` event for listeners) is built and used by both calculators.
 
-### Phase 1 — Force & Moment (status: in progress — Force Calculator done, Moment Calculator not started)
+### Phase 1 — Force & Moment (status: done)
 - **Force Calculator** (done): dynamic list of {magnitude, angle} force rows
   (`<template>`-based, min 1 row, default 2, shared `addRow`/`removeRow`
   helpers) → sum to components → resultant magnitude + angle (normalized
@@ -146,9 +143,26 @@ history for details.") so the section stays skimmable as it grows.
   Moment Calculator: `polarToXY`, `readForceRows`-style row parsing, and
   the `rows-changed` custom event a container dispatches after
   `addRow`/`removeRow` so a tool can listen and redraw its own diagrams.
-- **Moment Calculator**: dynamic list of {magnitude, angle, x, y} rows →
-  per-row moment `x*Fy − y*Fx` → net moment (labeled CCW/CW/balanced) +
-  per-force breakdown table.
+- **Moment Calculator** (done): dynamic list of {magnitude, angle, x, y}
+  rows (same shared row-management pattern) → per-row moment
+  `x*Fy − y*Fx` → net moment, labeled CCW/CW/"balanced (no net rotation)"
+  + a per-force breakdown table (magnitude, angle, position, moment
+  contribution) built from the same values used for the sum. Same
+  invalid-row block/highlight policy and explicit "Calculate" trigger as
+  the Force Calculator.
+- **Moment Calculator diagrams** (done): "Applied Forces" plots each valid
+  force as an arrow starting at its (x, y) position (a dot marks the
+  point, a separate dot marks the pivot at the origin) — position and
+  force-arrow length auto-scale independently, since they're different
+  units (m vs. N) and aren't meant to be read against the same scale.
+  "Net Moment" draws a fixed-radius rotation arc around the pivot whose
+  sweep direction (CCW/CW) matches the net moment's sign, with the value
+  labeled above it; shows just the pivot dot + a "balanced" caption when
+  net ≈ 0. Both live-update the same way as the Force Calculator's
+  diagrams. Verified with a headless-browser run: default row count, a
+  worked two-force case (moments 20.00 + 6.00 = 26.00 N·m CCW, matching
+  the breakdown table), a force applied exactly at the pivot (0
+  contribution), and the invalid-row block/highlight cycle.
 - **Conventions/assumptions**: angle 0° = +x axis, CCW positive; units N /
   ° / m / N·m; 2-decimal display rounding computed from full-precision
   sums; an invalid/blank row blocks calculation and highlights that row;

@@ -181,13 +181,104 @@
       <section id="tool-view-moment-calculator" class="hidden py-[38px]" data-tool-view>
         <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all tools</button>
         <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moment Calculator</h2>
-        <div class="mt-6 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
-          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Enter each force's magnitude, angle, and position (relative to the pivot at the origin) to find the net moment. Angles are measured counter-clockwise from the positive x-axis (0°).</p>
+
+        <div class="mt-8 max-w-[640px]">
+          <div id="moment-rows" data-min-rows="1" class="flex flex-col gap-4"></div>
+
+          <button type="button" id="moment-add-row" class="mt-4 inline-flex items-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add force
+          </button>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-6">
+            <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Applied Forces</div>
+              <svg viewBox="0 0 240 240" class="w-full h-auto">
+                <defs>
+                  <marker id="moment-arrow-position" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                  </marker>
+                </defs>
+                <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                  <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                  <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+                </g>
+                <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+                <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+                <g id="moment-position-vectors"></g>
+              </svg>
+            </div>
+            <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Net Moment</div>
+              <svg viewBox="0 0 240 240" class="w-full h-auto">
+                <defs>
+                  <marker id="moment-arc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                  </marker>
+                </defs>
+                <g id="moment-rotation-arc"></g>
+              </svg>
+            </div>
           </div>
-          <div class="font-display font-semibold text-[16.5px]">Calculator coming soon</div>
-          <div class="text-[13px] text-caption dark:text-caption-dark italic">This tool's logic hasn't been built yet.</div>
+
+          <div class="mt-8">
+            <button type="button" id="moment-calculate" class="rounded-md bg-accent dark:bg-accent-dark text-white dark:text-[oklch(20%_0.015_250)] px-5 py-2.5 text-[14px] font-semibold hover:opacity-90 transition-opacity">Calculate</button>
+          </div>
+
+          <div id="moment-error" class="hidden mt-4 text-[13px] text-danger dark:text-danger-dark"></div>
+
+          <div id="moment-result" class="hidden mt-6 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-4">
+            <div>
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Net Moment</div>
+              <div id="moment-result-summary" class="font-display font-semibold text-[26px] mt-1"></div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-[13px] text-left">
+                <thead>
+                  <tr class="text-muted dark:text-muted-dark border-b border-hairline dark:border-hairline-dark">
+                    <th class="py-1.5 pr-4 font-medium">Force</th>
+                    <th class="py-1.5 pr-4 font-medium">Magnitude</th>
+                    <th class="py-1.5 pr-4 font-medium">Angle</th>
+                    <th class="py-1.5 pr-4 font-medium">Position</th>
+                    <th class="py-1.5 font-medium">Moment</th>
+                  </tr>
+                </thead>
+                <tbody id="moment-breakdown-body"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
+
+        <template id="moment-row-template">
+          <div data-row class="flex gap-3 items-end">
+            <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <label>
+                <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Magnitude (N)</span>
+                <input type="number" step="any" data-field="magnitude" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </label>
+              <label>
+                <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Angle (°)</span>
+                <input type="number" step="any" data-field="angle" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </label>
+              <label>
+                <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">x (m)</span>
+                <input type="number" step="any" data-field="x" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </label>
+              <label>
+                <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">y (m)</span>
+                <input type="number" step="any" data-field="y" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </label>
+            </div>
+            <button type="button" data-action="remove-row" aria-label="Remove force" class="w-[36px] h-[36px] shrink-0 rounded-md border border-hairline dark:border-hairline-dark flex items-center justify-center text-muted dark:text-muted-dark hover:text-danger hover:border-danger dark:hover:text-danger-dark dark:hover:border-danger-dark transition-colors">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </template>
       </section>
 
     </div>
@@ -445,6 +536,167 @@
       document.getElementById('resultant-vector').innerHTML = svg2;
     }
 
+    // ---- Moment Calculator ----
+
+    function readMomentRows() {
+      const rows = document.querySelectorAll('#moment-rows [data-row]');
+      const forces = [];
+      rows.forEach((row, i) => {
+        const mag = parseFloat(row.querySelector('[data-field="magnitude"]').value);
+        const ang = parseFloat(row.querySelector('[data-field="angle"]').value);
+        const x = parseFloat(row.querySelector('[data-field="x"]').value);
+        const y = parseFloat(row.querySelector('[data-field="y"]').value);
+        if (![mag, ang, x, y].some(Number.isNaN)) {
+          forces.push({ mag: mag, ang: ang, x: x, y: y, label: 'F' + (i + 1) });
+        }
+      });
+      return forces;
+    }
+
+    function calculateNetMoment() {
+      const rows = document.querySelectorAll('#moment-rows [data-row]');
+      const errorEl = document.getElementById('moment-error');
+      const resultEl = document.getElementById('moment-result');
+      let hasInvalid = false;
+      const results = [];
+
+      rows.forEach((row) => {
+        const magInput = row.querySelector('[data-field="magnitude"]');
+        const angInput = row.querySelector('[data-field="angle"]');
+        const xInput = row.querySelector('[data-field="x"]');
+        const yInput = row.querySelector('[data-field="y"]');
+        const mag = parseFloat(magInput.value);
+        const ang = parseFloat(angInput.value);
+        const x = parseFloat(xInput.value);
+        const y = parseFloat(yInput.value);
+        const invalid = [mag, ang, x, y].some(Number.isNaN);
+        [magInput, angInput, xInput, yInput].forEach((input) => {
+          input.classList.toggle('border-danger', invalid);
+          input.classList.toggle('dark:border-danger-dark', invalid);
+        });
+        if (invalid) { hasInvalid = true; return; }
+        const c = toComponents(mag, ang);
+        const moment = x * c.fy - y * c.fx;
+        results.push({ mag: mag, ang: ang, x: x, y: y, moment: moment });
+      });
+
+      if (hasInvalid) {
+        errorEl.textContent = 'Fix the highlighted row(s): every force needs a numeric magnitude, angle, x and y.';
+        errorEl.classList.remove('hidden');
+        resultEl.classList.add('hidden');
+        return;
+      }
+      if (results.length === 0) {
+        errorEl.textContent = 'Add at least one force.';
+        errorEl.classList.remove('hidden');
+        resultEl.classList.add('hidden');
+        return;
+      }
+      errorEl.classList.add('hidden');
+
+      const net = results.reduce((sum, r) => sum + r.moment, 0);
+      const EPS = 1e-9;
+      let summary;
+      if (Math.abs(net) < EPS) {
+        summary = '0.00 N·m — balanced (no net rotation)';
+      } else {
+        summary = Math.abs(net).toFixed(2) + ' N·m (' + (net > 0 ? 'CCW' : 'CW') + ')';
+      }
+      document.getElementById('moment-result-summary').textContent = summary;
+
+      document.getElementById('moment-breakdown-body').innerHTML = results
+        .map(function (r, i) {
+          return (
+            '<tr class="border-b border-hairline dark:border-hairline-dark last:border-0">' +
+            '<td class="py-1.5 pr-4">F' + (i + 1) + '</td>' +
+            '<td class="py-1.5 pr-4">' + r.mag.toFixed(2) + ' N</td>' +
+            '<td class="py-1.5 pr-4">' + r.ang.toFixed(2) + '°</td>' +
+            '<td class="py-1.5 pr-4">(' + r.x.toFixed(2) + ', ' + r.y.toFixed(2) + ') m</td>' +
+            '<td class="py-1.5">' + r.moment.toFixed(2) + ' N·m</td>' +
+            '</tr>'
+          );
+        })
+        .join('');
+
+      resultEl.classList.remove('hidden');
+    }
+
+    // Live diagrams (independent of Calculate/validation), reusing the same
+    // viewBox/center as the Force Calculator's diagrams.
+    const MOMENT_POS_RADIUS = 65, MOMENT_ARROW_MAX = 35, MOMENT_ARC_RADIUS = 60;
+
+    function updateMomentPositionDiagram(forces) {
+      const maxPos = forces.reduce((m, f) => Math.max(m, Math.hypot(f.x, f.y)), 0);
+      const posScale = maxPos > 1e-9 ? MOMENT_POS_RADIUS / maxPos : 1;
+      const maxForceMag = forces.reduce((m, f) => Math.max(m, Math.abs(f.mag)), 0);
+      const arrowScale = maxForceMag > 1e-9 ? MOMENT_ARROW_MAX / maxForceMag : 1;
+
+      let svg =
+        '<circle cx="' + DIAGRAM_CX + '" cy="' + DIAGRAM_CY + '" r="3.5" class="fill-muted dark:fill-muted-dark"></circle>' +
+        '<text x="' + (DIAGRAM_CX + 6) + '" y="' + (DIAGRAM_CY - 6) + '" class="fill-muted dark:fill-muted-dark" font-size="9">pivot</text>';
+
+      forces.forEach((f) => {
+        const posPt = { x: DIAGRAM_CX + posScale * f.x, y: DIAGRAM_CY - posScale * f.y };
+        const rad = (f.ang * Math.PI) / 180;
+        const arrowLen = arrowScale * f.mag;
+        const endPt = { x: posPt.x + arrowLen * Math.cos(rad), y: posPt.y - arrowLen * Math.sin(rad) };
+        const a = vectorLabelAnchor(endPt.x, endPt.y);
+        svg +=
+          '<circle cx="' + posPt.x.toFixed(1) + '" cy="' + posPt.y.toFixed(1) + '" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>' +
+          '<line x1="' + posPt.x.toFixed(1) + '" y1="' + posPt.y.toFixed(1) + '" x2="' + endPt.x.toFixed(1) + '" y2="' + endPt.y.toFixed(1) +
+          '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#moment-arrow-position)"></line>' +
+          '<text x="' + (endPt.x + a.dx).toFixed(1) + '" y="' + (endPt.y + a.dy).toFixed(1) +
+          '" class="fill-primary dark:fill-primary-dark" font-size="10" text-anchor="' + a.anchor + '">' +
+          f.label + ' = ' + f.mag + 'N @ ' + f.ang + '°</text>';
+      });
+
+      document.getElementById('moment-position-vectors').innerHTML = svg;
+    }
+
+    function arcPoint(thetaDeg, cx, cy, r) {
+      const rad = (thetaDeg * Math.PI) / 180;
+      return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    }
+
+    function updateMomentRotationDiagram(forces) {
+      let net = 0;
+      forces.forEach((f) => {
+        const c = toComponents(f.mag, f.ang);
+        net += f.x * c.fy - f.y * c.fx;
+      });
+
+      const EPS = 1e-9;
+      let svg =
+        '<circle cx="' + DIAGRAM_CX + '" cy="' + DIAGRAM_CY + '" r="3.5" class="fill-muted dark:fill-muted-dark"></circle>';
+
+      if (Math.abs(net) < EPS) {
+        svg +=
+          '<text x="' + DIAGRAM_CX + '" y="' + (DIAGRAM_CY + MOMENT_ARC_RADIUS + 20) +
+          '" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="11">Balanced — no net rotation</text>';
+      } else {
+        const ccw = net > 0;
+        const start = arcPoint(0, DIAGRAM_CX, DIAGRAM_CY, MOMENT_ARC_RADIUS);
+        const end = arcPoint(ccw ? -270 : 270, DIAGRAM_CX, DIAGRAM_CY, MOMENT_ARC_RADIUS);
+        const sweepFlag = ccw ? 0 : 1;
+        const path =
+          'M ' + start.x.toFixed(1) + ',' + start.y.toFixed(1) +
+          ' A ' + MOMENT_ARC_RADIUS + ',' + MOMENT_ARC_RADIUS + ' 0 1 ' + sweepFlag + ' ' + end.x.toFixed(1) + ',' + end.y.toFixed(1);
+        svg +=
+          '<path d="' + path + '" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#moment-arc-arrow)"></path>' +
+          '<text x="' + DIAGRAM_CX + '" y="' + (DIAGRAM_CY - MOMENT_ARC_RADIUS - 12) +
+          '" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="12" font-weight="600">' +
+          Math.abs(net).toFixed(2) + ' N·m (' + (ccw ? 'CCW' : 'CW') + ')</text>';
+      }
+
+      document.getElementById('moment-rotation-arc').innerHTML = svg;
+    }
+
+    function updateMomentDiagrams() {
+      const forces = readMomentRows();
+      updateMomentPositionDiagram(forces);
+      updateMomentRotationDiagram(forces);
+    }
+
     const ACTIVE_LIGHT = ['bg-accent-tint', 'text-accent'];
     const ACTIVE_DARK = ['bg-accent-tint-dark', 'text-accent-dark'];
     const INACTIVE = ['text-muted', 'dark:text-muted-dark'];
@@ -484,6 +736,16 @@
     });
     document.getElementById('force-calculate').addEventListener('click', calculateForceResultant);
     updateForceDiagrams();
+
+    document.getElementById('moment-rows').addEventListener('input', updateMomentDiagrams);
+    document.getElementById('moment-rows').addEventListener('rows-changed', updateMomentDiagrams);
+    addRow('moment-rows', 'moment-row-template');
+    addRow('moment-rows', 'moment-row-template');
+    document.getElementById('moment-add-row').addEventListener('click', function () {
+      addRow('moment-rows', 'moment-row-template');
+    });
+    document.getElementById('moment-calculate').addEventListener('click', calculateNetMoment);
+    updateMomentDiagrams();
   </script>
 
 </body>
