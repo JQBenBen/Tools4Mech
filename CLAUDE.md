@@ -19,3 +19,10 @@ This project has two hard constraints that must never be violated:
    Vue, Svelte, TypeScript, JSX, Sass/Less, bundlers like Webpack/Vite, npm
    dependencies, etc.). The file must run by simply opening it in a browser —
    no compilation, transpilation, or installation step of any kind.
+
+## Tech stack (hard constraints — do not deviate)
+- Vanilla HTML, CSS, and JavaScript only. No React, Vue, or any JS framework.
+- Tailwind CSS for all styling (via CDN only).
+- No backend, no database. Fully static site.
+- A toggle for light and dark theme, with the choice remembered
+  across visits.
