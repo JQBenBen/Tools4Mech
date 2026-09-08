@@ -135,6 +135,17 @@ history for details.") so the section stays skimmable as it grows.
   headless-browser click-through (row add/remove floor, a known 3-4-5
   case, the balanced case, and the invalid-row block/highlight/clear
   cycle).
+- **Force Calculator diagrams** (done): two inline-SVG vector diagrams
+  (axes + light grid + per-vector magnitude/angle labels) — "Individual
+  Forces" plots every valid row as its own arrow from the origin;
+  "Resultant Force" plots just the resultant with dashed Rx/Ry projection
+  lines. Both update live on every keystroke/row add/remove, independent
+  of the Calculate button and its validation (invalid/blank rows are
+  silently skipped in the diagrams rather than blocking them). Each
+  diagram auto-scales to its own max magnitude. Reusable pieces for the
+  Moment Calculator: `polarToXY`, `readForceRows`-style row parsing, and
+  the `rows-changed` custom event a container dispatches after
+  `addRow`/`removeRow` so a tool can listen and redraw its own diagrams.
 - **Moment Calculator**: dynamic list of {magnitude, angle, x, y} rows →
   per-row moment `x*Fy − y*Fx` → net moment (labeled CCW/CW/balanced) +
   per-force breakdown table.

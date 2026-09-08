@@ -103,7 +103,52 @@
             Add force
           </button>
 
-          <div class="mt-6">
+          <div class="mt-8 flex flex-col sm:flex-row gap-6">
+            <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Individual Forces</div>
+              <svg viewBox="0 0 240 240" class="w-full h-auto">
+                <defs>
+                  <marker id="force-arrow-individual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                  </marker>
+                </defs>
+                <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                  <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                  <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+                </g>
+                <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+                <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+                <g id="individual-forces-vectors"></g>
+              </svg>
+            </div>
+            <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Resultant Force</div>
+              <svg viewBox="0 0 240 240" class="w-full h-auto">
+                <defs>
+                  <marker id="force-arrow-resultant" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                  </marker>
+                </defs>
+                <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                  <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                  <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                  <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+                </g>
+                <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+                <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+                <g id="resultant-vector"></g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="mt-8">
             <button type="button" id="force-calculate" class="rounded-md bg-accent dark:bg-accent-dark text-white dark:text-[oklch(20%_0.015_250)] px-5 py-2.5 text-[14px] font-semibold hover:opacity-90 transition-opacity">Calculate</button>
           </div>
 
@@ -241,6 +286,7 @@
       const template = document.getElementById(templateId);
       container.appendChild(template.content.firstElementChild.cloneNode(true));
       updateRemoveButtons(container);
+      container.dispatchEvent(new CustomEvent('rows-changed'));
     }
 
     function removeRow(rowEl) {
@@ -250,6 +296,7 @@
       if (container.children.length <= minRows) return;
       rowEl.remove();
       updateRemoveButtons(container);
+      container.dispatchEvent(new CustomEvent('rows-changed'));
     }
 
     function updateRemoveButtons(container) {
@@ -320,6 +367,84 @@
       resultEl.classList.remove('hidden');
     }
 
+    // Live vector diagrams (independent of Calculate/validation).
+    const DIAGRAM_CX = 120, DIAGRAM_CY = 120, DIAGRAM_RADIUS = 88;
+
+    function polarToXY(mag, angDeg, scale, cx, cy) {
+      const rad = (angDeg * Math.PI) / 180;
+      return { x: cx + scale * mag * Math.cos(rad), y: cy - scale * mag * Math.sin(rad) };
+    }
+
+    function readForceRows() {
+      const rows = document.querySelectorAll('#force-rows [data-row]');
+      const forces = [];
+      rows.forEach((row, i) => {
+        const mag = parseFloat(row.querySelector('[data-field="magnitude"]').value);
+        const ang = parseFloat(row.querySelector('[data-field="angle"]').value);
+        if (!Number.isNaN(mag) && !Number.isNaN(ang)) {
+          forces.push({ mag: mag, ang: ang, label: 'F' + (i + 1) });
+        }
+      });
+      return forces;
+    }
+
+    function vectorLabelAnchor(x, y) {
+      // Anchor the label on the side with room to grow, so it stays inside the viewBox
+      // instead of running off whichever edge the vector points toward.
+      const nearRight = x >= DIAGRAM_CX;
+      return {
+        dx: nearRight ? -6 : 6,
+        dy: y >= DIAGRAM_CY ? 14 : -8,
+        anchor: nearRight ? 'end' : 'start',
+      };
+    }
+
+    function updateForceDiagrams() {
+      const forces = readForceRows();
+
+      const maxMag = forces.reduce((m, f) => Math.max(m, Math.abs(f.mag)), 0);
+      const scale1 = maxMag > 1e-9 ? DIAGRAM_RADIUS / maxMag : 1;
+      let svg1 = '';
+      forces.forEach((f) => {
+        const p = polarToXY(f.mag, f.ang, scale1, DIAGRAM_CX, DIAGRAM_CY);
+        const a = vectorLabelAnchor(p.x, p.y);
+        svg1 +=
+          '<line x1="' + DIAGRAM_CX + '" y1="' + DIAGRAM_CY + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) +
+          '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#force-arrow-individual)"></line>' +
+          '<text x="' + (p.x + a.dx).toFixed(1) + '" y="' + (p.y + a.dy).toFixed(1) +
+          '" class="fill-primary dark:fill-primary-dark" font-size="10" text-anchor="' + a.anchor + '">' +
+          f.label + ' = ' + f.mag + 'N @ ' + f.ang + '°</text>';
+      });
+      document.getElementById('individual-forces-vectors').innerHTML = svg1;
+
+      let sumX = 0, sumY = 0;
+      forces.forEach((f) => {
+        const c = toComponents(f.mag, f.ang);
+        sumX += c.fx;
+        sumY += c.fy;
+      });
+      const resultMag = Math.hypot(sumX, sumY);
+      let svg2 = '';
+      if (resultMag > 1e-9) {
+        const scale2 = DIAGRAM_RADIUS / resultMag;
+        let angleDeg = (Math.atan2(sumY, sumX) * 180) / Math.PI;
+        if (angleDeg < 0) angleDeg += 360;
+        const p = polarToXY(resultMag, angleDeg, scale2, DIAGRAM_CX, DIAGRAM_CY);
+        const a = vectorLabelAnchor(p.x, p.y);
+        svg2 +=
+          '<line x1="' + p.x.toFixed(1) + '" y1="' + DIAGRAM_CY + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) +
+          '" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>' +
+          '<line x1="' + DIAGRAM_CX + '" y1="' + p.y.toFixed(1) + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) +
+          '" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>' +
+          '<line x1="' + DIAGRAM_CX + '" y1="' + DIAGRAM_CY + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) +
+          '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#force-arrow-resultant)"></line>' +
+          '<text x="' + (p.x + a.dx).toFixed(1) + '" y="' + (p.y + a.dy).toFixed(1) +
+          '" class="fill-primary dark:fill-primary-dark" font-size="10" text-anchor="' + a.anchor + '">' +
+          'R = ' + resultMag.toFixed(2) + 'N @ ' + angleDeg.toFixed(1) + '°</text>';
+      }
+      document.getElementById('resultant-vector').innerHTML = svg2;
+    }
+
     const ACTIVE_LIGHT = ['bg-accent-tint', 'text-accent'];
     const ACTIVE_DARK = ['bg-accent-tint-dark', 'text-accent-dark'];
     const INACTIVE = ['text-muted', 'dark:text-muted-dark'];
@@ -350,12 +475,15 @@
     renderHomeGrid();
     updateThemeButtons();
 
+    document.getElementById('force-rows').addEventListener('input', updateForceDiagrams);
+    document.getElementById('force-rows').addEventListener('rows-changed', updateForceDiagrams);
     addRow('force-rows', 'force-row-template');
     addRow('force-rows', 'force-row-template');
     document.getElementById('force-add-row').addEventListener('click', function () {
       addRow('force-rows', 'force-row-template');
     });
     document.getElementById('force-calculate').addEventListener('click', calculateForceResultant);
+    updateForceDiagrams();
   </script>
 
 </body>
