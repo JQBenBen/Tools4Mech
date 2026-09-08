@@ -31,3 +31,42 @@ This project has two hard constraints that must never be violated:
 - Before implementing any non-trivial feature, ask clarifying
   questions about scope, edge cases, and constraints first —
   don't propose a plan until you've asked.
+
+## Feature Plan
+
+Living roadmap for the portal, broken into phases. Keep each phase a tight
+bullet list, not prose. When a phase is finished, don't delete it — collapse
+it to a one-line summary (e.g. "Phase 1 — Force & Moment: shipped. See git
+history for details.") so the section stays skimmable as it grows.
+
+### Portal shell (applies to every phase)
+- Single `index.html`. Home view lists tool cards grouped by category
+  heading. Clicking a card hides the home view and shows that tool's
+  section; a back button returns home.
+- Dark/light toggle persisted in `localStorage`, defaulting to OS
+  preference until the user explicitly chooses.
+- **Data model**: `TOOLS_DATA = [{ category, tools: [{ id, name,
+  description }] }]` drives the home grid. Each tool's markup lives in its
+  own `#tool-view-<id>` section. Adding a future tool = one data entry + one
+  section + its own calculation wiring — navigation/theme code untouched.
+- **Key flows**: delegated click handling (`data-tool-id` → show tool,
+  `data-action="show-home"` → show home); shared dynamic add/remove-row
+  pattern (`<template>`-based, min 1 row, default 2 rows) reused across
+  calculators.
+
+### Phase 1 — Force & Moment (status: not started)
+- **Force Calculator**: dynamic list of {magnitude, angle} force rows → sum
+  to components → resultant magnitude + angle (normalized to [0°, 360°)),
+  components shown too.
+- **Moment Calculator**: dynamic list of {magnitude, angle, x, y} rows →
+  per-row moment `x*Fy − y*Fx` → net moment (labeled CCW/CW/balanced) +
+  per-force breakdown table.
+- **Conventions/assumptions**: angle 0° = +x axis, CCW positive; units N /
+  ° / m / N·m; 2-decimal display rounding computed from full-precision
+  sums; an invalid/blank row blocks calculation and highlights that row;
+  no URL/hash routing.
+
+### Phase 2+ — future tools (not started)
+- Extend by appending to `TOOLS_DATA` and adding a `#tool-view-<id>`
+  section with its own logic. No changes to shared navigation/theme/grid
+  code.
