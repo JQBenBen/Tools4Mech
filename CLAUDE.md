@@ -58,6 +58,11 @@ utilities (e.g. `bg-[oklch(98%_0.01_70)]`) or a small inline
     `oklch(70% 0.02 250)`
   - Accent: same hue, lightened for contrast: `oklch(75% 0.09 200)`;
     tinted backgrounds at 14% opacity.
+- **Validation/error state** (added when the first form-based tool needed
+  it — reuse for every future tool's input validation):
+  - Danger (light): `oklch(55% 0.18 25)`; danger (dark): `oklch(72% 0.18 25)`.
+  - Used for invalid-input borders and error message text. Same
+    palette-construction method as the accent (single hue, oklch).
 - **Typography**:
   - Display/headings: Newsreader (serif), weight 600. Sizes: site title
     22px, page/category heading 38px, card title 19px, ghost-card title
@@ -120,10 +125,16 @@ history for details.") so the section stays skimmable as it grows.
   inside their `#tool-view-<id>` sections — proves the navigation
   mechanism without any real calculation logic yet.
 
-### Phase 1 — Force & Moment (status: in progress — shell/placeholders done, calculator logic not yet built)
-- **Force Calculator**: dynamic list of {magnitude, angle} force rows → sum
-  to components → resultant magnitude + angle (normalized to [0°, 360°)),
-  components shown too.
+### Phase 1 — Force & Moment (status: in progress — Force Calculator done, Moment Calculator not started)
+- **Force Calculator** (done): dynamic list of {magnitude, angle} force rows
+  (`<template>`-based, min 1 row, default 2, shared `addRow`/`removeRow`
+  helpers) → sum to components → resultant magnitude + angle (normalized
+  to [0°, 360°)), components shown too. Explicit "Calculate" button
+  trigger (not live-as-you-type). Balanced forces (magnitude ≈ 0) show
+  "direction undefined" instead of a bogus angle. Verified with a
+  headless-browser click-through (row add/remove floor, a known 3-4-5
+  case, the balanced case, and the invalid-row block/highlight/clear
+  cycle).
 - **Moment Calculator**: dynamic list of {magnitude, angle, x, y} rows →
   per-row moment `x*Fy − y*Fx` → net moment (labeled CCW/CW/balanced) +
   per-force breakdown table.

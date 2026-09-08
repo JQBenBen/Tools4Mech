@@ -51,6 +51,8 @@
             'accent-tint': 'oklch(45% 0.09 200 / 0.1)',
             'accent-tint-dark': 'oklch(75% 0.09 200 / 0.14)',
             'accent-blob': 'oklch(45% 0.09 200 / 0.06)',
+            danger: 'oklch(55% 0.18 25)',
+            'danger-dark': 'oklch(72% 0.18 25)',
           },
           boxShadow: {
             card: '0 2px 10px oklch(0% 0 0 / 0.04)',
@@ -91,13 +93,44 @@
       <section id="tool-view-force-calculator" class="hidden py-[38px]" data-tool-view>
         <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all tools</button>
         <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Force Calculator</h2>
-        <div class="mt-6 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
-          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Enter each force's magnitude and angle to find their resultant. Angles are measured counter-clockwise from the positive x-axis (0°).</p>
+
+        <div class="mt-8 max-w-[520px]">
+          <div id="force-rows" data-min-rows="1" class="flex flex-col gap-4"></div>
+
+          <button type="button" id="force-add-row" class="mt-4 inline-flex items-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add force
+          </button>
+
+          <div class="mt-6">
+            <button type="button" id="force-calculate" class="rounded-md bg-accent dark:bg-accent-dark text-white dark:text-[oklch(20%_0.015_250)] px-5 py-2.5 text-[14px] font-semibold hover:opacity-90 transition-opacity">Calculate</button>
           </div>
-          <div class="font-display font-semibold text-[16.5px]">Calculator coming soon</div>
-          <div class="text-[13px] text-caption dark:text-caption-dark italic">This tool's logic hasn't been built yet.</div>
+
+          <div id="force-error" class="hidden mt-4 text-[13px] text-danger dark:text-danger-dark"></div>
+
+          <div id="force-result" class="hidden mt-6 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-2">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Resultant</div>
+            <div id="force-result-summary" class="font-display font-semibold text-[26px]"></div>
+            <div id="force-result-components" class="text-[13px] text-muted dark:text-muted-dark"></div>
+          </div>
         </div>
+
+        <template id="force-row-template">
+          <div data-row class="flex gap-3 items-end">
+            <label class="flex-1">
+              <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Magnitude (N)</span>
+              <input type="number" step="any" data-field="magnitude" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+            </label>
+            <label class="flex-1">
+              <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Angle (°)</span>
+              <input type="number" step="any" data-field="angle" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+            </label>
+            <button type="button" data-action="remove-row" aria-label="Remove force" class="w-[36px] h-[36px] shrink-0 rounded-md border border-hairline dark:border-hairline-dark flex items-center justify-center text-muted dark:text-muted-dark hover:text-danger hover:border-danger dark:hover:text-danger-dark dark:hover:border-danger-dark transition-colors">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </template>
       </section>
 
       <section id="tool-view-moment-calculator" class="hidden py-[38px]" data-tool-view>
@@ -198,7 +231,94 @@
       if (card) return showTool(card.dataset.toolId);
       const backBtn = e.target.closest('[data-action="show-home"]');
       if (backBtn) return showHome();
+      const removeBtn = e.target.closest('[data-action="remove-row"]');
+      if (removeBtn) return removeRow(removeBtn.closest('[data-row]'));
     });
+
+    // Shared dynamic add/remove-row pattern, reused across calculators.
+    function addRow(containerId, templateId) {
+      const container = document.getElementById(containerId);
+      const template = document.getElementById(templateId);
+      container.appendChild(template.content.firstElementChild.cloneNode(true));
+      updateRemoveButtons(container);
+    }
+
+    function removeRow(rowEl) {
+      if (!rowEl) return;
+      const container = rowEl.parentElement;
+      const minRows = parseInt(container.dataset.minRows, 10) || 1;
+      if (container.children.length <= minRows) return;
+      rowEl.remove();
+      updateRemoveButtons(container);
+    }
+
+    function updateRemoveButtons(container) {
+      const minRows = parseInt(container.dataset.minRows, 10) || 1;
+      const atFloor = container.children.length <= minRows;
+      container.querySelectorAll('[data-action="remove-row"]').forEach((btn) => {
+        btn.disabled = atFloor;
+        btn.classList.toggle('opacity-40', atFloor);
+        btn.classList.toggle('cursor-not-allowed', atFloor);
+      });
+    }
+
+    // Shared math helper, reused across calculators.
+    function toComponents(mag, angDeg) {
+      const rad = (angDeg * Math.PI) / 180;
+      return { fx: mag * Math.cos(rad), fy: mag * Math.sin(rad) };
+    }
+
+    function calculateForceResultant() {
+      const rows = document.querySelectorAll('#force-rows [data-row]');
+      const errorEl = document.getElementById('force-error');
+      const resultEl = document.getElementById('force-result');
+      let sumX = 0, sumY = 0, hasInvalid = false;
+
+      rows.forEach((row) => {
+        const magInput = row.querySelector('[data-field="magnitude"]');
+        const angInput = row.querySelector('[data-field="angle"]');
+        const mag = parseFloat(magInput.value);
+        const ang = parseFloat(angInput.value);
+        const invalid = Number.isNaN(mag) || Number.isNaN(ang);
+        magInput.classList.toggle('border-danger', invalid);
+        magInput.classList.toggle('dark:border-danger-dark', invalid);
+        angInput.classList.toggle('border-danger', invalid);
+        angInput.classList.toggle('dark:border-danger-dark', invalid);
+        if (invalid) { hasInvalid = true; return; }
+        const { fx, fy } = toComponents(mag, ang);
+        sumX += fx;
+        sumY += fy;
+      });
+
+      if (hasInvalid) {
+        errorEl.textContent = 'Fix the highlighted row(s): every force needs a numeric magnitude and angle.';
+        errorEl.classList.remove('hidden');
+        resultEl.classList.add('hidden');
+        return;
+      }
+      if (rows.length === 0) {
+        errorEl.textContent = 'Add at least one force.';
+        errorEl.classList.remove('hidden');
+        resultEl.classList.add('hidden');
+        return;
+      }
+      errorEl.classList.add('hidden');
+
+      const magnitude = Math.hypot(sumX, sumY);
+      const EPS = 1e-9;
+      let summary;
+      if (magnitude < EPS) {
+        summary = magnitude.toFixed(2) + ' N — direction undefined (balanced)';
+      } else {
+        let angleDeg = (Math.atan2(sumY, sumX) * 180) / Math.PI;
+        if (angleDeg < 0) angleDeg += 360;
+        summary = magnitude.toFixed(2) + ' N at ' + angleDeg.toFixed(2) + '°';
+      }
+      document.getElementById('force-result-summary').textContent = summary;
+      document.getElementById('force-result-components').textContent =
+        'Rx = ' + sumX.toFixed(2) + ' N  ·  Ry = ' + sumY.toFixed(2) + ' N';
+      resultEl.classList.remove('hidden');
+    }
 
     const ACTIVE_LIGHT = ['bg-accent-tint', 'text-accent'];
     const ACTIVE_DARK = ['bg-accent-tint-dark', 'text-accent-dark'];
@@ -229,6 +349,13 @@
 
     renderHomeGrid();
     updateThemeButtons();
+
+    addRow('force-rows', 'force-row-template');
+    addRow('force-rows', 'force-row-template');
+    document.getElementById('force-add-row').addEventListener('click', function () {
+      addRow('force-rows', 'force-row-template');
+    });
+    document.getElementById('force-calculate').addEventListener('click', calculateForceResultant);
   </script>
 
 </body>
