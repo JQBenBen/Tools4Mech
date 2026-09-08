@@ -100,22 +100,27 @@ bullet list, not prose. When a phase is finished, don't delete it — collapse
 it to a one-line summary (e.g. "Phase 1 — Force & Moment: shipped. See git
 history for details.") so the section stays skimmable as it grows.
 
-### Portal shell (applies to every phase)
-- Single `index.html`. Home view lists tool cards grouped by category
+### Portal shell (status: done — applies to every phase)
+- Built in `index.html`: home view lists tool cards grouped by category
   heading. Clicking a card hides the home view and shows that tool's
-  section; a back button returns home.
+  section; a back button returns home. Verified working (Playwright
+  click-through: card → tool view → back → home).
 - Dark/light toggle persisted in `localStorage`, defaulting to OS
-  preference until the user explicitly chooses.
+  preference until the user explicitly chooses. Verified working.
 - **Data model**: `TOOLS_DATA = [{ category, tools: [{ id, name,
   description }] }]` drives the home grid. Each tool's markup lives in its
   own `#tool-view-<id>` section. Adding a future tool = one data entry + one
   section + its own calculation wiring — navigation/theme code untouched.
 - **Key flows**: delegated click handling (`data-tool-id` → show tool,
-  `data-action="show-home"` → show home); shared dynamic add/remove-row
-  pattern (`<template>`-based, min 1 row, default 2 rows) reused across
-  calculators.
+  `data-action="show-home"` → show home) — implemented and proven. The
+  shared dynamic add/remove-row pattern (`<template>`-based, min 1 row,
+  default 2 rows) is still to be built when the first calculator's real
+  logic is implemented.
+- Both tools currently render as placeholders ("Calculator coming soon")
+  inside their `#tool-view-<id>` sections — proves the navigation
+  mechanism without any real calculation logic yet.
 
-### Phase 1 — Force & Moment (status: not started)
+### Phase 1 — Force & Moment (status: in progress — shell/placeholders done, calculator logic not yet built)
 - **Force Calculator**: dynamic list of {magnitude, angle} force rows → sum
   to components → resultant magnitude + angle (normalized to [0°, 360°)),
   components shown too.

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanics Fundamentals</title>
+
+  <!-- Theme init: resolve before first paint, before Tailwind loads -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = stored ? stored === 'dark' : prefersDark;
+        document.documentElement.classList.toggle('dark', isDark);
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Newsreader', 'serif'],
+            body: ['"Public Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            bg: 'oklch(98% 0.01 70)',
+            'bg-dark': 'oklch(20% 0.015 250)',
+            card: 'oklch(100% 0.003 70)',
+            'card-dark': 'oklch(24% 0.02 250)',
+            ghost: 'oklch(98% 0.006 70)',
+            'ghost-dark': 'oklch(24% 0.02 250)',
+            hairline: 'oklch(90% 0.01 70)',
+            'hairline-dark': 'oklch(32% 0.02 250)',
+            dashed: 'oklch(85% 0.01 70)',
+            'dashed-dark': 'oklch(40% 0.02 250)',
+            primary: 'oklch(22% 0.02 250)',
+            'primary-dark': 'oklch(95% 0.01 250)',
+            muted: 'oklch(45% 0.02 250)',
+            'muted-dark': 'oklch(70% 0.02 250)',
+            caption: 'oklch(55% 0.02 70)',
+            'caption-dark': 'oklch(70% 0.02 250)',
+            accent: 'oklch(45% 0.09 200)',
+            'accent-dark': 'oklch(75% 0.09 200)',
+            'accent-tint': 'oklch(45% 0.09 200 / 0.1)',
+            'accent-tint-dark': 'oklch(75% 0.09 200 / 0.14)',
+            'accent-blob': 'oklch(45% 0.09 200 / 0.06)',
+          },
+          boxShadow: {
+            card: '0 2px 10px oklch(0% 0 0 / 0.04)',
+            pill: '0 1px 2px oklch(0% 0 0 / 0.04)',
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-body bg-bg dark:bg-bg-dark text-primary dark:text-primary-dark min-h-screen transition-colors duration-200">
+
+  <header class="flex justify-between items-center px-6 md:px-[60px] py-[30px] border-b border-hairline dark:border-hairline-dark">
+    <div class="font-display font-semibold text-[22px]">Mechanics Fundamentals</div>
+    <div id="theme-toggle" class="flex items-center gap-0.5 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-full p-1 shadow-pill">
+      <button data-theme="light" aria-label="Light theme" class="theme-btn w-[30px] h-[30px] rounded-full flex items-center justify-center transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"></line><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"></line></svg>
+      </button>
+      <button data-theme="dark" aria-label="Dark theme" class="theme-btn w-[30px] h-[30px] rounded-full flex items-center justify-center transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-[1280px] mx-auto px-6 md:px-[60px]">
+
+    <section id="home-view">
+      <div class="pt-[48px]">
+        <div class="text-[12px] font-semibold tracking-[0.12em] uppercase text-accent dark:text-accent-dark">Phase 1 · 2 of a growing set</div>
+        <h1 class="font-display font-semibold text-[32px] md:text-[38px] mt-3">Force &amp; Moment</h1>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Two calculators to start a portal of small mechanical-engineering tools and lessons, added one phase at a time.</p>
+      </div>
+      <div id="home-grid-container" class="py-[38px]"></div>
+    </section>
+
+    <div id="tool-views-container">
+
+      <section id="tool-view-force-calculator" class="hidden py-[38px]" data-tool-view>
+        <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all tools</button>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Force Calculator</h2>
+        <div class="mt-6 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
+          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </div>
+          <div class="font-display font-semibold text-[16.5px]">Calculator coming soon</div>
+          <div class="text-[13px] text-caption dark:text-caption-dark italic">This tool's logic hasn't been built yet.</div>
+        </div>
+      </section>
+
+      <section id="tool-view-moment-calculator" class="hidden py-[38px]" data-tool-view>
+        <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all tools</button>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moment Calculator</h2>
+        <div class="mt-6 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
+          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </div>
+          <div class="font-display font-semibold text-[16.5px]">Calculator coming soon</div>
+          <div class="text-[13px] text-caption dark:text-caption-dark italic">This tool's logic hasn't been built yet.</div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="px-6 md:px-[60px] py-[18px] border-t border-hairline dark:border-hairline-dark text-center text-[12px] text-caption dark:text-caption-dark">Mechanics Fundamentals — built one phase at a time.</footer>
+
+  <script>
+    const TOOLS_DATA = [
+      {
+        category: "Force & Moment",
+        tools: [
+          { id: "force-calculator", name: "Force Calculator", description: "Compute the resultant of multiple 2D forces from magnitude and angle." },
+          { id: "moment-calculator", name: "Moment Calculator", description: "Compute the net moment of multiple 2D forces about a pivot point." },
+        ],
+      },
+      // Phase 2+: push additional { category, tools: [...] } objects here.
+    ];
+
+    const TOOL_ICONS = {
+      'force-calculator': '<line x1="5" y1="19" x2="17" y2="7"></line><polyline points="9 7 17 7 17 15"></polyline>',
+      'moment-calculator': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
+    };
+
+    function renderHomeGrid() {
+      const container = document.getElementById('home-grid-container');
+      container.innerHTML = '';
+      let lastGrid = null;
+
+      TOOLS_DATA.forEach((category) => {
+        const heading = document.createElement('h2');
+        heading.className = 'font-display font-semibold text-[15px] uppercase tracking-[0.08em] text-muted dark:text-muted-dark mb-4 first:mt-0';
+        heading.textContent = category.category;
+        container.appendChild(heading);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px] mb-10';
+        category.tools.forEach((tool) => {
+          const card = document.createElement('button');
+          card.dataset.toolId = tool.id;
+          card.className = 'text-left bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-4 shadow-card hover:border-accent dark:hover:border-accent-dark transition-colors';
+          card.innerHTML = `
+            <div class="w-[46px] h-[46px] rounded-[12px] bg-accent-tint dark:bg-accent-tint-dark flex items-center justify-center text-accent dark:text-accent-dark">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${TOOL_ICONS[tool.id] || ''}</svg>
+            </div>
+            <div class="font-display font-semibold text-[19px]">${tool.name}</div>
+            <div class="text-[14px] text-muted dark:text-muted-dark leading-relaxed">${tool.description}</div>
+          `;
+          grid.appendChild(card);
+        });
+        container.appendChild(grid);
+        lastGrid = grid;
+      });
+
+      if (lastGrid) {
+        const ghost = document.createElement('div');
+        ghost.className = 'bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3.5 items-start justify-center';
+        ghost.innerHTML = `
+          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-caption dark:text-caption-dark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </div>
+          <div class="font-display font-semibold text-[16.5px]">More tools coming soon</div>
+          <div class="text-[13px] text-caption dark:text-caption-dark italic">Added each phase</div>
+        `;
+        lastGrid.appendChild(ghost);
+      }
+    }
+
+    function showTool(toolId) {
+      document.getElementById('home-view').classList.add('hidden');
+      document.querySelectorAll('#tool-views-container > section').forEach((s) => s.classList.add('hidden'));
+      const target = document.getElementById('tool-view-' + toolId);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function showHome() {
+      document.querySelectorAll('#tool-views-container > section').forEach((s) => s.classList.add('hidden'));
+      document.getElementById('home-view').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    document.addEventListener('click', function (e) {
+      const card = e.target.closest('[data-tool-id]');
+      if (card) return showTool(card.dataset.toolId);
+      const backBtn = e.target.closest('[data-action="show-home"]');
+      if (backBtn) return showHome();
+    });
+
+    const ACTIVE_LIGHT = ['bg-accent-tint', 'text-accent'];
+    const ACTIVE_DARK = ['bg-accent-tint-dark', 'text-accent-dark'];
+    const INACTIVE = ['text-muted', 'dark:text-muted-dark'];
+
+    function updateThemeButtons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const lightBtn = document.querySelector('.theme-btn[data-theme="light"]');
+      const darkBtn = document.querySelector('.theme-btn[data-theme="dark"]');
+      [lightBtn, darkBtn].forEach((btn) => btn.classList.remove(...ACTIVE_LIGHT, ...ACTIVE_DARK, ...INACTIVE));
+      if (isDark) {
+        darkBtn.classList.add(...ACTIVE_DARK);
+        lightBtn.classList.add(...INACTIVE);
+      } else {
+        lightBtn.classList.add(...ACTIVE_LIGHT);
+        darkBtn.classList.add(...INACTIVE);
+      }
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', function (e) {
+      const btn = e.target.closest('.theme-btn');
+      if (!btn) return;
+      const isDark = btn.dataset.theme === 'dark';
+      document.documentElement.classList.toggle('dark', isDark);
+      try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      updateThemeButtons();
+    });
+
+    renderHomeGrid();
+    updateThemeButtons();
+  </script>
+
+</body>
+</html>
