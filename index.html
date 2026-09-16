@@ -200,7 +200,7 @@
 
         <!-- Inclined plane example -->
         <h3 class="font-display font-semibold text-[18px] mt-10">Choosing different axes: an inclined body</h3>
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">The axes don't have to be the "true" horizontal and vertical — any pair of perpendicular directions works, and picking the right pair can make the trigonometry much simpler. Consider a block resting on a 30° incline, pulled by a rope with force <em>P</em> = 100 N directed 20° above the incline surface, with weight <em>W</em> = 40 N acting straight down. The same two forces can be resolved either way:</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">The axes don't have to be the "true" horizontal and vertical — any pair of <strong class="text-primary dark:text-primary-dark">perpendicular</strong> directions works, and picking the right pair can make the trigonometry much simpler. Consider a block resting on a 30° incline, pulled by a rope with force <em>P</em> = 100 N directed 20° above the incline surface. The same force can be resolved either way:</p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
           <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
@@ -217,9 +217,9 @@
               <line x1="128" y1="79.2" x2="128" y2="219.2" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
               <text x="200" y="146" class="fill-muted dark:fill-muted-dark" font-size="9">horiz.</text>
               <text x="131" y="82" class="fill-muted dark:fill-muted-dark" font-size="9">vert.</text>
-              <circle cx="128" cy="149.2" r="3.5" class="fill-primary dark:fill-primary-dark"></circle>
-              <line x1="128" y1="149.2" x2="128" y2="169.2" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-hv)"></line>
-              <text x="132" y="167" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+              <rect x="116" y="142.2" width="24" height="14" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5" transform="rotate(-30 128 149.2)"></rect>
+              <path d="M146,149.2 L145.9,147.2 L145.6,145.3 L145,143.4 L144.3,141.6 L143.4,139.9 L142.3,138.2 L141,136.8 L139.6,135.4" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.2"></path>
+              <text x="153.4" y="137.4" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="9" font-weight="600">50°</text>
               <line x1="128" y1="149.2" x2="160.1" y2="110.9" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-hv)"></line>
               <text x="163" y="108" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
               <line x1="160.1" y1="110.9" x2="160.1" y2="149.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
@@ -239,13 +239,11 @@
               <line x1="163" y1="209.8" x2="93" y2="88.6" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
               <text x="188" y="110" class="fill-muted dark:fill-muted-dark" font-size="9">∥ (up-slope)</text>
               <text x="96" y="86" class="fill-muted dark:fill-muted-dark" font-size="9">⊥ (away)</text>
-              <circle cx="128" cy="149.2" r="3.5" class="fill-primary dark:fill-primary-dark"></circle>
-              <line x1="128" y1="149.2" x2="128" y2="169.2" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-pp)"></line>
-              <text x="132" y="167" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+              <rect x="116" y="142.2" width="24" height="14" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5" transform="rotate(-30 128 149.2)"></rect>
+              <path d="M143.6,140.2 L143.2,139.5 L142.7,138.9 L142.3,138.2 L141.8,137.6 L141.3,137 L140.7,136.5 L140.2,135.9 L139.6,135.4" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.2"></path>
+              <text x="149.4" y="131.2" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="9" font-weight="600">20°</text>
               <line x1="128" y1="149.2" x2="160.1" y2="110.9" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-pp)"></line>
               <text x="163" y="108" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
-              <line x1="128" y1="169.2" x2="119.3" y2="154.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
-              <line x1="128" y1="169.2" x2="136.7" y2="164.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="160.1" y1="110.9" x2="168.7" y2="125.7" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="160.1" y1="110.9" x2="119.4" y2="134.4" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
             </svg>
@@ -262,11 +260,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-hairline dark:border-hairline-dark">
-                <td class="py-1.5 pr-4">W = 40 N (straight down)</td>
-                <td class="py-1.5 pr-4">W<sub>x</sub> = 0 N, W<sub>y</sub> = &minus;40 N (already vertical &mdash; no trig needed)</td>
-                <td class="py-1.5">W<sub>∥</sub> = &minus;40 sin 30° = <strong class="text-primary dark:text-primary-dark">&minus;20.00 N</strong> (down-slope), W<sub>⊥</sub> = &minus;40 cos 30° = <strong class="text-primary dark:text-primary-dark">&minus;34.64 N</strong> (into surface)</td>
-              </tr>
               <tr>
                 <td class="py-1.5 pr-4">P = 100 N (20° above surface)</td>
                 <td class="py-1.5 pr-4">P<sub>x</sub> = 100 cos 50° = <strong class="text-primary dark:text-primary-dark">64.28 N</strong>, P<sub>y</sub> = 100 sin 50° = <strong class="text-primary dark:text-primary-dark">76.60 N</strong></td>
@@ -275,7 +268,7 @@
             </tbody>
           </table>
         </div>
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">Notice which force needs trigonometry in which frame: <em>W</em> is trivial in the horizontal/vertical frame (it <em>is</em> vertical) but needs both a sine and a cosine once the axes are tilted to match the incline &mdash; and it's the opposite for <em>P</em>, which was defined relative to the incline. The negative signs above follow the same sign convention used for the resultant force below: "up-slope" and "away from the surface" were chosen as positive, so a force pointing the other way comes out negative.</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">Same force, same physical direction — only the reference axes changed. Against true horizontal/vertical, P's angle first needs the incline's 30° added to its own 20° to get 50° before cos/sin can be applied. Against the incline's own axes, the 20° given in the problem can be used directly. Neither frame is "more correct" than the other, but matching the axes to the geometry of the problem often means less setup.</p>
 
         <!-- 2. Resultant force -->
         <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Finding the resultant of several forces</h2>

@@ -223,14 +223,20 @@ history for details.") so the section stays skimmable as it grows.
      each component off the force's actual direction rather than off the
      trig function — e.g. "50 × cos 50° = 32.14 N, but the force points
      left, so F<sub>x</sub> = −32.14 N". Same magnitude in both examples so
-     the sign flip is the obvious takeaway. Then an inclined-body example
-     (30° incline, weight
-     W=40 N, applied force P=100 N at 20° above the incline surface)
-     resolved BOTH in horizontal/vertical and in parallel/perpendicular-
-     to-incline axes, side by side — deliberately chosen so each frame is
-     trivial for one force and needs real trig for the other, and so the
-     parallel/perpendicular values carry negative signs (down-slope /
-     into-surface) that reinforce the same sign convention.
+     the sign flip is the obvious takeaway. Then an inclined-body example:
+     one force (P=100 N at 20° above a 30° incline surface, "perpendicular"
+     bolded in the intro), acting on a small rotated-rect block drawn
+     sitting on the incline in both diagrams, resolved side by side in
+     horizontal/vertical vs. parallel/perpendicular-to-incline axes — each
+     diagram's own angle arc/label shows exactly the angle its frame
+     actually uses (50° from horizontal, vs. the given 20° from the
+     incline surface directly), making concrete why matching axes to the
+     problem's geometry means less setup (add 30°+20° first, or just use
+     the 20° you were given). (An earlier version of this example also
+     included a weight force W to contrast "which force needs trig in
+     which frame" — removed for simplicity; one force is enough to show
+     the axis-choice point, and the block shape now carries the "this
+     force acts on a block" context instead.)
   2. Finding the resultant of several forces (ΣF<sub>x</sub>, ΣF<sub>y</sub>
      → magnitude/angle via hypot/atan2), worked with 4 forces at 0°/90°/
      200°/300° — one force per quadrant, so every sign combination of
