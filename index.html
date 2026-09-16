@@ -94,13 +94,7 @@
         <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all sections</button>
         <h1 class="font-display font-semibold text-[32px] md:text-[38px] mt-4">Concepts and Theory</h1>
         <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Core mechanics concepts and theory, explained.</p>
-        <div class="mt-8 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
-          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </div>
-          <div class="font-display font-semibold text-[16.5px]">Content coming soon</div>
-          <div class="text-[13px] text-caption dark:text-caption-dark italic">This section hasn't been built yet.</div>
-        </div>
+        <div id="concepts-grid-container" class="py-[38px]"></div>
       </section>
 
       <section id="section-view-tools" class="hidden py-[38px]" data-section-view>
@@ -121,6 +115,217 @@
           <div class="font-display font-semibold text-[16.5px]">Content coming soon</div>
           <div class="text-[13px] text-caption dark:text-caption-dark italic">This section hasn't been built yet.</div>
         </div>
+      </section>
+
+    </div>
+
+    <div id="topic-views-container">
+
+      <section id="topic-view-resolve-and-resultant-force" class="hidden py-[38px]" data-topic-view>
+        <button data-action="show-section" data-section-id="concepts-and-theory" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Concepts and Theory</button>
+        <h1 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Resolve and Resultant Force</h1>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Every force can be broken into components along chosen axes, and several forces acting on the same point can be combined into a single equivalent force — the resultant. Both ideas rest on the same trigonometry.</p>
+
+        <!-- 1. Resolving a force -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-10">1. Resolving a force into components</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">A force <em>F</em> acting at angle <em>θ</em> from the positive x-axis (measured counter-clockwise, same convention used throughout this site) has two perpendicular components:</p>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          F<sub>x</sub> = F cos θ &nbsp;&nbsp; F<sub>y</sub> = F sin θ
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[280px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Example: F = 50 N at 40°</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="rr-arrow-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1.5">
+                <line x1="20" y1="120" x2="220" y2="120"></line>
+                <line x1="120" y1="20" x2="120" y2="220"></line>
+              </g>
+              <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+              <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+              <line x1="188.9" y1="120" x2="188.9" y2="62.1" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="120" y1="62.1" x2="188.9" y2="62.1" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="120" y1="120" x2="188.9" y2="62.1" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-1)"></line>
+              <text x="194.9" y="59.1" class="fill-primary dark:fill-primary-dark" font-size="11" font-weight="600">F</text>
+              <text x="192.9" y="94" class="fill-muted dark:fill-muted-dark" font-size="9">Fy</text>
+              <text x="150" y="132" class="fill-muted dark:fill-muted-dark" font-size="9">Fx</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>F<sub>x</sub> = 50 × cos 40° = <strong class="text-primary dark:text-primary-dark">38.30 N</strong></p>
+            <p class="mt-1">F<sub>y</sub> = 50 × sin 40° = <strong class="text-primary dark:text-primary-dark">32.14 N</strong></p>
+            <p class="mt-3">The dashed lines are the "shadows" of F on each axis — exactly what the Force Calculator's diagrams show for every row.</p>
+          </div>
+        </div>
+
+        <!-- Inclined plane example -->
+        <h3 class="font-display font-semibold text-[18px] mt-10">Choosing different axes: an inclined body</h3>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">The axes don't have to be the "true" horizontal and vertical — any pair of perpendicular directions works, and picking the right pair can make the trigonometry much simpler. Consider a block resting on a 30° incline, pulled by a rope with force <em>P</em> = 100 N directed 20° above the incline surface, with weight <em>W</em> = 40 N acting straight down. The same two forces can be resolved either way:</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Horizontal / Vertical</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="rr-arrow-incline-hv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <path d="M40,200 L200,200 L200,107.6 Z" class="fill-ghost dark:fill-ghost-dark stroke-hairline dark:stroke-hairline-dark" stroke-width="1.5"></path>
+              <text x="52" y="194" class="fill-muted dark:fill-muted-dark" font-size="10">30°</text>
+              <line x1="58" y1="149.2" x2="198" y2="149.2" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
+              <line x1="128" y1="79.2" x2="128" y2="219.2" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
+              <text x="200" y="146" class="fill-muted dark:fill-muted-dark" font-size="9">horiz.</text>
+              <text x="131" y="82" class="fill-muted dark:fill-muted-dark" font-size="9">vert.</text>
+              <circle cx="128" cy="149.2" r="3.5" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="128" y1="149.2" x2="128" y2="169.2" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-hv)"></line>
+              <text x="132" y="167" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+              <line x1="128" y1="149.2" x2="160.1" y2="110.9" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-hv)"></line>
+              <text x="163" y="108" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
+              <line x1="160.1" y1="110.9" x2="160.1" y2="149.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="128" y1="110.9" x2="160.1" y2="110.9" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+            </svg>
+          </div>
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Parallel / Perpendicular to incline</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="rr-arrow-incline-pp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <path d="M40,200 L200,200 L200,107.6 Z" class="fill-ghost dark:fill-ghost-dark stroke-hairline dark:stroke-hairline-dark" stroke-width="1.5"></path>
+              <line x1="67.4" y1="184.2" x2="188.6" y2="114.2" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
+              <line x1="163" y1="209.8" x2="93" y2="88.6" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1" stroke-dasharray="2,3"></line>
+              <text x="188" y="110" class="fill-muted dark:fill-muted-dark" font-size="9">∥ (up-slope)</text>
+              <text x="96" y="86" class="fill-muted dark:fill-muted-dark" font-size="9">⊥ (away)</text>
+              <circle cx="128" cy="149.2" r="3.5" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="128" y1="149.2" x2="128" y2="169.2" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-pp)"></line>
+              <text x="132" y="167" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+              <line x1="128" y1="149.2" x2="160.1" y2="110.9" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-incline-pp)"></line>
+              <text x="163" y="108" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
+              <line x1="128" y1="169.2" x2="119.3" y2="154.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="128" y1="169.2" x2="136.7" y2="164.2" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="160.1" y1="110.9" x2="168.7" y2="125.7" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="160.1" y1="110.9" x2="119.4" y2="134.4" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div class="mt-6 overflow-x-auto max-w-[640px]">
+          <table class="w-full text-[13px] text-left">
+            <thead>
+              <tr class="text-muted dark:text-muted-dark border-b border-hairline dark:border-hairline-dark">
+                <th class="py-1.5 pr-4 font-medium">Force</th>
+                <th class="py-1.5 pr-4 font-medium">Horizontal / Vertical</th>
+                <th class="py-1.5 font-medium">Parallel / Perpendicular</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-hairline dark:border-hairline-dark">
+                <td class="py-1.5 pr-4">W = 40 N (straight down)</td>
+                <td class="py-1.5 pr-4">W<sub>x</sub> = 0 N, W<sub>y</sub> = &minus;40 N (already vertical &mdash; no trig needed)</td>
+                <td class="py-1.5">W<sub>∥</sub> = &minus;40 sin 30° = <strong class="text-primary dark:text-primary-dark">&minus;20.00 N</strong> (down-slope), W<sub>⊥</sub> = &minus;40 cos 30° = <strong class="text-primary dark:text-primary-dark">&minus;34.64 N</strong> (into surface)</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-4">P = 100 N (20° above surface)</td>
+                <td class="py-1.5 pr-4">P<sub>x</sub> = 100 cos 50° = <strong class="text-primary dark:text-primary-dark">64.28 N</strong>, P<sub>y</sub> = 100 sin 50° = <strong class="text-primary dark:text-primary-dark">76.60 N</strong></td>
+                <td class="py-1.5">P<sub>∥</sub> = 100 cos 20° = <strong class="text-primary dark:text-primary-dark">93.97 N</strong>, P<sub>⊥</sub> = 100 sin 20° = <strong class="text-primary dark:text-primary-dark">34.20 N</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">Notice which force needs trigonometry in which frame: <em>W</em> is trivial in the horizontal/vertical frame (it <em>is</em> vertical) but needs both a sine and a cosine once the axes are tilted to match the incline &mdash; and it's the opposite for <em>P</em>, which was defined relative to the incline. The negative signs above follow the same sign convention used for the resultant force below: "up-slope" and "away from the surface" were chosen as positive, so a force pointing the other way comes out negative.</p>
+
+        <!-- 2. Resultant force -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Finding the resultant of several forces</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">To combine several forces acting at the same point, resolve every force into x/y components using the same sign convention, add the components separately, then convert the sum back into a magnitude and angle:</p>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          ΣF<sub>x</sub>, ΣF<sub>y</sub> &nbsp;&rarr;&nbsp; R = √(ΣF<sub>x</sub>² + ΣF<sub>y</sub>²) &nbsp;&nbsp; θ = atan2(ΣF<sub>y</sub>, ΣF<sub>x</sub>)
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed"><strong class="text-primary dark:text-primary-dark">Sign convention</strong> (same as every calculator on this site): rightward is +x, upward is +y, and angles are measured counter-clockwise from the positive x-axis. A force pointing left or down simply has a negative component — it isn't a special case, just the same formula with θ in a different quadrant. The example below uses four forces, one in each quadrant, to show every sign combination.</p>
+
+        <div class="mt-6 overflow-x-auto max-w-[640px]">
+          <table class="w-full text-[13px] text-left">
+            <thead>
+              <tr class="text-muted dark:text-muted-dark border-b border-hairline dark:border-hairline-dark">
+                <th class="py-1.5 pr-4 font-medium">Force</th>
+                <th class="py-1.5 pr-4 font-medium">Magnitude</th>
+                <th class="py-1.5 pr-4 font-medium">Angle</th>
+                <th class="py-1.5 pr-4 font-medium">F<sub>x</sub></th>
+                <th class="py-1.5 font-medium">F<sub>y</sub></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F1</td><td class="py-1.5 pr-4">40 N</td><td class="py-1.5 pr-4">0°</td><td class="py-1.5 pr-4">+40.00 N</td><td class="py-1.5">0.00 N</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F2</td><td class="py-1.5 pr-4">30 N</td><td class="py-1.5 pr-4">90°</td><td class="py-1.5 pr-4">0.00 N</td><td class="py-1.5">+30.00 N</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F3</td><td class="py-1.5 pr-4">25 N</td><td class="py-1.5 pr-4">200°</td><td class="py-1.5 pr-4">&minus;23.49 N</td><td class="py-1.5">&minus;8.55 N</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F4</td><td class="py-1.5 pr-4">20 N</td><td class="py-1.5 pr-4">300°</td><td class="py-1.5 pr-4">+10.00 N</td><td class="py-1.5">&minus;17.32 N</td></tr>
+              <tr class="font-semibold"><td class="py-1.5 pr-4">Σ (sum)</td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4">26.51 N</td><td class="py-1.5">4.13 N</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6">
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Individual Forces</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="rr-arrow-individual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+              </g>
+              <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+              <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+              <line x1="120" y1="120" x2="208" y2="120" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#rr-arrow-individual)"></line>
+              <text x="212" y="123" class="fill-primary dark:fill-primary-dark" font-size="10">F1</text>
+              <line x1="120" y1="120" x2="120" y2="54" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#rr-arrow-individual)"></line>
+              <text x="124" y="50" class="fill-primary dark:fill-primary-dark" font-size="10">F2</text>
+              <line x1="120" y1="120" x2="68.3" y2="138.8" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#rr-arrow-individual)"></line>
+              <text x="30" y="142" class="fill-primary dark:fill-primary-dark" font-size="10">F3</text>
+              <line x1="120" y1="120" x2="142" y2="158.1" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#rr-arrow-individual)"></line>
+              <text x="146" y="168" class="fill-primary dark:fill-primary-dark" font-size="10">F4</text>
+            </svg>
+          </div>
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Resultant Force</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="rr-arrow-resultant" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+              </g>
+              <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+              <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+              <line x1="207" y1="120" x2="207" y2="106.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="120" y1="106.5" x2="207" y2="106.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="120" y1="120" x2="207" y2="106.5" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-resultant)"></line>
+              <text x="201" y="100" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="11" font-weight="600">R = 26.83 N @ 8.85°</text>
+            </svg>
+          </div>
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">R = √(26.51² + 4.13²) = <strong class="text-primary dark:text-primary-dark">26.83 N</strong>, at θ = atan2(4.13, 26.51) = <strong class="text-primary dark:text-primary-dark">8.85°</strong> above the positive x-axis. Try the same forces in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Force Calculator</button> to see it computed live.</p>
       </section>
 
     </div>
@@ -375,29 +580,45 @@
       'moment-calculator': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
     };
 
-    function renderToolsGrid() {
-      const container = document.getElementById('tools-grid-container');
+    const CONCEPTS_DATA = [
+      {
+        category: "Forces",
+        topics: [
+          { id: "resolve-and-resultant-force", name: "Resolve and Resultant Force", description: "Break a force into components with trigonometry, and combine several forces into one resultant." },
+        ],
+      },
+      // Phase 2+: push additional { category, topics: [...] } objects here.
+    ];
+
+    const CONCEPT_ICONS = {
+      'resolve-and-resultant-force': '<line x1="5" y1="19" x2="19" y2="19"></line><line x1="5" y1="19" x2="16" y2="6"></line><line x1="16" y1="6" x2="19" y2="19"></line>',
+    };
+
+    // Generic "grid of cards grouped by category, leading to a detail view"
+    // renderer, shared by the Tools grid and the Concepts grid.
+    function renderItemGrid(containerId, data, groupKey, itemsKey, iconMap, datasetKey, ghostTitle) {
+      const container = document.getElementById(containerId);
       container.innerHTML = '';
       let lastGrid = null;
 
-      TOOLS_DATA.forEach((category) => {
+      data.forEach((group) => {
         const heading = document.createElement('h2');
         heading.className = 'font-display font-semibold text-[15px] uppercase tracking-[0.08em] text-muted dark:text-muted-dark mb-4 first:mt-0';
-        heading.textContent = category.category;
+        heading.textContent = group[groupKey];
         container.appendChild(heading);
 
         const grid = document.createElement('div');
         grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px] mb-10';
-        category.tools.forEach((tool) => {
+        group[itemsKey].forEach((item) => {
           const card = document.createElement('button');
-          card.dataset.toolId = tool.id;
+          card.dataset[datasetKey] = item.id;
           card.className = 'text-left bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-4 shadow-card hover:border-accent dark:hover:border-accent-dark transition-colors';
           card.innerHTML = `
             <div class="w-[46px] h-[46px] rounded-[12px] bg-accent-tint dark:bg-accent-tint-dark flex items-center justify-center text-accent dark:text-accent-dark">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${TOOL_ICONS[tool.id] || ''}</svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${iconMap[item.id] || ''}</svg>
             </div>
-            <div class="font-display font-semibold text-[19px]">${tool.name}</div>
-            <div class="text-[14px] text-muted dark:text-muted-dark leading-relaxed">${tool.description}</div>
+            <div class="font-display font-semibold text-[19px]">${item.name}</div>
+            <div class="text-[14px] text-muted dark:text-muted-dark leading-relaxed">${item.description}</div>
           `;
           grid.appendChild(card);
         });
@@ -412,17 +633,26 @@
           <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-caption dark:text-caption-dark">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </div>
-          <div class="font-display font-semibold text-[16.5px]">More tools coming soon</div>
+          <div class="font-display font-semibold text-[16.5px]">${ghostTitle}</div>
           <div class="text-[13px] text-caption dark:text-caption-dark italic">Added each phase</div>
         `;
         lastGrid.appendChild(ghost);
       }
     }
 
-    // Three view layers (home / section / tool) — exactly one visible at a time.
+    function renderToolsGrid() {
+      renderItemGrid('tools-grid-container', TOOLS_DATA, 'category', 'tools', TOOL_ICONS, 'toolId', 'More tools coming soon');
+    }
+
+    function renderConceptsGrid() {
+      renderItemGrid('concepts-grid-container', CONCEPTS_DATA, 'category', 'topics', CONCEPT_ICONS, 'topicId', 'More topics coming soon');
+    }
+
+    // Four view layers (home / section / topic / tool) — exactly one visible at a time.
     function hideAllViews() {
       document.getElementById('home-view').classList.add('hidden');
       document.querySelectorAll('[data-section-view]').forEach((s) => s.classList.add('hidden'));
+      document.querySelectorAll('[data-topic-view]').forEach((s) => s.classList.add('hidden'));
       document.querySelectorAll('[data-tool-view]').forEach((s) => s.classList.add('hidden'));
     }
 
@@ -435,6 +665,13 @@
     function showSection(sectionId) {
       hideAllViews();
       const target = document.getElementById('section-view-' + sectionId);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function showTopic(topicId) {
+      hideAllViews();
+      const target = document.getElementById('topic-view-' + topicId);
       if (target) target.classList.remove('hidden');
       window.scrollTo(0, 0);
     }
@@ -460,6 +697,9 @@
 
       const toolCard = e.target.closest('[data-tool-id]');
       if (toolCard) return showTool(toolCard.dataset.toolId);
+
+      const topicCard = e.target.closest('[data-topic-id]');
+      if (topicCard) return showTopic(topicCard.dataset.topicId);
 
       const sectionCard = e.target.closest('[data-section-id]');
       if (sectionCard) return showSection(sectionCard.dataset.sectionId);
@@ -820,6 +1060,7 @@
 
     renderSectionsGrid();
     renderToolsGrid();
+    renderConceptsGrid();
     updateThemeButtons();
 
     document.getElementById('force-rows').addEventListener('input', updateForceDiagrams);

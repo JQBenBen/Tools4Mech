@@ -106,35 +106,44 @@ it to a one-line summary (e.g. "Phase 1 — Force & Moment: shipped. See git
 history for details.") so the section stays skimmable as it grows.
 
 ### Portal shell (status: done — applies to every phase)
-- Built in `index.html`. **Three view layers, one visible at a time**:
-  `#home-view` → `#section-view-<id>` → `#tool-view-<id>`. Home shows the
-  3 section cards (Concepts and Theory, Tools, Virtual Experiments); a
-  section's own back button returns Home; a tool's back button returns to
-  its section (currently only "Tools" has tools). Generic
-  `showHome()`/`showSection(id)`/`showTool(id)` all route through one
-  `hideAllViews()` (hides `#home-view` + every `[data-section-view]` +
-  every `[data-tool-view]`, then un-hides the target). Verified working
+- Built in `index.html`. **Four view layers, one visible at a time**:
+  `#home-view` → `#section-view-<id>` → `#topic-view-<id>` /
+  `#tool-view-<id>`. Home shows the 3 section cards (Concepts and Theory,
+  Tools, Virtual Experiments); a section's own back button returns Home; a
+  topic's or tool's back button returns to its section. Generic
+  `showHome()`/`showSection(id)`/`showTopic(id)`/`showTool(id)` all route
+  through one `hideAllViews()` (hides `#home-view` + every
+  `[data-section-view]` + every `[data-topic-view]` + every
+  `[data-tool-view]`, then un-hides the target). Verified working
   (Playwright click-through: Home → Tools → Force Calculator → back → Tools
-  → back → Home; both empty sections → back → Home).
+  → back → Home; Home → Concepts and Theory → Resolve and Resultant Force
+  → back → back → Home; the empty Virtual Experiments section → back →
+  Home).
 - Dark/light toggle persisted in `localStorage`, defaulting to OS
   preference until the user explicitly chooses. Verified working.
 - **Data model**: `SECTIONS_DATA = [{ id, name, description }]` (+
   `SECTION_ICONS`) drives the homepage's 3 section cards via
-  `renderSectionsGrid()`. Inside the Tools section, `TOOLS_DATA = [{
-  category, tools: [{ id, name, description }] }]` (+ `TOOL_ICONS`) drives
-  its tool grid via `renderToolsGrid()`, unchanged from before except its
-  target container moved from the homepage into `#section-view-tools`.
-  Each tool's markup lives in its own `#tool-view-<id>` section. Adding a
-  future tool = one `TOOLS_DATA` entry + one section + its own calculation
-  wiring; adding a future section = one `SECTIONS_DATA` entry + one
-  `#section-view-<id>` — navigation/theme code untouched either way.
+  `renderSectionsGrid()`. Inside a section, a `[{ category, <items>: [{ id,
+  name, description }] }]`-shaped array (+ an icon map) drives that
+  section's own grid via one shared `renderItemGrid(containerId, data,
+  groupKey, itemsKey, iconMap, datasetKey, ghostTitle)` — `TOOLS_DATA`/
+  `TOOL_ICONS` → `renderToolsGrid()` → `#tools-grid-container` (dataset key
+  `toolId`) and `CONCEPTS_DATA`/`CONCEPT_ICONS` → `renderConceptsGrid()` →
+  `#concepts-grid-container` (dataset key `topicId`) are both thin wrappers
+  around it. Each tool/topic's markup lives in its own `#tool-view-<id>` /
+  `#topic-view-<id>` section. Adding a future tool/topic = one data entry +
+  one section + its own content/logic; adding a future section = one
+  `SECTIONS_DATA` entry + one `#section-view-<id>` — navigation/theme code
+  untouched either way.
 - **Key flows**: one delegated click listener, checked in this order so a
   button's `data-action` always wins over a bare card attribute:
   `[data-action="show-home"]` → `showHome()`; `[data-action="show-section"]`
-  (reads `data-section-id`) → `showSection(...)` (used by tool back
-  buttons); `[data-action="remove-row"]` (unchanged); `[data-tool-id]` →
-  `showTool(...)`; bare `[data-section-id]` (home's section cards) →
-  `showSection(...)`. The shared dynamic add/remove-row pattern
+  (reads `data-section-id`) → `showSection(...)` (used by topic/tool back
+  buttons, and by inline cross-links in topic content); `[data-action=
+  "remove-row"]` (unchanged); `[data-tool-id]` → `showTool(...)`;
+  `[data-topic-id]` → `showTopic(...)`; bare `[data-section-id]` (home's
+  section cards) → `showSection(...)`. The shared dynamic add/remove-row
+  pattern
   (`<template>`-based, min 1 row, default 2 rows, `addRow`/`removeRow`/
   `updateRemoveButtons` + a `rows-changed` event for listeners) is built
   and used by both calculators, unaffected by the sections change.
@@ -186,17 +195,48 @@ history for details.") so the section stays skimmable as it grows.
   no URL/hash routing.
 
 ### Sections (status: done)
-- Homepage now shows 3 top-level sections instead of tool cards directly:
-  **Concepts and Theory** and **Virtual Experiments** are placeholders
-  (ghost/ "coming soon" pattern, back button → Home); **Tools** holds the
-  Phase 1 calculators (see above) and its own back button → Home. See
+- Homepage shows 3 top-level sections instead of items directly:
+  **Concepts and Theory** holds topics (see below) and its own back
+  button → Home; **Tools** holds the Phase 1 calculators (see above) and
+  its own back button → Home; **Virtual Experiments** is still a
+  placeholder (ghost/"coming soon" pattern, back button → Home). See
   Portal shell above for the `SECTIONS_DATA`/navigation details.
 
-### Phase 2+ — future tools and sections (not started)
+### Concepts and Theory (status: in progress — 1 topic)
+- **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` category
+  "Forces" → topic `resolve-and-resultant-force`, rendered at
+  `#topic-view-resolve-and-resultant-force`. Static content (text,
+  formulas, tables, hand-authored inline-SVG diagrams — no interactive
+  inputs; this is theory, not a calculator):
+  1. Resolving a force into components (F<sub>x</sub>=F cos θ, F<sub>y</sub>
+     =F sin θ) with a basic worked example (F=50 N @ 40°), then an
+     inclined-body example (30° incline, weight W=40 N, applied force
+     P=100 N at 20° above the incline surface) resolved BOTH in
+     horizontal/vertical and in parallel/perpendicular-to-incline axes,
+     side by side — deliberately chosen so each frame is trivial for one
+     force and needs real trig for the other, and so the parallel/
+     perpendicular values carry negative signs (down-slope / into-surface)
+     that foreshadow the sign-convention discussion below.
+  2. Finding the resultant of several forces (ΣF<sub>x</sub>, ΣF<sub>y</sub>
+     → magnitude/angle via hypot/atan2), worked with 4 forces at 0°/90°/
+     200°/300° — one force per quadrant, so every sign combination of
+     (F<sub>x</sub>, F<sub>y</sub>) appears — plus an inline cross-link
+     (`data-action="show-section" data-section-id="tools"`) inviting the
+     reader to reproduce the same numbers in the Force Calculator.
+  All diagrams reuse the site's existing visual language (accent vectors,
+  dashed projection/"shadow" lines, muted axes) but are hand-coded static
+  SVG with precomputed coordinates (no JS rendering — the numbers don't
+  change). Verified by rendering and visually checking every diagram
+  (including fixing one real label-overflow bug, the same class of bug
+  found and fixed earlier in the Force Calculator's diagrams) plus a full
+  navigation regression across all sections/topics/tools.
+
+### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
-  with its own logic. No changes to shared navigation/theme/grid code.
-- New section, or real content for Concepts and Theory / Virtual
-  Experiments: append to `SECTIONS_DATA` and add a `#section-view-<id>`
-  (data-section-view) with its own content; replace the ghost placeholder
-  once there's something to show. No changes to shared navigation/theme
-  code either way.
+  with its own logic.
+- New Concepts and Theory topic: append to `CONCEPTS_DATA` (existing
+  "Forces" category or a new one) and add a `#topic-view-<id>` section.
+- New section, or real content for Virtual Experiments: append to
+  `SECTIONS_DATA` and add a `#section-view-<id>` with its own content;
+  replace the ghost placeholder once there's something to show.
+- None of the above touch shared navigation/theme/grid code.
