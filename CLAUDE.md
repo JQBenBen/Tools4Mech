@@ -225,10 +225,13 @@ history for details.") so the section stays skimmable as it grows.
      left, so F<sub>x</sub> = −32.14 N". Same magnitude in both examples so
      the sign flip is the obvious takeaway. Then an inclined-body example:
      one force (P=100 N at 20° above a 30° incline surface, "perpendicular"
-     bolded in the intro), acting on a small rotated-rect block drawn
-     resting on top of the incline surface (offset outward along the
-     surface normal from the vector/arc anchor point so it doesn't
-     overlap the ramp fill) in both diagrams. Both diagrams also mark the
+     bolded in the intro), acting on the right (up-slope-facing) surface of
+     a small rotated-rect block drawn resting on top of the incline surface
+     in both diagrams — the vector/arc anchor point is that edge's rotated
+     midpoint (not the block's center), so P visibly attaches to the block
+     rather than passing through it, and every other coordinate in the
+     scene (local axes, projections, angle arcs) is computed relative to
+     that same anchor. Both diagrams also mark the
      30° incline angle itself as an arc at the ramp's base corner (shared
      between diagrams). The horizontal/vertical diagram splits the total
      50° into its two constituent arcs/labels (30° + 20°, at two radii so
