@@ -241,11 +241,21 @@ history for details.") so the section stays skimmable as it grows.
      arc (the angle it actually uses directly) alongside the same 30°
      incline-angle arc for context. Together this makes concrete why
      matching axes to the problem's geometry means less setup (add
-     30°+20° first, or just use the 20° you were given). (An earlier
-     version of this example also included a weight force W to contrast
-     "which force needs trig in which frame" — removed for simplicity;
-     one force is enough to show the axis-choice point, and the block
-     shape now carries the "this
+     30°+20° first, or just use the 20° you were given). The
+     horizontal/vertical diagram also has a dotted line through the
+     anchor point running parallel to the incline surface (labeled
+     "incline"), so the 30° tilt is visible right where P acts, not only
+     down at the ramp's base corner. Both diagrams read out P's numeric
+     components directly on the diagram (top-left corner legend: Px/Py in
+     the H/V diagram, P<sub>∥</sub>/P<sub>⊥</sub> in the other), matching
+     the on-diagram-legend convention from the basic examples above. The
+     comparison table splits P<sub>x</sub>/P<sub>∥</sub> and
+     P<sub>y</sub>/P<sub>⊥</sub> onto their own rows rather than combining
+     both components of a frame into one cell. (An earlier version of
+     this example also included a weight force W to contrast "which force
+     needs trig in which frame" — removed for simplicity; one force is
+     enough to show the axis-choice point, and the block shape now
+     carries the "this
      force acts on a block" context instead.)
   2. Finding the resultant of several forces (ΣF<sub>x</sub>, ΣF<sub>y</sub>
      → magnitude/angle via hypot/atan2), worked with 4 forces at 0°/90°/
