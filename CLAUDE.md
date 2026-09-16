@@ -270,7 +270,19 @@ history for details.") so the section stays skimmable as it grows.
      200°/300° — one force per quadrant, so every sign combination of
      (F<sub>x</sub>, F<sub>y</sub>) appears — plus an inline cross-link
      (`data-action="show-section" data-section-id="tools"`) inviting the
-     reader to reproduce the same numbers in the Force Calculator.
+     reader to reproduce the same numbers in the Force Calculator. The
+     resultant is labeled F<sub>R</sub> (not bare "R"), and the formula/
+     worked-example text use two small reusable inline-CSS constructs
+     instead of plain characters: a full-width square root (a `√` glyph
+     beside a span whose top border supplies the bar over the whole
+     enclosed expression, so it visibly spans `ΣFx² + ΣFy²` rather than
+     just sitting next to parentheses) and a stacked fraction (numerator
+     span over a bottom-bordered denominator span) for ΣF<sub>y</sub>⁄
+     ΣF<sub>x</sub> inside `tan⁻¹(...)` in place of `atan2(a, b)`. The
+     "Resultant Force" SVG diagram label needs the same F<sub>R</sub>
+     subscript but can't use HTML `<sub>` inside `<text>` — it uses a
+     smaller-font-size `<tspan>` with a `dy` offset instead (no sqrt/
+     fraction there, it's just the final numeric readout).
   All diagrams reuse the site's existing visual language (accent vectors,
   dashed projection/"shadow" lines, muted axes) but are hand-coded static
   SVG with precomputed coordinates (no JS rendering — the numbers don't
