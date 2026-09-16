@@ -226,16 +226,23 @@ history for details.") so the section stays skimmable as it grows.
      the sign flip is the obvious takeaway. Then an inclined-body example:
      one force (P=100 N at 20° above a 30° incline surface, "perpendicular"
      bolded in the intro), acting on a small rotated-rect block drawn
-     sitting on the incline in both diagrams, resolved side by side in
-     horizontal/vertical vs. parallel/perpendicular-to-incline axes — each
-     diagram's own angle arc/label shows exactly the angle its frame
-     actually uses (50° from horizontal, vs. the given 20° from the
-     incline surface directly), making concrete why matching axes to the
-     problem's geometry means less setup (add 30°+20° first, or just use
-     the 20° you were given). (An earlier version of this example also
-     included a weight force W to contrast "which force needs trig in
-     which frame" — removed for simplicity; one force is enough to show
-     the axis-choice point, and the block shape now carries the "this
+     resting on top of the incline surface (offset outward along the
+     surface normal from the vector/arc anchor point so it doesn't
+     overlap the ramp fill) in both diagrams. Both diagrams also mark the
+     30° incline angle itself as an arc at the ramp's base corner (shared
+     between diagrams). The horizontal/vertical diagram splits the total
+     50° into its two constituent arcs/labels (30° + 20°, at two radii so
+     they read as separate) instead of one combined "50°", making the
+     "add the incline's 30° to P's own 20°" point visible rather than
+     just stated; the parallel/perpendicular diagram keeps its single 20°
+     arc (the angle it actually uses directly) alongside the same 30°
+     incline-angle arc for context. Together this makes concrete why
+     matching axes to the problem's geometry means less setup (add
+     30°+20° first, or just use the 20° you were given). (An earlier
+     version of this example also included a weight force W to contrast
+     "which force needs trig in which frame" — removed for simplicity;
+     one force is enough to show the axis-choice point, and the block
+     shape now carries the "this
      force acts on a block" context instead.)
   2. Finding the resultant of several forces (ΣF<sub>x</sub>, ΣF<sub>y</sub>
      → magnitude/angle via hypot/atan2), worked with 4 forces at 0°/90°/
