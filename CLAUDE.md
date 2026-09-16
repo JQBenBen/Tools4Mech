@@ -282,7 +282,13 @@ history for details.") so the section stays skimmable as it grows.
      "Resultant Force" SVG diagram label needs the same F<sub>R</sub>
      subscript but can't use HTML `<sub>` inside `<text>` — it uses a
      smaller-font-size `<tspan>` with a `dy` offset instead (no sqrt/
-     fraction there, it's just the final numeric readout).
+     fraction there, it's just the final numeric readout). F3/F4 (200°/
+     300°, both >90°) get their basic angle noted in the table ("200°
+     (basic 20°)", "300° (basic 60°)") and marked as an arc + label on the
+     "Individual Forces" diagram itself — from the *nearest* x-axis (180°
+     for F3, 360°/0° for F4), same precomputed-polyline-arc technique and
+     same basic-angle convention as section 1. F1/F2 (0°/90°) don't need
+     it, already ≤90°.
   All diagrams reuse the site's existing visual language (accent vectors,
   dashed projection/"shadow" lines, muted axes) but are hand-coded static
   SVG with precomputed coordinates (no JS rendering — the numbers don't
