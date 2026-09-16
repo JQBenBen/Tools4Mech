@@ -248,8 +248,16 @@ history for details.") so the section stays skimmable as it grows.
      down at the ramp's base corner. Both diagrams read out P's numeric
      components directly on the diagram (top-left corner legend: Px/Py in
      the H/V diagram, P<sub>∥</sub>/P<sub>⊥</sub> in the other), matching
-     the on-diagram-legend convention from the basic examples above. The
-     comparison table splits P<sub>x</sub>/P<sub>∥</sub> and
+     the on-diagram-legend convention from the basic examples above, AND
+     draw each component as its own muted solid arrow from the anchor
+     point (Fx horizontal + Fy vertical in the H/V diagram; P<sub>∥</sub>
+     along the incline + P<sub>⊥</sub> away from it in the other) — not
+     just the passive dashed "closing" lines that were already there.
+     Component arrows share the same tip coordinates as those dashed
+     lines by construction (e.g. the Fx arrow's tip is exactly where the
+     vertical dashed drop-line from P's tip lands), so the whole picture
+     reads as one consistent component rectangle/parallelogram with P as
+     its diagonal. The comparison table splits P<sub>x</sub>/P<sub>∥</sub> and
      P<sub>y</sub>/P<sub>⊥</sub> onto their own rows rather than combining
      both components of a frame into one cell. (An earlier version of
      this example also included a weight force W to contrast "which force
