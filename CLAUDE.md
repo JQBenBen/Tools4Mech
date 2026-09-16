@@ -106,21 +106,38 @@ it to a one-line summary (e.g. "Phase 1 — Force & Moment: shipped. See git
 history for details.") so the section stays skimmable as it grows.
 
 ### Portal shell (status: done — applies to every phase)
-- Built in `index.html`: home view lists tool cards grouped by category
-  heading. Clicking a card hides the home view and shows that tool's
-  section; a back button returns home. Verified working (Playwright
-  click-through: card → tool view → back → home).
+- Built in `index.html`. **Three view layers, one visible at a time**:
+  `#home-view` → `#section-view-<id>` → `#tool-view-<id>`. Home shows the
+  3 section cards (Concepts and Theory, Tools, Virtual Experiments); a
+  section's own back button returns Home; a tool's back button returns to
+  its section (currently only "Tools" has tools). Generic
+  `showHome()`/`showSection(id)`/`showTool(id)` all route through one
+  `hideAllViews()` (hides `#home-view` + every `[data-section-view]` +
+  every `[data-tool-view]`, then un-hides the target). Verified working
+  (Playwright click-through: Home → Tools → Force Calculator → back → Tools
+  → back → Home; both empty sections → back → Home).
 - Dark/light toggle persisted in `localStorage`, defaulting to OS
   preference until the user explicitly chooses. Verified working.
-- **Data model**: `TOOLS_DATA = [{ category, tools: [{ id, name,
-  description }] }]` drives the home grid. Each tool's markup lives in its
-  own `#tool-view-<id>` section. Adding a future tool = one data entry + one
-  section + its own calculation wiring — navigation/theme code untouched.
-- **Key flows**: delegated click handling (`data-tool-id` → show tool,
-  `data-action="show-home"` → show home) — implemented and proven. The
-  shared dynamic add/remove-row pattern (`<template>`-based, min 1 row,
-  default 2 rows, `addRow`/`removeRow`/`updateRemoveButtons` + a
-  `rows-changed` event for listeners) is built and used by both calculators.
+- **Data model**: `SECTIONS_DATA = [{ id, name, description }]` (+
+  `SECTION_ICONS`) drives the homepage's 3 section cards via
+  `renderSectionsGrid()`. Inside the Tools section, `TOOLS_DATA = [{
+  category, tools: [{ id, name, description }] }]` (+ `TOOL_ICONS`) drives
+  its tool grid via `renderToolsGrid()`, unchanged from before except its
+  target container moved from the homepage into `#section-view-tools`.
+  Each tool's markup lives in its own `#tool-view-<id>` section. Adding a
+  future tool = one `TOOLS_DATA` entry + one section + its own calculation
+  wiring; adding a future section = one `SECTIONS_DATA` entry + one
+  `#section-view-<id>` — navigation/theme code untouched either way.
+- **Key flows**: one delegated click listener, checked in this order so a
+  button's `data-action` always wins over a bare card attribute:
+  `[data-action="show-home"]` → `showHome()`; `[data-action="show-section"]`
+  (reads `data-section-id`) → `showSection(...)` (used by tool back
+  buttons); `[data-action="remove-row"]` (unchanged); `[data-tool-id]` →
+  `showTool(...)`; bare `[data-section-id]` (home's section cards) →
+  `showSection(...)`. The shared dynamic add/remove-row pattern
+  (`<template>`-based, min 1 row, default 2 rows, `addRow`/`removeRow`/
+  `updateRemoveButtons` + a `rows-changed` event for listeners) is built
+  and used by both calculators, unaffected by the sections change.
 
 ### Phase 1 — Force & Moment (status: done)
 - **Force Calculator** (done): dynamic list of {magnitude, angle} force rows
@@ -168,7 +185,18 @@ history for details.") so the section stays skimmable as it grows.
   sums; an invalid/blank row blocks calculation and highlights that row;
   no URL/hash routing.
 
-### Phase 2+ — future tools (not started)
-- Extend by appending to `TOOLS_DATA` and adding a `#tool-view-<id>`
-  section with its own logic. No changes to shared navigation/theme/grid
-  code.
+### Sections (status: done)
+- Homepage now shows 3 top-level sections instead of tool cards directly:
+  **Concepts and Theory** and **Virtual Experiments** are placeholders
+  (ghost/ "coming soon" pattern, back button → Home); **Tools** holds the
+  Phase 1 calculators (see above) and its own back button → Home. See
+  Portal shell above for the `SECTIONS_DATA`/navigation details.
+
+### Phase 2+ — future tools and sections (not started)
+- New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
+  with its own logic. No changes to shared navigation/theme/grid code.
+- New section, or real content for Concepts and Theory / Virtual
+  Experiments: append to `SECTIONS_DATA` and add a `#section-view-<id>`
+  (data-section-view) with its own content; replace the ghost placeholder
+  once there's something to show. No changes to shared navigation/theme
+  code either way.
