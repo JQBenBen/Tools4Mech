@@ -288,7 +288,13 @@ history for details.") so the section stays skimmable as it grows.
      "Individual Forces" diagram itself — from the *nearest* x-axis (180°
      for F3, 360°/0° for F4), same precomputed-polyline-arc technique and
      same basic-angle convention as section 1. F1/F2 (0°/90°) don't need
-     it, already ≤90°.
+     it, already ≤90°. The "Resultant Force" diagram also marks its own
+     angle (8.85°, straight from the positive x-axis — already ≤90°, no
+     basic-angle conversion needed) as the same kind of arc; since the
+     angle is small the arc is a short tick right at the origin, and the
+     "8.85°" label sits below the x-axis rather than beside the arc,
+     which would otherwise overlap the resultant vector itself (it
+     nearly runs along the x-axis at this angle).
   All diagrams reuse the site's existing visual language (accent vectors,
   dashed projection/"shadow" lines, muted axes) but are hand-coded static
   SVG with precomputed coordinates (no JS rendering — the numbers don't
