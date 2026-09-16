@@ -210,13 +210,21 @@ history for details.") so the section stays skimmable as it grows.
   inputs; this is theory, not a calculator):
   1. Resolving a force into components (F<sub>x</sub>=F cos θ, F<sub>y</sub>
      =F sin θ), each worked example's diagram marking θ itself as an arc
-     from the positive x-axis, swept counter-clockwise (drawn as a
-     precomputed polyline, not an SVG elliptical-arc command — see the
-     angle-arc pitfall below). Two basic examples, same magnitude
-     (F=50 N), different quadrants: 40° (all-positive) and 130° (Fx
-     negative) — the second introduces sign convention early: same
-     magnitude, only the direction changed, so the sign flip is the
-     obvious takeaway. Then an inclined-body example (30° incline, weight
+     (drawn as a precomputed polyline, not an SVG elliptical-arc command —
+     see the angle-arc pitfall below) and reading out the numeric F<sub>x</sub>/
+     F<sub>y</sub> values directly on the diagram (bottom-corner legend,
+     positioned to stay clear of the vector regardless of its direction).
+     Two basic examples, same magnitude (F=50 N), different quadrants: 40°
+     (first quadrant — arc swept CCW from the positive x-axis) and 130°
+     (second quadrant, F<sub>x</sub> negative). **Convention for non-first-
+     quadrant angles**: use the *basic angle* only (the acute angle, 0–90°,
+     between the force and the *nearest* x-axis — here 180°−130°=50°) for
+     both the diagram's arc/label and the worked trig, and read the sign of
+     each component off the force's actual direction rather than off the
+     trig function — e.g. "50 × cos 50° = 32.14 N, but the force points
+     left, so F<sub>x</sub> = −32.14 N". Same magnitude in both examples so
+     the sign flip is the obvious takeaway. Then an inclined-body example
+     (30° incline, weight
      W=40 N, applied force P=100 N at 20° above the incline surface)
      resolved BOTH in horizontal/vertical and in parallel/perpendicular-
      to-incline axes, side by side — deliberately chosen so each frame is

@@ -154,8 +154,8 @@
               <line x1="120" y1="62.1" x2="188.9" y2="62.1" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="120" y1="120" x2="188.9" y2="62.1" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-1)"></line>
               <text x="194.9" y="59.1" class="fill-primary dark:fill-primary-dark" font-size="11" font-weight="600">F</text>
-              <text x="192.9" y="94" class="fill-muted dark:fill-muted-dark" font-size="9">Fy</text>
-              <text x="150" y="132" class="fill-muted dark:fill-muted-dark" font-size="9">Fx</text>
+              <text x="25" y="200" class="fill-primary dark:fill-primary-dark" font-size="10">Fx = 38.30 N</text>
+              <text x="25" y="213" class="fill-primary dark:fill-primary-dark" font-size="10">Fy = 32.14 N</text>
             </svg>
           </div>
           <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
@@ -180,20 +180,21 @@
               </g>
               <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
               <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
-              <path d="M150,120 L149.7,115.8 L148.8,111.6 L147.3,107.6 L145.3,103.9 L142.8,100.5 L139.8,97.4 L136.4,94.9 L132.7,92.8 L128.7,91.3 L124.6,90.3 L120.3,90 L116.1,90.3 L111.9,91.1 L107.9,92.5 L104.2,94.5 L100.7,97" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.5"></path>
-              <text x="137.7" y="81.9" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="10" font-weight="600">θ = 130°</text>
+              <path d="M90,120 L90.1,117.4 L90.5,114.8 L91,112.2 L91.8,109.7 L92.8,107.3 L94,105 L95.4,102.8 L97,100.7 L98.8,98.8 L100.7,97" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.5"></path>
+              <text x="80.1" y="101.4" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="10" font-weight="600">50°</text>
               <line x1="62.1" y1="120" x2="62.1" y2="51.1" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="120" y1="51.1" x2="62.1" y2="51.1" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="120" y1="120" x2="62.1" y2="51.1" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#rr-arrow-2)"></line>
               <text x="58.1" y="47.1" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="11" font-weight="600">F</text>
-              <text x="66.1" y="88" class="fill-muted dark:fill-muted-dark" font-size="9">Fy</text>
-              <text x="86" y="63" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">Fx</text>
+              <text x="215" y="200" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10">Fx = &minus;32.14 N</text>
+              <text x="215" y="213" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10">Fy = 38.30 N</text>
             </svg>
           </div>
           <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
-            <p>F<sub>x</sub> = 50 × cos 130° = <strong class="text-primary dark:text-primary-dark">&minus;32.14 N</strong></p>
-            <p class="mt-1">F<sub>y</sub> = 50 × sin 130° = <strong class="text-primary dark:text-primary-dark">38.30 N</strong></p>
-            <p class="mt-3">Same magnitude as the first example, but pointing into the second quadrant instead — so F<sub>x</sub> comes out negative. That's not an error: a negative component just means the force points along the negative-axis direction, here to the left. This is the sign convention used for every calculator on this site.</p>
+            <p>This force is 50 N at 130° (measured the usual way, from the positive x-axis) — but for hand calculation it's often quicker to use the <strong class="text-primary dark:text-primary-dark">basic angle</strong>: the acute angle between the force and the <em>nearest</em> x-axis, always between 0° and 90°. Here that's the negative x-axis, so the basic angle is 180° &minus; 130° = <strong class="text-primary dark:text-primary-dark">50°</strong>. Use it to find the size of each component, then fix the sign just by looking at which way the force actually points — no need to carry an angle past 90° through cos/sin at all:</p>
+            <p class="mt-2">F<sub>x</sub>: 50 × cos 50° = 32.14 N, but the force points left, so F<sub>x</sub> = <strong class="text-primary dark:text-primary-dark">&minus;32.14 N</strong></p>
+            <p class="mt-1">F<sub>y</sub>: 50 × sin 50° = 38.30 N, and the force points up, so F<sub>y</sub> = <strong class="text-primary dark:text-primary-dark">+38.30 N</strong></p>
+            <p class="mt-3">Same magnitude as the first example, just pointing into the second quadrant instead — that's the whole reason F<sub>x</sub> flips sign. A negative component simply means the force points along the negative-axis direction; it isn't an error, and it's the same sign convention used for every calculator on this site.</p>
           </div>
         </div>
 
