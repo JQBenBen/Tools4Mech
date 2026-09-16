@@ -209,14 +209,20 @@ history for details.") so the section stays skimmable as it grows.
   formulas, tables, hand-authored inline-SVG diagrams — no interactive
   inputs; this is theory, not a calculator):
   1. Resolving a force into components (F<sub>x</sub>=F cos θ, F<sub>y</sub>
-     =F sin θ) with a basic worked example (F=50 N @ 40°), then an
-     inclined-body example (30° incline, weight W=40 N, applied force
-     P=100 N at 20° above the incline surface) resolved BOTH in
-     horizontal/vertical and in parallel/perpendicular-to-incline axes,
-     side by side — deliberately chosen so each frame is trivial for one
-     force and needs real trig for the other, and so the parallel/
-     perpendicular values carry negative signs (down-slope / into-surface)
-     that foreshadow the sign-convention discussion below.
+     =F sin θ), each worked example's diagram marking θ itself as an arc
+     from the positive x-axis, swept counter-clockwise (drawn as a
+     precomputed polyline, not an SVG elliptical-arc command — see the
+     angle-arc pitfall below). Two basic examples, same magnitude
+     (F=50 N), different quadrants: 40° (all-positive) and 130° (Fx
+     negative) — the second introduces sign convention early: same
+     magnitude, only the direction changed, so the sign flip is the
+     obvious takeaway. Then an inclined-body example (30° incline, weight
+     W=40 N, applied force P=100 N at 20° above the incline surface)
+     resolved BOTH in horizontal/vertical and in parallel/perpendicular-
+     to-incline axes, side by side — deliberately chosen so each frame is
+     trivial for one force and needs real trig for the other, and so the
+     parallel/perpendicular values carry negative signs (down-slope /
+     into-surface) that reinforce the same sign convention.
   2. Finding the resultant of several forces (ΣF<sub>x</sub>, ΣF<sub>y</sub>
      → magnitude/angle via hypot/atan2), worked with 4 forces at 0°/90°/
      200°/300° — one force per quadrant, so every sign combination of
@@ -226,10 +232,19 @@ history for details.") so the section stays skimmable as it grows.
   All diagrams reuse the site's existing visual language (accent vectors,
   dashed projection/"shadow" lines, muted axes) but are hand-coded static
   SVG with precomputed coordinates (no JS rendering — the numbers don't
-  change). Verified by rendering and visually checking every diagram
-  (including fixing one real label-overflow bug, the same class of bug
-  found and fixed earlier in the Force Calculator's diagrams) plus a full
-  navigation regression across all sections/topics/tools.
+  change). **Angle-arc pitfall**: an SVG elliptical arc (`A rx,ry ...`)
+  between two points on a circle of a *given* radius is ambiguous — two
+  different circles of that radius can pass through the same two points,
+  and which one the `large-arc-flag`/`sweep-flag` combination selects
+  depends on the specific chord/radius ratio, not just the flag values.
+  This looked fine at a small sweep (40°) and rendered the wrong way at
+  a larger one (130°, chord close to the diameter). Draw angle arcs
+  around a *known* center as a precomputed polyline (many small `L`
+  segments stepping the angle from 0 to θ via the same math→SVG-point
+  formula used for vectors) instead of an SVG arc command. Verified by
+  rendering and visually checking every diagram (this angle-arc bug, plus
+  one earlier label-overflow bug also fixed here) plus a full navigation
+  regression across all sections/topics/tools.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
