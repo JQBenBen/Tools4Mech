@@ -539,22 +539,30 @@ history for details.") so the section stays skimmable as it grows.
      (triangle on two small circles + ground line), the load arrow, a
      dimension line with two segment labels (4 m / 2 m), and **all three**
      reaction arrows drawn (A<sub>x</sub>, A<sub>y</sub>, B<sub>y</sub>) —
-     A<sub>x</sub> is genuinely zero here, but it's still drawn (a short
-     horizontal arrow just above the beam at A, offset up ~7px so it
-     doesn't sit directly on top of the thick beam bar/collinear with
-     it) so the diagram shows all three reactions being checked, not
-     just the two nonzero ones; the corner legend's "Ax = 0.00 N" line
-     states the actual result. None of the three reaction arrows are
-     drawn to force-proportional length (unlike the load arrow, which
-     is) — they're fixed at a uniform, easily-legible length instead,
-     since a real-to-scale Ax arrow would be literally zero pixels long
-     and unrenderable. One bug caught and fixed here: the diagram
-     originally packed a 4-line numeric legend directly above a
-     dimension line only 6px below it, so "Ax = 0.00 N" ran straight
-     into the "4 m" label — fixed by shifting the entire
-     beam/support/dimension geometry down 20px to clear the legend, not
-     by shrinking the legend. Cross-check via moments about B instead +
-     inline cross-links to both the Force Calculator (ΣFx/ΣFy) and Moment
+     A<sub>x</sub> is genuinely zero here, but it's still drawn — like
+     T1/T2 in §2, this is a find-the-unknowns problem, so the corner
+     legend shows **"Ax = ?" / "Ay = ?" / "By = ?"** rather than the
+     solved values (only P, the given load, shows a number), and none of
+     the three reaction arrows are drawn to force-proportional length
+     (unlike the load arrow, which is) — they're fixed at a uniform,
+     easily-legible length instead, both because the answer isn't meant
+     to be readable off the diagram and because a real-to-scale
+     A<sub>x</sub> arrow would be literally zero pixels long and
+     unrenderable. A<sub>x</sub>'s arrow is drawn to the **left** of
+     point A, at the same height as the beam/pin, with its arrowhead
+     pointing right *at* A (tail (15,140) → tip (37,140)) — unlike
+     A<sub>y</sub>/B<sub>y</sub>, whose tails sit at the support point and
+     arrowheads point away — since a horizontal arrow collinear with the
+     beam has nowhere else to go without either overlapping the beam bar
+     or the support glyph; positioning it to the left, pointing in,
+     keeps it legible and still visually anchored to A. One bug caught
+     and fixed earlier here: the diagram originally packed a 4-line
+     numeric legend directly above a dimension line only 6px below it,
+     so the Ax line ran straight into the "4 m" label — fixed by
+     shifting the entire beam/support/dimension geometry down 20px to
+     clear the legend, not by shrinking the legend. Cross-check via
+     moments about B instead + inline cross-links to both the Force
+     Calculator (ΣFx/ΣFy) and Moment
      Calculator (ΣM about A).
   All diagram coordinates precomputed with a small Node script (same
   approach as the Resolve and Moment topics). Verified by rendering every
