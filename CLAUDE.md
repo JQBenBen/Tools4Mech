@@ -202,7 +202,7 @@ history for details.") so the section stays skimmable as it grows.
   placeholder (ghost/"coming soon" pattern, back button → Home). See
   Portal shell above for the `SECTIONS_DATA`/navigation details.
 
-### Concepts and Theory (status: in progress — 1 topic)
+### Concepts and Theory (status: in progress — 2 topics, 2 categories)
 - **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` category
   "Forces" → topic `resolve-and-resultant-force`, rendered at
   `#topic-view-resolve-and-resultant-force`. Static content (text,
@@ -311,6 +311,75 @@ history for details.") so the section stays skimmable as it grows.
   rendering and visually checking every diagram (this angle-arc bug, plus
   one earlier label-overflow bug also fixed here) plus a full navigation
   regression across all sections/topics/tools.
+- **Moment** (done): a `CONCEPTS_DATA` category "Moments" → topic `moment`,
+  rendered at `#topic-view-moment` (sibling of the Resolve topic inside
+  `#topic-views-container`), `CONCEPT_ICONS['moment']` reuses the Moment
+  Calculator's rotate/torque icon path. Static content (no interactive
+  inputs), in order:
+  1. **What is a moment?** — definition (turning/rotational effect of a
+     force about a point) + wrench-turning-a-bolt analogy + the sign
+     convention (CCW positive, CW negative) already used everywhere on the
+     site. One schematic diagram: two small pivots side by side, each with
+     a precomputed-polyline arc + arrowhead — left one sweeping CCW
+     (labeled "+"/"CCW (positive)"), right one sweeping CW (labeled
+     "−"/"CW (negative)") — purely conventional, not tied to numbers.
+  2. **Calculating a moment**:
+     - **2a. Perpendicular case (M = F × d)**: wrench example — pivot
+       (bolt) with a handle of length d = 0.25 m along +x, force F = 60 N
+       straight down at the end → M = 60 × 0.25 = 15.00 N·m, deliberately
+       **CW** (reinforces the sign convention from §1 with a real
+       calculation rather than another CCW result). Diagram: pivot dot,
+       thick handle bar, perpendicular force arrow, a small CW rotation
+       arc near the pivot, and a top-left numeric corner-legend ("d = 0.25
+       m" / "F = 60 N") with short inline tags ("d", "F") at the
+       handle/arrow themselves — the corner-legend pattern (established on
+       the Resolve topic's inclined-body diagrams) is what fixed an
+       initial bug here where a full "F = 60 N" inline label overflowed
+       past the card's right edge at this viewBox width.
+     - **2b. Angled force (resolve first)**: general formula
+       M = x·F<sub>y</sub> − y·F<sub>x</sub> (same as the Moment
+       Calculator) ≡ M = F·r·sin θ (θ = angle between the position vector
+       and the force), i.e. multiplying by only F's perpendicular
+       component. Worked example: position r = 0.4 m at 30° from the
+       pivot (x, y ≈ 0.346, 0.200 m), force F = 100 N straight up (90°) at
+       that point; θ = 60°, F<sub>⊥</sub> = F sin 60° ≈ 86.60 N,
+       M = F<sub>⊥</sub> × r = 86.60 × 0.4 ≈ 34.64 N·m (CCW) —
+       cross-checked in the body text against x·F<sub>y</sub> − y·F<sub>x</sub>
+       ≈ 34.6 N·m. Diagram: pivot, r as a muted vector to the position
+       point, F as an accent vector from there, F<sub>⊥</sub> and
+       F<sub>∥</sub> as muted component arrows sharing tip coordinates
+       with dashed closing lines (same component-arrow convention as the
+       Resolve topic's inclined-body diagrams, forming one consistent
+       parallelogram with F as the diagonal), a small angle arc for r's
+       30° at the pivot and for θ=60° at the position point, plus a
+       separate CCW rotation-direction arc/label placed in the diagram's
+       empty lower-left quadrant so it doesn't collide with the vectors.
+       Numeric F<sub>⊥</sub>/F<sub>∥</sub> readout in a top-left corner
+       legend, matching the established convention.
+  3. **Net moment from several forces** — ΣM = M₁ + M₂ + …, same sign
+     convention. Worked example, 3 forces with deliberately mixed CCW/CW
+     contributions (echoes the "one force per quadrant" approach from the
+     Resolve topic's resultant example):
+     - F1 = 40 N @ 90°, position (0.5, 0) m → M1 = +20.00 N·m
+     - F2 = 30 N @ 0°, position (0, 0.4) m → M2 = −12.00 N·m
+     - F3 = 25 N @ 180°, position (−0.3, −0.2) m → M3 = −5.00 N·m
+     - Net = +3.00 N·m (CCW) — small and mixed-sign, showing real
+       cancellation rather than everything agreeing.
+     Table (Force / Magnitude / Angle / Position / Moment + a Σ row) + two
+     diagrams in the same "Applied Forces" / "Net Moment" two-panel style
+     the Moment Calculator tool itself uses — "Applied Forces" plots each
+     force as an arrow from its position (dot marks the point, a larger
+     dot + italic "pivot" caption marks the origin); "Net Moment" draws a
+     large fixed-radius rotation arc around the pivot swept CCW (matching
+     the net moment's sign) with a gap left open for the numeric label.
+     Closing paragraph + inline cross-link
+     (`data-action="show-section" data-section-id="tools"`) inviting the
+     reader to reproduce it in the Moment Calculator.
+  All diagram coordinates were precomputed with a small Node script (same
+  approach as the Resolve topic) before writing the SVG markup. Verified
+  by rendering every diagram at 2x scale and visually checking each one
+  (catching and fixing the corner-legend overflow bug above) plus a full
+  navigation regression across every section/topic/tool.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section

@@ -392,6 +392,217 @@
         <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">F<sub>R</sub> = <span style="display:inline-flex;align-items:flex-end;"><span style="font-size:1.15em;line-height:1;">&radic;</span><span style="border-top:1.3px solid currentColor;padding:0 2px 1px;">(26.51² + 4.13²)</span></span> = <strong class="text-primary dark:text-primary-dark">26.83 N</strong>, at θ = tan<sup>&minus;1</sup><span style="display:inline-flex;align-items:center;">(<span style="display:inline-flex;flex-direction:column;align-items:center;font-size:0.82em;line-height:1.15;margin:0 2px;"><span>4.13</span><span style="border-top:1px solid currentColor;">26.51</span></span>)</span> = <strong class="text-primary dark:text-primary-dark">8.85°</strong> above the positive x-axis. Try the same forces in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Force Calculator</button> to see it computed live.</p>
       </section>
 
+      <section id="topic-view-moment" class="hidden py-[38px]" data-topic-view>
+        <button data-action="show-section" data-section-id="concepts-and-theory" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Concepts and Theory</button>
+        <h1 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moment</h1>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">A moment is the turning effect a force has about a point — how much it makes something rotate, and which way. It depends on both the size of the force and how far (and in what direction) it acts from that point.</p>
+
+        <!-- 1. What is a moment? -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-10">1. What is a moment?</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Think of turning a bolt with a wrench: push on the handle, and the bolt rotates about its own axis. That rotational effect is the moment (also called <strong class="text-primary dark:text-primary-dark">torque</strong>) of the force about that pivot point. Push harder, or push further from the bolt, and the turning effect gets stronger — exactly what the formula in the next section captures.</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed"><strong class="text-primary dark:text-primary-dark">Sign convention</strong> (same as every calculator on this site): a moment that would rotate the body <strong class="text-primary dark:text-primary-dark">counter-clockwise (CCW)</strong> is positive; one that would rotate it <strong class="text-primary dark:text-primary-dark">clockwise (CW)</strong> is negative. This is just a labelling convention — a "negative" moment isn't smaller or weaker, it just turns the other way.</p>
+
+        <div class="mt-6 max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+          <svg viewBox="0 0 240 240" class="w-full h-auto">
+            <defs>
+              <marker id="mt-arrow-ccw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+              </marker>
+              <marker id="mt-arrow-cw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+              </marker>
+            </defs>
+            <circle cx="70" cy="130" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+            <circle cx="170" cy="130" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+            <path d="M107.6,116.3 L104,109 L99.1,102.6 L92.9,97.2 L85.8,93.3 L78.1,90.8 L70,90 L61.9,90.8 L54.2,93.3 L47.1,97.2 L40.9,102.6 L36,109 L32.4,116.3" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-ccw)"></path>
+            <path d="M132.4,116.3 L136,109 L140.9,102.6 L147.1,97.2 L154.2,93.3 L161.9,90.8 L170,90 L178.1,90.8 L185.8,93.3 L192.9,97.2 L199.1,102.6 L204,109 L207.6,116.3" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-cw)"></path>
+            <text x="70" y="75" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="16" font-weight="700">+</text>
+            <text x="170" y="78" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="16" font-weight="700">&minus;</text>
+            <text x="70" y="210" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">CCW (positive)</text>
+            <text x="170" y="210" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">CW (negative)</text>
+          </svg>
+        </div>
+
+        <!-- 2. Calculating a moment -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Calculating a moment</h2>
+
+        <h3 class="font-display font-semibold text-[18px] mt-6">2a. Force perpendicular to the pivot: M = F × d</h3>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">When the force is applied <strong class="text-primary dark:text-primary-dark">perpendicular</strong> to the line from the pivot to where it acts, the moment is simply:</p>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          M = F × d
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">where <em>d</em> is the perpendicular distance from the pivot to the line of action of the force.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[280px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Example: wrench on a bolt</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="mt-arrow-force-2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="mt-arrow-arc-2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="30" class="fill-primary dark:fill-primary-dark" font-size="10">d = 0.25 m</text>
+              <text x="25" y="43" class="fill-primary dark:fill-primary-dark" font-size="10">F = 60 N</text>
+              <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="120" y1="120" x2="190" y2="120" class="stroke-primary dark:stroke-primary-dark" stroke-width="4" stroke-linecap="round"></line>
+              <circle cx="190" cy="120" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="155" y="112" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">d</text>
+              <line x1="190" y1="120" x2="190" y2="190" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#mt-arrow-force-2a)"></line>
+              <text x="183" y="160" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">F</text>
+              <path d="M144.1,85.6 L149.3,89.9 L153.7,94.9 L157.3,100.6 L159.9,106.8 L161.5,113.3 L162,120 L161.5,126.7 L159.9,133.2 L157.3,139.4 L153.7,145.1 L149.3,150.1 L144.1,154.4" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.5" marker-end="url(#mt-arrow-arc-2a)"></path>
+              <text x="120" y="195" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="10" font-weight="600">15.00 N·m (CW)</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>A wrench handle of length <em>d</em> = 0.25 m extends from the bolt, and a force <em>F</em> = 60 N is applied straight down at its end — perpendicular to the handle.</p>
+            <p class="mt-2">M = 60 × 0.25 = <strong class="text-primary dark:text-primary-dark">15.00 N·m</strong></p>
+            <p class="mt-2">Pushing down on a handle that extends to the <em>right</em> rotates it <strong class="text-primary dark:text-primary-dark">clockwise</strong>, so by the sign convention above this moment is <strong class="text-primary dark:text-primary-dark">&minus;15.00 N·m</strong> (reported as 15.00 N·m CW).</p>
+          </div>
+        </div>
+
+        <h3 class="font-display font-semibold text-[18px] mt-10">2b. Angled force: resolve first</h3>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">If the force isn't perpendicular to the pivot, only the component of the force <strong class="text-primary dark:text-primary-dark">perpendicular</strong> to the position vector <em>r</em> contributes to the moment — the component along <em>r</em> just pulls toward or away from the pivot and produces no rotation. That gives the general 2D formula (the same one the Moment Calculator uses):</p>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          M = x·F<sub>y</sub> &minus; y·F<sub>x</sub> &nbsp;&equiv;&nbsp; F · r · sin θ
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">where (x, y) is the point of application relative to the pivot, r = <span style="display:inline-flex;align-items:flex-end;"><span style="font-size:1.15em;line-height:1;">&radic;</span><span style="border-top:1.3px solid currentColor;padding:0 2px 1px;">(x² + y²)</span></span> is the distance to it, and θ is the angle between the position vector and the force.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[280px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Example: r = 0.4 m @ 30°, F = 100 N @ 90°</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="mt-arrow-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+                <marker id="mt-arrow-force-2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="mt-arrow-comp-2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+                <marker id="mt-arrow-arc-2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1.5">
+                <line x1="20" y1="120" x2="220" y2="120"></line>
+                <line x1="120" y1="20" x2="120" y2="220"></line>
+              </g>
+              <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+              <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+              <circle cx="120" cy="120" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <path d="M145,120 L144.9,118.4 L144.8,116.7 L144.5,115.1 L144.1,113.5 L143.7,112 L143.1,110.4 L142.4,108.9 L141.7,107.5" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="150.9" y="111.7" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">30°</text>
+              <line x1="120" y1="120" x2="189.3" y2="80" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.5" marker-end="url(#mt-arrow-r)"></line>
+              <text x="145" y="95" class="fill-muted dark:fill-muted-dark" font-size="9">r</text>
+              <circle cx="189.3" cy="80" r="3" class="fill-accent dark:fill-accent-dark"></circle>
+              <path d="M204.9,71 L203.8,69.4 L202.7,68 L201.3,66.6 L199.9,65.4 L198.3,64.4 L196.6,63.6 L194.8,62.9 L193,62.4 L191.2,62.1 L189.3,62" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="210" y="49" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">60°</text>
+              <line x1="189.3" y1="80" x2="189.3" y2="30" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#mt-arrow-force-2b)"></line>
+              <text x="195" y="28" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">F</text>
+              <line x1="189.3" y1="80" x2="167.6" y2="42.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#mt-arrow-comp-2b)"></line>
+              <text x="160" y="40" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">F⊥</text>
+              <line x1="189.3" y1="80" x2="210.9" y2="67.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#mt-arrow-comp-2b)"></line>
+              <text x="216" y="70" class="fill-muted dark:fill-muted-dark" font-size="9">F∥</text>
+              <line x1="189.3" y1="30" x2="167.6" y2="42.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="189.3" y1="30" x2="210.9" y2="67.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <path d="M68.3,138.8 L70.2,143.2 L72.4,147.5 L74.9,151.5 L77.9,155.4 L81.1,158.9 L84.6,162.1 L88.5,165.1 L92.5,167.6" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.5" marker-end="url(#mt-arrow-arc-2b)"></path>
+              <text x="75" y="185" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="9" font-weight="600">M = +34.64 N·m (CCW)</text>
+              <text x="25" y="30" class="fill-primary dark:fill-primary-dark" font-size="10">F⊥ = 86.60 N</text>
+              <text x="25" y="43" class="fill-primary dark:fill-primary-dark" font-size="10">F∥ = 50.00 N</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>A force F = 100 N straight up (90°) is applied at a point r = 0.4 m from the pivot, at 30° from the x-axis (x, y &asymp; 0.346, 0.200 m). The angle between r and F is θ = 90° &minus; 30° = 60°.</p>
+            <p class="mt-2">F<sub>⊥</sub> = F sin θ = 100 × sin 60° = <strong class="text-primary dark:text-primary-dark">86.60 N</strong></p>
+            <p class="mt-1">M = F<sub>⊥</sub> × r = 86.60 × 0.4 = <strong class="text-primary dark:text-primary-dark">+34.64 N·m (CCW)</strong></p>
+            <p class="mt-2">Cross-check with the component formula: x·F<sub>y</sub> &minus; y·F<sub>x</sub> = 0.346 × 100 &minus; 0.200 × 0 &asymp; <strong class="text-primary dark:text-primary-dark">+34.6 N·m</strong> — same result, since F has no x-component here.</p>
+          </div>
+        </div>
+
+        <!-- 3. Net moment -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">3. Net moment from several forces</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Several forces acting on the same body each produce their own moment about a chosen pivot; the net moment is just their sum, using the same CCW-positive sign convention:</p>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          ΣM = M<sub>1</sub> + M<sub>2</sub> + M<sub>3</sub> + &hellip;
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">The example below uses three forces about the same pivot at the origin, with deliberately mixed CCW/CW contributions so the net result shows real cancellation rather than everything agreeing:</p>
+
+        <div class="mt-6 overflow-x-auto max-w-[640px]">
+          <table class="w-full text-[13px] text-left">
+            <thead>
+              <tr class="text-muted dark:text-muted-dark border-b border-hairline dark:border-hairline-dark">
+                <th class="py-1.5 pr-4 font-medium">Force</th>
+                <th class="py-1.5 pr-4 font-medium">Magnitude</th>
+                <th class="py-1.5 pr-4 font-medium">Angle</th>
+                <th class="py-1.5 pr-4 font-medium">Position</th>
+                <th class="py-1.5 font-medium">Moment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F1</td><td class="py-1.5 pr-4">40 N</td><td class="py-1.5 pr-4">90°</td><td class="py-1.5 pr-4">(0.5, 0) m</td><td class="py-1.5">+20.00 N·m</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F2</td><td class="py-1.5 pr-4">30 N</td><td class="py-1.5 pr-4">0°</td><td class="py-1.5 pr-4">(0, 0.4) m</td><td class="py-1.5">&minus;12.00 N·m</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F3</td><td class="py-1.5 pr-4">25 N</td><td class="py-1.5 pr-4">180°</td><td class="py-1.5 pr-4">(&minus;0.3, &minus;0.2) m</td><td class="py-1.5">&minus;5.00 N·m</td></tr>
+              <tr class="font-semibold"><td class="py-1.5 pr-4">Σ (sum)</td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5">+3.00 N·m</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6">
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Applied Forces</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="mt-arrow-applied" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+              </g>
+              <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+              <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+              <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="106" y="134" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="8" font-style="italic">pivot</text>
+              <circle cx="205" cy="120" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>
+              <line x1="205" y1="120" x2="205" y2="50" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-applied)"></line>
+              <text x="210" y="46" class="fill-primary dark:fill-primary-dark" font-size="10">F1</text>
+              <circle cx="120" cy="52" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>
+              <line x1="120" y1="52" x2="172.5" y2="52" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-applied)"></line>
+              <text x="176" y="48" class="fill-primary dark:fill-primary-dark" font-size="10">F2</text>
+              <circle cx="69" cy="154" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>
+              <line x1="69" y1="154" x2="25.3" y2="154" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-applied)"></line>
+              <text x="20" y="144" class="fill-primary dark:fill-primary-dark" font-size="10">F3</text>
+            </svg>
+          </div>
+          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Net Moment</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="mt-arrow-net-arc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <path d="M77.9,155.4 L90.4,166.4 L105.8,173.1 L122.4,174.9 L138.8,171.7 L153.5,163.6 L165.1,151.5 L172.5,136.5 L175,120 L172.5,103.5 L165.1,88.5 L153.5,76.4 L138.8,68.3 L122.4,65.1 L105.8,66.9 L90.4,73.6 L77.9,84.6" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="2" marker-end="url(#mt-arrow-net-arc)"></path>
+              <text x="48" y="115" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="12" font-weight="600">+3.00 N·m</text>
+              <text x="48" y="130" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">(CCW)</text>
+            </svg>
+          </div>
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">ΣM = 20.00 &minus; 12.00 &minus; 5.00 = <strong class="text-primary dark:text-primary-dark">+3.00 N·m</strong>, i.e. a small net <strong class="text-primary dark:text-primary-dark">counter-clockwise</strong> rotation — the larger CCW contribution from F1 nearly, but not quite, cancels the two CW contributions from F2 and F3. Try the same forces in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Moment Calculator</button> to see it computed live.</p>
+      </section>
+
     </div>
 
     <div id="tool-views-container">
@@ -651,11 +862,18 @@
           { id: "resolve-and-resultant-force", name: "Resolve and Resultant Force", description: "Break a force into components with trigonometry, and combine several forces into one resultant." },
         ],
       },
+      {
+        category: "Moments",
+        topics: [
+          { id: "moment", name: "Moment", description: "The turning effect of a force about a point — definition, sign convention, calculation, and worked examples." },
+        ],
+      },
       // Phase 2+: push additional { category, topics: [...] } objects here.
     ];
 
     const CONCEPT_ICONS = {
       'resolve-and-resultant-force': '<line x1="5" y1="19" x2="19" y2="19"></line><line x1="5" y1="19" x2="16" y2="6"></line><line x1="16" y1="6" x2="19" y2="19"></line>',
+      'moment': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
     };
 
     // Generic "grid of cards grouped by category, leading to a detail view"
