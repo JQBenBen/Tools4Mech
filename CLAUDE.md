@@ -506,44 +506,64 @@ history for details.") so the section stays skimmable as it grows.
      "applied load" / "support reaction" (the known-vs-unknown
      distinction is already visible from the F=50N vs R=? values
      themselves).
-  2. **Common supports and their reactions** — seven support types, each
+  2. **Common supports and their reactions** — eight cards (seven support
+     types, the rigid bar shown twice — see below), each
      its own compact card (`grid grid-cols-1 sm:grid-cols-2
      lg:grid-cols-3 gap-[26px]`, matching the homepage/section grid
      pattern but hand-authored here rather than going through
      `renderItemGrid`, since these aren't clickable nav cards) with a
      smaller `viewBox="0 0 170 160"` diagram (vs. the usual 240×240,
-     since these are simple reference icons, not full worked examples):
+     since these are simple reference icons, not full worked examples).
+     Every reaction on every card is labeled with a plain R<sub>x</sub>/
+     R<sub>y</sub>/M name (never N/f), including on the two surface
+     cards, so the whole section uses one consistent naming scheme:
      - **Pin/Hinge**: ground-mounted triangle + hatching (reused from
        the Equilibrium beam diagram's support glyph), 2 unknowns
        (R<sub>x</sub>, R<sub>y</sub>) drawn as two perpendicular arrows
        from the pin point.
      - **Roller**: triangle-on-circles + ground line (also reused from
        Equilibrium), 1 unknown (R) perpendicular to the surface.
-     - **Fixed/Built-in**: a new glyph — a vertical hatched wall with the
-       member as a short stub sticking out to a point, 3 unknowns
-       (R<sub>x</sub>, R<sub>y</sub>, M) — the M arc reuses the
-       precomputed-polyline-arc technique from the Moment topic's
-       rotation arcs, first appearance of a moment arc outside that
-       topic.
-     - **Cable/Rope**: a dashed line to a small hatched ceiling-anchor
-       glyph, with the tension arrow drawn along the same line
-       (pulling away from the body — a cable can only pull). One bug
-       caught here: the anchor's hatch ticks were first drawn as short
-       diagonal strokes angled the same way as the cable itself, which
-       at this scale read as a row of ">" chevrons/arrows rather than
-       hatching — fixed by switching to plain vertical ticks above the
-       anchor bar (the "solid material" side), which reads unambiguously
-       as hatching.
-     - **Rigid Bar/Link**: a thin strut between two pin-dot endpoints,
-       1 unknown (F) along the bar's own axis — captioned as a two-force
-       member that could be tension or compression.
-     - **Smooth Surface**: a hatched ground line, 1 unknown (N) normal to
-       it, captioned frictionless.
-     - **Rough Surface**: the identical ground glyph, but 2 unknowns (N
-       normal + f friction along the surface) — deliberately reuses the
-       exact same hatched-ground symbol as Smooth Surface, since the
-       *reactions drawn* (one arrow vs. two) are what should teach the
-       distinction, not a different-looking ground texture.
+     - **Fixed/Built-in**: a vertical hatched wall with the member as a
+       *short* stub (5px) so all three reactions (R<sub>x</sub>,
+       R<sub>y</sub>, M) are drawn essentially touching the wall face,
+       not floating off a longer stub — the earlier, longer stub read as
+       a separate pin-like point rather than clearly "at the wall," per
+       feedback. The M arc reuses the precomputed-polyline-arc technique
+       from the Moment topic's rotation arcs.
+     - **Cable/Rope**: a single unified muted arrow drawn along ~85% of
+       the cable's own length, from the body point to just short of a
+       small hatched ceiling-anchor glyph — replacing an earlier version
+       that used a separate dashed "cable" line plus a much shorter
+       tension arrow covering only part of the distance, which didn't
+       clearly read as "tension acts the whole way along the cable,
+       pulling away from the body." One bug fixed earlier here: the
+       anchor's hatch ticks were first drawn as short diagonal strokes
+       angled the same way as the cable itself, which at this scale read
+       as a row of ">" chevrons/arrows rather than hatching — fixed by
+       switching to plain vertical ticks above the anchor bar.
+     - **Rigid Bar/Link (Tension)** and **Rigid Bar/Link (Compression)**
+       — split into two separate cards (both share the same bar
+       geometry: a hollow pin dot at the far/fixed end, a filled dot
+       where it connects to the body) since a single generic "F = ?"
+       arrow couldn't show which direction is which. The force is drawn
+       along the bar's own axis with a small perpendicular offset (so
+       the arrowhead is visible beside the thick bar stroke rather than
+       swallowed by it) — Tension points from the connection *back
+       toward* the far pin (the bar pulls the body toward itself,
+       exactly like a cable); Compression points *away* from the far pin
+       (the bar pushes the body away). Getting the tension direction
+       right required care: a force continuing *past* the connection
+       point, away from the far pin, is actually the compression case —
+       tension pulls inward along the member, toward the other end, the
+       same way a taut cable does.
+     - **Smooth Surface**: a hatched ground line, 1 unknown (R<sub>y</sub>)
+       normal to it, captioned frictionless.
+     - **Rough Surface**: the identical ground glyph, but 2 unknowns
+       (R<sub>x</sub> friction along the surface + R<sub>y</sub> normal)
+       — deliberately reuses the exact same hatched-ground symbol as
+       Smooth Surface, since the *reactions drawn* (one arrow vs. two)
+       are what should teach the distinction, not a different-looking
+       ground texture.
   3. **Putting it together: full free-body diagrams** — two complete,
      unsolved examples (each diagram-left/text-right, `sm:max-w-[420px]`,
      matching every other worked-example row on the site):

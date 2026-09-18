@@ -690,7 +690,7 @@
 
         <!-- 2. Common supports -->
         <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Common supports and their reactions</h2>
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Every connection a body has to the rest of the world can only push, pull, or resist rotation in certain ways. Replacing each connection with exactly the reaction(s) it's capable of providing — no more, no less — is the core skill of drawing a correct FBD. Seven common supports:</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Every connection a body has to the rest of the world can only push, pull, or resist rotation in certain ways. Replacing each connection with exactly the reaction(s) it's capable of providing — no more, no less — is the core skill of drawing a correct FBD. Seven common supports (the rigid bar shown both ways it can act):</p>
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px]">
 
@@ -753,14 +753,14 @@
               <line x1="65" y1="58" x2="58" y2="65" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <line x1="65" y1="71" x2="58" y2="78" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <line x1="65" y1="84" x2="58" y2="91" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
-              <line x1="65" y1="70" x2="82" y2="70" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
-              <circle cx="82" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
-              <line x1="82" y1="70" x2="109" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
-              <text x="113" y="73" class="fill-muted dark:fill-muted-dark" font-size="10">Rx = ?</text>
-              <line x1="82" y1="70" x2="82" y2="43" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
-              <text x="86" y="40" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
-              <path d="M66.96,75.47 L68.51,78.6 L70.69,81.31 L73.4,83.49 L76.53,85.04 L79.91,85.86 L83.39,85.94 L86.81,85.26 L90,83.86" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2" marker-end="url(#fbd-arrow-fixed-arc)"></path>
-              <text x="82" y="103" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">M = ?</text>
+              <line x1="65" y1="70" x2="70" y2="70" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+              <circle cx="70" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="70" y1="70" x2="97" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
+              <text x="101" y="73" class="fill-muted dark:fill-muted-dark" font-size="10">Rx = ?</text>
+              <line x1="70" y1="70" x2="70" y2="43" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
+              <text x="74" y="40" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
+              <path d="M56.84,74.79 L58.19,77.52 L60.1,79.9 L62.48,81.81 L65.21,83.16 L68.17,83.88 L71.22,83.95 L74.21,83.35 L77,82.12" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2" marker-end="url(#fbd-arrow-fixed-arc)"></path>
+              <text x="70" y="103" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">M = ?</text>
             </svg>
             <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">3 unknowns: R<sub>x</sub>, R<sub>y</sub>, M. Resists force in any direction <em>and</em> rotation — nothing is free to move.</div>
           </div>
@@ -778,29 +778,45 @@
               <line x1="113" y1="20" x2="113" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <line x1="118" y1="20" x2="118" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <line x1="123" y1="20" x2="123" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
-              <line x1="115" y1="20" x2="80" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <circle cx="80" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
-              <line x1="80" y1="70" x2="97.68" y2="52.32" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-cable)"></line>
-              <text x="101" y="50" class="fill-muted dark:fill-muted-dark" font-size="10">T = ?</text>
+              <line x1="80" y1="70" x2="109.75" y2="27.5" class="stroke-muted dark:stroke-muted-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-cable)"></line>
+              <text x="106.3" y="56.8" class="fill-muted dark:fill-muted-dark" font-size="10">T = ?</text>
             </svg>
-            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: T, along the cable, pulling away from the body. A cable can only pull, never push.</div>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: T, the whole way along the cable, pulling away from the body toward the anchor. A cable can only pull, never push.</div>
           </div>
 
           <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
-            <div class="font-display font-semibold text-[15px]">Rigid Bar / Link</div>
+            <div class="font-display font-semibold text-[15px]">Rigid Bar / Link (Tension)</div>
             <svg viewBox="0 0 170 160" class="w-full h-auto">
               <defs>
-                <marker id="fbd-arrow-bar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="fbd-arrow-bar-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
                 </marker>
               </defs>
               <line x1="55" y1="90" x2="105" y2="50" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
               <circle cx="55" cy="90" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
               <circle cx="105" cy="50" r="3" class="fill-primary dark:fill-primary-dark"></circle>
-              <line x1="105" y1="50" x2="120.62" y2="37.51" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-bar)"></line>
-              <text x="124" y="36" class="fill-muted dark:fill-muted-dark" font-size="10">F = ?</text>
+              <line x1="101.88" y1="46.1" x2="84.7" y2="59.84" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-bar-t)"></line>
+              <text x="80" y="66" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="10">F = ?</text>
             </svg>
-            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: F, along the bar's own axis. A two-force member — could be tension (pulling) or compression (pushing).</div>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: F, along the bar's axis, pulling the body toward the far pin — the bar is being stretched.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Rigid Bar / Link (Compression)</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-bar-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="55" y1="90" x2="105" y2="50" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+              <circle cx="55" cy="90" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <circle cx="105" cy="50" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="101.88" y1="46.1" x2="119.06" y2="32.35" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-bar-c)"></line>
+              <text x="123" y="30" class="fill-muted dark:fill-muted-dark" font-size="10">F = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: F, along the bar's axis, pushing the body away from the far pin — the bar is being squeezed.</div>
           </div>
 
           <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
@@ -819,9 +835,9 @@
               <line x1="103" y1="90" x2="96" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <circle cx="80" cy="90" r="3" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="80" y1="90" x2="80" y2="60" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-smooth)"></line>
-              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">N = ?</text>
+              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
             </svg>
-            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: N, perpendicular (normal) to the surface. Frictionless — no resistance along the surface.</div>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: R<sub>y</sub>, perpendicular (normal) to the surface. Frictionless — no resistance along the surface.</div>
           </div>
 
           <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
@@ -840,11 +856,11 @@
               <line x1="103" y1="90" x2="96" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <circle cx="80" cy="90" r="3" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="80" y1="90" x2="80" y2="60" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-rough)"></line>
-              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">N = ?</text>
+              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
               <line x1="80" y1="90" x2="107" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-rough)"></line>
-              <text x="110" y="94" class="fill-muted dark:fill-muted-dark" font-size="10">f = ?</text>
+              <text x="110" y="94" class="fill-muted dark:fill-muted-dark" font-size="10">Rx = ?</text>
             </svg>
-            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">2 unknowns: N (normal) and f (friction, along the surface). Friction resists sliding along the surface.</div>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">2 unknowns: R<sub>x</sub> (friction, along the surface) and R<sub>y</sub> (normal, perpendicular to it). Friction resists sliding along the surface.</div>
           </div>
 
         </div>
