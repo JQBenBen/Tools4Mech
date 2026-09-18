@@ -657,6 +657,319 @@
         <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">ΣM = 20.00 &minus; 12.00 &minus; 5.00 = <strong class="text-primary dark:text-primary-dark">+3.00 N·m</strong>, i.e. a small net <strong class="text-primary dark:text-primary-dark">counter-clockwise</strong> rotation — the larger CCW contribution from F1 nearly, but not quite, cancels the two CW contributions from F2 and F3. Try the same forces in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Moment Calculator</button> to see it computed live.</p>
       </section>
 
+      <section id="topic-view-free-body-diagram" class="hidden py-[38px]" data-topic-view>
+        <button data-action="show-section" data-section-id="concepts-and-theory" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Concepts and Theory</button>
+        <h1 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Free Body Diagram</h1>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">A free-body diagram (FBD) isolates a single body from everything it touches or connects to, and shows every force and moment acting on it — both the applied loads (known) and the reactions its supports provide (unknown, until solved). A correct FBD is the essential first step before applying equilibrium, the next topic.</p>
+
+        <!-- 1. What is a free body diagram? -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-10">1. What is a free body diagram?</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">To draw one: <strong class="text-primary dark:text-primary-dark">(1)</strong> isolate the body — mentally cut it away from the ground, walls, cables, and any other body it touches; <strong class="text-primary dark:text-primary-dark">(2)</strong> replace every connection with the reaction force(s) or moment it's actually capable of providing (see the supports below); <strong class="text-primary dark:text-primary-dark">(3)</strong> show every applied load and moment, with its known value; <strong class="text-primary dark:text-primary-dark">(4)</strong> label every unknown with a "?" rather than guessing a number.</p>
+
+        <div class="mt-6 max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+          <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Two kinds of force on every FBD</div>
+          <svg viewBox="0 0 240 240" class="w-full h-auto">
+            <defs>
+              <marker id="fbd-arrow-s1-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+              </marker>
+              <marker id="fbd-arrow-s1-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+              </marker>
+            </defs>
+            <rect x="85" y="105" width="70" height="30" class="fill-ghost dark:fill-ghost-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></rect>
+            <text x="120" y="124" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">body</text>
+            <line x1="120" y1="65" x2="120" y2="103" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-s1-load)"></line>
+            <text x="126" y="75" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">F = 50 N</text>
+            <text x="126" y="88" class="fill-muted dark:fill-muted-dark" font-size="9" font-style="italic">applied load</text>
+            <line x1="120" y1="175" x2="120" y2="137" class="stroke-muted dark:stroke-muted-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-s1-reaction)"></line>
+            <text x="126" y="172" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">R = ?</text>
+            <text x="126" y="159" class="fill-muted dark:fill-muted-dark" font-size="9" font-style="italic">support reaction</text>
+          </svg>
+        </div>
+
+        <!-- 2. Common supports -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Common supports and their reactions</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Every connection a body has to the rest of the world can only push, pull, or resist rotation in certain ways. Replacing each connection with exactly the reaction(s) it's capable of providing — no more, no less — is the core skill of drawing a correct FBD. Seven common supports:</p>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px]">
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Pin / Hinge</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-pin" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <path d="M80,70 L70,88 L90,88 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <line x1="65" y1="88" x2="95" y2="88" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="68" y1="88" x2="63" y2="94" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="74" y1="88" x2="69" y2="94" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="80" y1="88" x2="75" y2="94" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="86" y1="88" x2="81" y2="94" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="92" y1="88" x2="87" y2="94" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <circle cx="80" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="80" y1="70" x2="107" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-pin)"></line>
+              <text x="111" y="73" class="fill-muted dark:fill-muted-dark" font-size="10">Rx = ?</text>
+              <line x1="80" y1="70" x2="80" y2="43" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-pin)"></line>
+              <text x="84" y="40" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">2 unknowns: R<sub>x</sub>, R<sub>y</sub>. Resists force in any direction, but allows rotation — no moment.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Roller</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-roller" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <path d="M80,70 L70,88 L90,88 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <circle cx="74" cy="91" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <circle cx="86" cy="91" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <line x1="65" y1="95" x2="95" y2="95" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <circle cx="80" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="80" y1="70" x2="80" y2="43" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-roller)"></line>
+              <text x="84" y="40" class="fill-muted dark:fill-muted-dark" font-size="10">R = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: R, perpendicular to the rolling surface. Can't resist force along the surface, or rotation.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Fixed / Built-in</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-fixed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-fixed-arc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="65" y1="40" x2="65" y2="100" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="65" y1="45" x2="58" y2="52" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="65" y1="58" x2="58" y2="65" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="65" y1="71" x2="58" y2="78" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="65" y1="84" x2="58" y2="91" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="65" y1="70" x2="82" y2="70" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+              <circle cx="82" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="82" y1="70" x2="109" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
+              <text x="113" y="73" class="fill-muted dark:fill-muted-dark" font-size="10">Rx = ?</text>
+              <line x1="82" y1="70" x2="82" y2="43" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-fixed)"></line>
+              <text x="86" y="40" class="fill-muted dark:fill-muted-dark" font-size="10">Ry = ?</text>
+              <path d="M66.96,75.47 L68.51,78.6 L70.69,81.31 L73.4,83.49 L76.53,85.04 L79.91,85.86 L83.39,85.94 L86.81,85.26 L90,83.86" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2" marker-end="url(#fbd-arrow-fixed-arc)"></path>
+              <text x="82" y="103" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10">M = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">3 unknowns: R<sub>x</sub>, R<sub>y</sub>, M. Resists force in any direction <em>and</em> rotation — nothing is free to move.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Cable / Rope</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-cable" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="105" y1="20" x2="125" y2="20" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="108" y1="20" x2="108" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="113" y1="20" x2="113" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="118" y1="20" x2="118" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="123" y1="20" x2="123" y2="14" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="115" y1="20" x2="80" y2="70" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <circle cx="80" cy="70" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="80" y1="70" x2="97.68" y2="52.32" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-cable)"></line>
+              <text x="101" y="50" class="fill-muted dark:fill-muted-dark" font-size="10">T = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: T, along the cable, pulling away from the body. A cable can only pull, never push.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Rigid Bar / Link</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-bar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="55" y1="90" x2="105" y2="50" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+              <circle cx="55" cy="90" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <circle cx="105" cy="50" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="105" y1="50" x2="120.62" y2="37.51" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-bar)"></line>
+              <text x="124" y="36" class="fill-muted dark:fill-muted-dark" font-size="10">F = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: F, along the bar's own axis. A two-force member — could be tension (pulling) or compression (pushing).</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Smooth Surface</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-smooth" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="50" y1="90" x2="110" y2="90" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="55" y1="90" x2="48" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="67" y1="90" x2="60" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="79" y1="90" x2="72" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="91" y1="90" x2="84" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="103" y1="90" x2="96" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <circle cx="80" cy="90" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="80" y1="90" x2="80" y2="60" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-smooth)"></line>
+              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">N = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">1 unknown: N, perpendicular (normal) to the surface. Frictionless — no resistance along the surface.</div>
+          </div>
+
+          <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+            <div class="font-display font-semibold text-[15px]">Rough Surface</div>
+            <svg viewBox="0 0 170 160" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-rough" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <line x1="50" y1="90" x2="110" y2="90" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="55" y1="90" x2="48" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="67" y1="90" x2="60" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="79" y1="90" x2="72" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="91" y1="90" x2="84" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="103" y1="90" x2="96" y2="97" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <circle cx="80" cy="90" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="80" y1="90" x2="80" y2="60" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-rough)"></line>
+              <text x="84" y="58" class="fill-muted dark:fill-muted-dark" font-size="10">N = ?</text>
+              <line x1="80" y1="90" x2="107" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-rough)"></line>
+              <text x="110" y="94" class="fill-muted dark:fill-muted-dark" font-size="10">f = ?</text>
+            </svg>
+            <div class="text-[13px] text-muted dark:text-muted-dark leading-relaxed">2 unknowns: N (normal) and f (friction, along the surface). Friction resists sliding along the surface.</div>
+          </div>
+
+        </div>
+
+        <!-- 3. Putting it together -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">3. Putting it together: full free-body diagrams</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Two complete free-body diagrams — a real body, isolated, with every applied load and every support reaction shown. Knowns get a value; unknowns get a "?". Neither is solved yet — that's the <button data-topic-id="equilibrium" class="text-accent dark:text-accent-dark hover:underline">Equilibrium</button> topic, next.</p>
+
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">A beam pinned at A and resting on a roller at B, carrying a downward point load — the pin contributes two unknowns (A<sub>x</sub>, A<sub>y</sub>), the roller contributes one (B<sub>y</sub>). This exact beam is <button data-topic-id="equilibrium" class="text-accent dark:text-accent-dark hover:underline">solved in the Equilibrium topic</button>, next.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Beam Free-Body Diagram</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-exa-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-exa-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">P = 120 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">By = ?</text>
+              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
+
+              <line x1="40" y1="90" x2="200" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="40" y1="86" x2="40" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="146.67" y1="86" x2="146.67" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="200" y1="86" x2="200" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <text x="93.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">4 m</text>
+              <text x="173.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">2 m</text>
+
+              <line x1="40" y1="140" x2="40" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
+              <text x="30" y="114" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
+              <line x1="15" y1="140" x2="37" y2="140" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
+              <text x="13" y="133" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
+              <line x1="200" y1="140" x2="200" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
+              <text x="210" y="114" class="fill-muted dark:fill-muted-dark" font-size="9">By</text>
+
+              <line x1="40" y1="140" x2="200" y2="140" class="stroke-primary dark:stroke-primary-dark" stroke-width="5" stroke-linecap="round"></line>
+
+              <path d="M40,140 L30,158 L50,158 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <line x1="25" y1="158" x2="55" y2="158" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="28" y1="158" x2="23" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="34" y1="158" x2="29" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="40" y1="158" x2="35" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="46" y1="158" x2="41" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="52" y1="158" x2="47" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <text x="40" y="173" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
+
+              <path d="M200,140 L190,158 L210,158 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <circle cx="194" cy="161" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <circle cx="206" cy="161" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <line x1="185" y1="165" x2="215" y2="165" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <text x="200" y="180" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">B</text>
+
+              <line x1="146.67" y1="140" x2="146.67" y2="176" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exa-load)"></line>
+              <text x="152" y="170" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>The pin at A can't be assumed to point any particular way, so it gets <strong class="text-primary dark:text-primary-dark">two</strong> perpendicular unknowns, A<sub>x</sub> and A<sub>y</sub>. The roller at B can only push perpendicular to the surface it rests on, so it gets just <strong class="text-primary dark:text-primary-dark">one</strong> unknown, B<sub>y</sub>. The load P = 120 N is given, so it's drawn with its actual value, not a "?".</p>
+            <p class="mt-2">Three unknowns total (A<sub>x</sub>, A<sub>y</sub>, B<sub>y</sub>) is exactly what three equilibrium equations (&Sigma;F<sub>x</sub> = 0, &Sigma;F<sub>y</sub> = 0, &Sigma;M = 0) can solve for — no more, no fewer.</p>
+          </div>
+        </div>
+
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-8 max-w-[640px] leading-relaxed">A different combination: a boom pinned to a wall at A, held up by a cable from its far end C to a higher point on the wall, with a sign of weight W hanging at C.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Boom Free-Body Diagram</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-exb-cable" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-exb-weight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-exb-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">W = 80 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">T = ?</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
+              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
+
+              <line x1="75" y1="30" x2="75" y2="210" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="75" y1="45" x2="67" y2="53" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="70" x2="67" y2="78" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="95" x2="67" y2="103" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="120" x2="67" y2="128" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="145" x2="67" y2="153" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="170" x2="67" y2="178" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="75" y1="195" x2="67" y2="203" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+
+              <line x1="75" y1="60" x2="215" y2="150" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+
+              <line x1="75" y1="150" x2="215" y2="150" class="stroke-primary dark:stroke-primary-dark" stroke-width="5" stroke-linecap="round"></line>
+
+              <circle cx="75" cy="150" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="70" y="142" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
+              <line x1="45" y1="150" x2="72" y2="150" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-reaction)"></line>
+              <text x="43" y="144" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
+              <line x1="75" y1="150" x2="75" y2="125" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-reaction)"></line>
+              <text x="65" y="120" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
+
+              <circle cx="215" cy="150" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="221" y="146" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">C</text>
+              <line x1="215" y1="150" x2="159" y2="114" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-cable)"></line>
+              <text x="155" y="108" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">T</text>
+              <line x1="215" y1="150" x2="215" y2="185" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-weight)"></line>
+              <text x="221" y="180" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>The pin at A (fixed to the wall) again gets two unknowns, A<sub>x</sub> and A<sub>y</sub>. The cable only pulls along its own length, from C toward its wall anchor, so it contributes just one unknown, T. The sign's weight W = 80 N is applied at C and is given.</p>
+            <p class="mt-2">Same skill, different supports: identify what each connection can and can't resist, then draw exactly that — nothing assumed, nothing extra.</p>
+          </div>
+        </div>
+      </section>
+
       <section id="topic-view-equilibrium" class="hidden py-[38px]" data-topic-view>
         <button data-action="show-section" data-section-id="concepts-and-theory" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Concepts and Theory</button>
         <h1 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Equilibrium</h1>
@@ -1068,6 +1381,7 @@
         topics: [
           { id: "resolve-and-resultant-force", name: "Resolve and Resultant Force", description: "Break a force into components with trigonometry, and combine several forces into one resultant." },
           { id: "moment", name: "Moment", description: "The turning effect of a force about a point — definition, sign convention, calculation, and worked examples." },
+          { id: "free-body-diagram", name: "Free Body Diagram", description: "Isolate a body and show every applied load and support reaction — pin, roller, fixed support, cable, link, and surface contacts." },
           { id: "equilibrium", name: "Equilibrium", description: "2D equilibrium of concurrent and non-concurrent force systems, with worked examples solving for unknown forces." },
         ],
       },
@@ -1077,6 +1391,7 @@
     const CONCEPT_ICONS = {
       'resolve-and-resultant-force': '<line x1="5" y1="19" x2="19" y2="19"></line><line x1="5" y1="19" x2="16" y2="6"></line><line x1="16" y1="6" x2="19" y2="19"></line>',
       'moment': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
+      'free-body-diagram': '<circle cx="12" cy="12" r="2"></circle><line x1="14" y1="10" x2="20" y2="4"></line><polyline points="14 4 20 4 20 10"></polyline><line x1="10" y1="14" x2="4" y2="20"></line><polyline points="10 20 4 20 4 14"></polyline>',
       'equilibrium': '<line x1="12" y1="3" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="7" x2="4" y2="13"></line><path d="M1 13 L4 17 L7 13"></path><line x1="20" y1="7" x2="20" y2="13"></line><path d="M17 13 L20 17 L23 13"></path>',
     };
 

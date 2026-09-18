@@ -207,7 +207,7 @@ history for details.") so the section stays skimmable as it grows.
   placeholder (ghost/"coming soon" pattern, back button → Home). See
   Portal shell above for the `SECTIONS_DATA`/navigation details.
 
-### Concepts and Theory (status: in progress — 3 topics, no categories)
+### Concepts and Theory (status: in progress — 4 topics, no categories)
 - **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` topic
   `resolve-and-resultant-force` (flat, no category grouping — see Portal
   shell above), rendered at `#topic-view-resolve-and-resultant-force`. Static content (text,
@@ -477,8 +477,115 @@ history for details.") so the section stays skimmable as it grows.
   `group[groupKey]` is falsy, so Tools' "Force & Moment" heading (and any
   future grid that wants categories) is unaffected. Verified visually
   (no stray heading/spacing) plus the same full navigation regression.
+- **Free Body Diagram** (done): a `CONCEPTS_DATA` topic
+  `free-body-diagram` (flat, no category — appended after `moment`,
+  **before** `equilibrium`, since drawing an FBD is the prerequisite
+  skill for that topic), rendered at `#topic-view-free-body-diagram`
+  (sibling of Moment/Equilibrium inside `#topic-views-container`, placed
+  between them); `CONCEPT_ICONS['free-body-diagram']` is a new icon — a
+  small circle with two opposing arrows radiating outward (built from
+  the same line+polyline arrowhead technique as the existing
+  force-calculator icon, not a `<marker>`), representing forces acting
+  on an isolated point. Deliberately **stops at drawing/identifying the
+  FBD** — every unknown reaction is labeled "?", nothing is solved — so
+  it doesn't duplicate or contradict the Equilibrium topic's own worked
+  examples (confirmed via clarifying questions before building):
+  1. **What is a free body diagram?** — definition (isolate the body;
+     replace every connection with the reaction(s) it can actually
+     provide; show every applied load; mark unknowns "?") as a numbered
+     4-step list in prose. One diagram makes the applied-load-vs-reaction
+     distinction concrete: a generic "body" rectangle with an accent
+     arrow labeled "F = 50 N" / "applied load" (known) and a muted arrow
+     labeled "R = ?" / "support reaction" (unknown) — this is also the
+     first explicit statement of a color convention (accent = applied/
+     known, muted = reaction/unknown) that was already implicit
+     throughout the Moment and Equilibrium topics. One bug caught here:
+     the captions originally read "applied load (known)" / "support
+     reaction (unknown)", both long enough to overflow past the card's
+     right edge at this viewBox width — fixed by shortening to just
+     "applied load" / "support reaction" (the known-vs-unknown
+     distinction is already visible from the F=50N vs R=? values
+     themselves).
+  2. **Common supports and their reactions** — seven support types, each
+     its own compact card (`grid grid-cols-1 sm:grid-cols-2
+     lg:grid-cols-3 gap-[26px]`, matching the homepage/section grid
+     pattern but hand-authored here rather than going through
+     `renderItemGrid`, since these aren't clickable nav cards) with a
+     smaller `viewBox="0 0 170 160"` diagram (vs. the usual 240×240,
+     since these are simple reference icons, not full worked examples):
+     - **Pin/Hinge**: ground-mounted triangle + hatching (reused from
+       the Equilibrium beam diagram's support glyph), 2 unknowns
+       (R<sub>x</sub>, R<sub>y</sub>) drawn as two perpendicular arrows
+       from the pin point.
+     - **Roller**: triangle-on-circles + ground line (also reused from
+       Equilibrium), 1 unknown (R) perpendicular to the surface.
+     - **Fixed/Built-in**: a new glyph — a vertical hatched wall with the
+       member as a short stub sticking out to a point, 3 unknowns
+       (R<sub>x</sub>, R<sub>y</sub>, M) — the M arc reuses the
+       precomputed-polyline-arc technique from the Moment topic's
+       rotation arcs, first appearance of a moment arc outside that
+       topic.
+     - **Cable/Rope**: a dashed line to a small hatched ceiling-anchor
+       glyph, with the tension arrow drawn along the same line
+       (pulling away from the body — a cable can only pull). One bug
+       caught here: the anchor's hatch ticks were first drawn as short
+       diagonal strokes angled the same way as the cable itself, which
+       at this scale read as a row of ">" chevrons/arrows rather than
+       hatching — fixed by switching to plain vertical ticks above the
+       anchor bar (the "solid material" side), which reads unambiguously
+       as hatching.
+     - **Rigid Bar/Link**: a thin strut between two pin-dot endpoints,
+       1 unknown (F) along the bar's own axis — captioned as a two-force
+       member that could be tension or compression.
+     - **Smooth Surface**: a hatched ground line, 1 unknown (N) normal to
+       it, captioned frictionless.
+     - **Rough Surface**: the identical ground glyph, but 2 unknowns (N
+       normal + f friction along the surface) — deliberately reuses the
+       exact same hatched-ground symbol as Smooth Surface, since the
+       *reactions drawn* (one arrow vs. two) are what should teach the
+       distinction, not a different-looking ground texture.
+  3. **Putting it together: full free-body diagrams** — two complete,
+     unsolved examples (each diagram-left/text-right, `sm:max-w-[420px]`,
+     matching every other worked-example row on the site):
+     - The **pin + roller beam** — reuses the Equilibrium topic's beam
+       diagram verbatim (same coordinates: L = 6 m, P = 120 N at 4 m
+       from A), including its "Ax = ? / Ay = ? / By = ?" legend and the
+       Ax arrow positioned left-of-A pointing in (marker ids renamed to
+       `fbd-arrow-exa-*` to stay unique). Text explains why the pin
+       needs two unknowns and the roller only one, and that 3 unknowns
+       matching 3 equilibrium equations is exactly the point. An inline
+       `data-topic-id="equilibrium"` button — not
+       `data-action="show-section"` — jumps straight to the Equilibrium
+       topic (not just the Concepts and Theory grid); this is new: the
+       delegated click listener already supported a bare `[data-topic-id]`
+       button from anywhere in the document (it was written generically
+       for this), but no existing content had linked topic-to-topic
+       before. One bug caught and fixed: an early draft of this same
+       cross-link used `data-action="show-section"
+       data-section-id="concepts-and-theory"` on a button labeled
+       "Equilibrium", which actually just returned to the topic grid
+       instead of opening Equilibrium directly — same mistake, twice, in
+       two different paragraphs, both fixed to use bare
+       `data-topic-id="equilibrium"`.
+     - The **boom + pin + cable bracket** — a new example: a boom pinned
+       to a wall at A, held by a cable from its far end C to a higher
+       wall anchor at D, with a sign of weight W = 80 N hanging at C.
+       Reuses the fixed-support wall/hatching glyph style (vertical
+       hatched wall) but with a plain pin dot at A (not the ground
+       triangle) since this is a wall-mounted connection, not a
+       ground-mounted one. Text draws the same "two unknowns from the
+       pin, one from the cable" parallel to the beam example, with a
+       different support combination.
+  All diagram coordinates precomputed with a small Node script (same
+  approach as every prior topic). Verified by rendering every diagram
+  (including the 7-card grid and both full examples) at 2x scale via a
+  test stylesheet with the `sm:`/`lg:` breakpoint media queries actually
+  present this time, catching and fixing the two overflow bugs and the
+  chevron-hatching issue above, plus the full navigation regression and
+  a dedicated check that both new topic-to-topic cross-links resolve to
+  `#topic-view-equilibrium` (not just the section).
 - **Equilibrium** (done): a `CONCEPTS_DATA` topic `equilibrium` (flat, no
-  category — appended after `moment`), rendered at
+  category — appended after `free-body-diagram`), rendered at
   `#topic-view-equilibrium` (sibling of Resolve/Moment inside
   `#topic-views-container`); `CONCEPT_ICONS['equilibrium']` is a new
   simple balance-scale glyph (24×24 viewBox, stem + crossbar + two
