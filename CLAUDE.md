@@ -357,7 +357,12 @@ history for details.") so the section stays skimmable as it grows.
        initial bug here where a full "F = 60 N" inline label overflowed
        past the card's right edge at this viewBox width. Lead sentence
        explicitly connects back to the general formula ("the given
-       length is already the perpendicular distance d").
+       length is already the perpendicular distance d"). Diagram card
+       widened from `sm:max-w-[280px]` to `sm:max-w-[420px]` (matching
+       the §1/§2-intro schematic diagrams' size) so it isn't noticeably
+       smaller than the other diagrams on this page — the SVG's
+       `viewBox`/coordinates are untouched, since scaling a
+       `width:100%` SVG up is purely a container-size change.
      - **2b. Force at an angle to the handle** (renamed from "Angled
        force: resolve first" — the old heading undersold the new
        content). Deliberately **drops all "position vector" framing**
@@ -367,8 +372,9 @@ history for details.") so the section stays skimmable as it grows.
        at 60° to the handle — deliberately **CCW** this time (opposite
        sign from 2a) — and presents **two methods**, both landing on the
        same M ≈ +17.32 N·m. Each method is its own **diagram-left/
-       text-right row** (2a's own layout pattern, `w-full sm:max-w-[280px]`
-       diagram card + `flex-1` text column), stacked one above the other,
+       text-right row** (2a's own layout pattern, `w-full sm:max-w-[420px]`
+       diagram card, same widened size as 2a + `flex-1` text column),
+       stacked one above the other,
        rather than the two diagrams sitting side-by-side with shared text
        below — this puts "Method 1"/"Method 2" as an **eyebrow label**
        (the site's existing uppercase/tracked/accent-colored pattern,
@@ -393,7 +399,16 @@ history for details.") so the section stays skimmable as it grows.
          Corner legend shows all three numbers together, including the
          derivation inline rather than just the final value: "F = 80 N" /
          "d = 0.25 m" / "d<sub>⊥</sub> = 0.25×sin60° ≈ 0.217 m". A short
-         "d" tag also sits on the handle bar itself (matching 2a).
+         "d" tag also sits on the handle bar itself (matching 2a). The
+         diagram also separately marks the 60° angle **from the x-axis
+         (the handle's own forward direction) to F itself** — a short
+         dashed reference tick continuing the handle past its end, plus
+         a second precomputed-polyline arc + "60°" label between it and
+         F — distinct from (though numerically equal to, as vertically
+         opposite angles) the triangle-construction 60° described above;
+         this is the intuitive "how far above horizontal is the force"
+         reading, reusing the exact arc Method 2 already draws between
+         F<sub>∥</sub> and F.
        - *Method 2 — resolve into components*: split F into F<sub>∥</sub>
          (along the handle, = F cos 60° = 40.00 N) and F<sub>⊥</sub>
          (perpendicular to it, = F sin 60° ≈ 69.28 N) at the point of
