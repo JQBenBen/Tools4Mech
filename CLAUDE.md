@@ -134,7 +134,12 @@ history for details.") so the section stays skimmable as it grows.
   `#topic-view-<id>` section. Adding a future tool/topic = one data entry +
   one section + its own content/logic; adding a future section = one
   `SECTIONS_DATA` entry + one `#section-view-<id>` — navigation/theme code
-  untouched either way.
+  untouched either way. A group's `category` is optional: `renderItemGrid`
+  only renders the uppercase category heading when it's truthy, so a
+  grid can group its items under headings (Tools' "Force & Moment") or
+  leave `category: ""` to render everything flat with no heading
+  (Concepts and Theory's topics all sit directly under the section, with
+  no "Forces"/"Moments"-style grouping).
 - **Key flows**: one delegated click listener, checked in this order so a
   button's `data-action` always wins over a bare card attribute:
   `[data-action="show-home"]` → `showHome()`; `[data-action="show-section"]`
@@ -202,10 +207,10 @@ history for details.") so the section stays skimmable as it grows.
   placeholder (ghost/"coming soon" pattern, back button → Home). See
   Portal shell above for the `SECTIONS_DATA`/navigation details.
 
-### Concepts and Theory (status: in progress — 2 topics, 2 categories)
-- **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` category
-  "Forces" → topic `resolve-and-resultant-force`, rendered at
-  `#topic-view-resolve-and-resultant-force`. Static content (text,
+### Concepts and Theory (status: in progress — 2 topics, no categories)
+- **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` topic
+  `resolve-and-resultant-force` (flat, no category grouping — see Portal
+  shell above), rendered at `#topic-view-resolve-and-resultant-force`. Static content (text,
   formulas, tables, hand-authored inline-SVG diagrams — no interactive
   inputs; this is theory, not a calculator):
   1. Resolving a force into components (F<sub>x</sub>=F cos θ, F<sub>y</sub>
@@ -311,8 +316,10 @@ history for details.") so the section stays skimmable as it grows.
   rendering and visually checking every diagram (this angle-arc bug, plus
   one earlier label-overflow bug also fixed here) plus a full navigation
   regression across all sections/topics/tools.
-- **Moment** (done): a `CONCEPTS_DATA` category "Moments" → topic `moment`,
-  rendered at `#topic-view-moment` (sibling of the Resolve topic inside
+- **Moment** (done): a `CONCEPTS_DATA` topic `moment` (flat, no category —
+  appended to the same topics array as Resolve and Resultant Force, per
+  the "remove the categories" change below), rendered at
+  `#topic-view-moment` (sibling of the Resolve topic inside
   `#topic-views-container`), `CONCEPT_ICONS['moment']` reuses the Moment
   Calculator's rotate/torque icon path. Static content (no interactive
   inputs), in order:
@@ -380,12 +387,19 @@ history for details.") so the section stays skimmable as it grows.
   by rendering every diagram at 2x scale and visually checking each one
   (catching and fixing the corner-legend overflow bug above) plus a full
   navigation regression across every section/topic/tool.
+- **Categories removed** (done): the "Forces"/"Moments" category headings
+  were removed from Concepts and Theory — both topics now sit in one flat
+  `CONCEPTS_DATA` group with `category: ""`, rendered with no heading at
+  all above the topic cards. `renderItemGrid` only skips the heading when
+  `group[groupKey]` is falsy, so Tools' "Force & Moment" heading (and any
+  future grid that wants categories) is unaffected. Verified visually
+  (no stray heading/spacing) plus the same full navigation regression.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
   with its own logic.
-- New Concepts and Theory topic: append to `CONCEPTS_DATA` (existing
-  "Forces" category or a new one) and add a `#topic-view-<id>` section.
+- New Concepts and Theory topic: append to `CONCEPTS_DATA`'s single flat
+  topics array (no categories) and add a `#topic-view-<id>` section.
 - New section, or real content for Virtual Experiments: append to
   `SECTIONS_DATA` and add a `#section-view-<id>` with its own content;
   replace the ghost placeholder once there's something to show.

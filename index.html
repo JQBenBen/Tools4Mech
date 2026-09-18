@@ -857,18 +857,13 @@
 
     const CONCEPTS_DATA = [
       {
-        category: "Forces",
+        category: "",
         topics: [
           { id: "resolve-and-resultant-force", name: "Resolve and Resultant Force", description: "Break a force into components with trigonometry, and combine several forces into one resultant." },
-        ],
-      },
-      {
-        category: "Moments",
-        topics: [
           { id: "moment", name: "Moment", description: "The turning effect of a force about a point — definition, sign convention, calculation, and worked examples." },
         ],
       },
-      // Phase 2+: push additional { category, topics: [...] } objects here.
+      // Phase 2+: push additional topics into the array above (no categories).
     ];
 
     const CONCEPT_ICONS = {
@@ -884,10 +879,12 @@
       let lastGrid = null;
 
       data.forEach((group) => {
-        const heading = document.createElement('h2');
-        heading.className = 'font-display font-semibold text-[15px] uppercase tracking-[0.08em] text-muted dark:text-muted-dark mb-4 first:mt-0';
-        heading.textContent = group[groupKey];
-        container.appendChild(heading);
+        if (group[groupKey]) {
+          const heading = document.createElement('h2');
+          heading.className = 'font-display font-semibold text-[15px] uppercase tracking-[0.08em] text-muted dark:text-muted-dark mb-4 first:mt-0';
+          heading.textContent = group[groupKey];
+          container.appendChild(heading);
+        }
 
         const grid = document.createElement('div');
         grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[26px] mb-10';
