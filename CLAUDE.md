@@ -530,20 +530,24 @@ history for details.") so the section stays skimmable as it grows.
        a separate pin-like point rather than clearly "at the wall," per
        feedback. The M arc reuses the precomputed-polyline-arc technique
        from the Moment topic's rotation arcs.
-     - **Cable/Rope**: two visually distinct elements — a plain solid
-       primary-colored line for the cable itself (body point to a free
-       end, no ceiling/anchor glyph at all, removed per feedback that it
-       added clutter without adding clarity) plus a separate muted
-       tension arrow drawn parallel to it, offset a few pixels to one
-       side, spanning most of the cable's length with "T = ?" labeled at
-       its tip. This replaced two earlier attempts: a dashed cable +
-       short partial-length arrow (too partial to read as "along the
-       whole cable"), then a single unified arrow standing in for both
-       the cable and the tension with a hatched ceiling anchor (the
-       merged single-arrow version, and separately its hatch-tick
-       rendering, both drew "not clear" feedback) — separating the cable
-       line from the tension arrow as two distinct strokes, while
-       dropping the ceiling glyph entirely, is what finally read clearly.
+     - **Cable/Rope**: two visually distinct elements sharing one line —
+       a plain solid primary-colored line for the cable itself (body
+       point to a free end, no ceiling/anchor glyph at all, removed per
+       feedback that it added clutter without adding clarity) plus a
+       muted tension arrow drawn **directly on top of the cable's own
+       line** (same start point at the body, same axis, ending a bit
+       short of the cable's free end so "T = ?" has room to label the
+       tip) — not offset to one side. This replaced three earlier
+       attempts: a dashed cable + short partial-length arrow (too
+       partial to read as "along the whole cable"); a single unified
+       arrow standing in for both the cable and the tension with a
+       hatched ceiling anchor (drew "not clear" feedback, both for the
+       merge and separately for its hatch-tick rendering); then a
+       separated cable line + tension arrow drawn *parallel but offset*
+       to one side (still not clearly "on" the rope) — landing on the
+       tension arrow sitting exactly on the cable's own line, matching
+       the same "along-the-member, not beside it" fix applied to the
+       rigid bar below, is what finally read clearly.
      - **Rigid Bar/Link (Tension)** and **Rigid Bar/Link (Compression)**
        — split into two separate cards (both share the same bar
        geometry: a hollow pin dot at the far/fixed end, a filled dot
@@ -552,14 +556,16 @@ history for details.") so the section stays skimmable as it grows.
        version offset the arrow a few px to the side so the arrowhead
        wouldn't be swallowed by the thick bar stroke, but per feedback
        the force needed to visibly act *along the bar's line*, not
-       beside it) — Tension points from the connection *back toward* the
-       far pin (the bar pulls the body toward itself, exactly like a
-       cable); Compression points *away* from the far pin (the bar
-       pushes the body away). Getting the tension direction right
-       required care: a force continuing *past* the connection point,
-       away from the far pin, is actually the compression case — tension
-       pulls inward along the member, toward the other end, the same way
-       a taut cable does.
+       beside it). **Direction** (corrected per feedback that an earlier
+       version had tension/compression backwards): Tension points *away*
+       from the far pin, continuing outward past the connection point —
+       reading as the bar being pulled taut/stretched, the same "arrows
+       point outward = tension" convention as the classic tension-vs-
+       compression mnemonic; Compression points *toward* the far pin —
+       reading as the bar being pushed together/squeezed. Captions were
+       reworded to say "directed away from/toward the far pin" (dropping
+       the earlier "pulling toward"/"pushing away" phrasing, which no
+       longer matched once the directions swapped).
      - **Smooth Surface**: a hatched ground line, 1 unknown (R<sub>y</sub>)
        normal to it, captioned frictionless.
      - **Rough Surface**: the identical ground glyph, but 2 unknowns
