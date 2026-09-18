@@ -584,7 +584,7 @@
         <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
           ΣM = M<sub>1</sub> + M<sub>2</sub> + M<sub>3</sub> + &hellip;
         </div>
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">The example below uses three forces about the same pivot at the origin, with deliberately mixed CCW/CW contributions so the net result shows real cancellation rather than everything agreeing:</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">The example below uses three forces about the same pivot at the origin, with deliberately mixed CCW/CW contributions so the net result shows real cancellation rather than everything agreeing. Each force here happens to be exactly horizontal or vertical, so — just like 2a — the perpendicular distance <em>d</em> from the pivot to its line of action is simply the other coordinate of where it acts (F1 is vertical, so <em>d</em> is its x-position; F2 and F3 are horizontal, so <em>d</em> is the size of their y-position), and the moment is just F × d:</p>
 
         <div class="mt-6 overflow-x-auto max-w-[640px]">
           <table class="w-full text-[13px] text-left">
@@ -594,15 +594,15 @@
                 <th class="py-1.5 pr-4 font-medium">Magnitude</th>
                 <th class="py-1.5 pr-4 font-medium">Angle</th>
                 <th class="py-1.5 pr-4 font-medium">Position</th>
-                <th class="py-1.5 pr-4 font-medium">M = x·F<sub>y</sub> &minus; y·F<sub>x</sub></th>
-                <th class="py-1.5 font-medium">Moment</th>
+                <th class="py-1.5 pr-4 font-medium">d</th>
+                <th class="py-1.5 font-medium">Moment (F × d)</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F1</td><td class="py-1.5 pr-4">40 N</td><td class="py-1.5 pr-4">90°</td><td class="py-1.5 pr-4">(0.5, 0) m</td><td class="py-1.5 pr-4">0.5×40 &minus; 0×0</td><td class="py-1.5">+20.00 N·m</td></tr>
-              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F2</td><td class="py-1.5 pr-4">30 N</td><td class="py-1.5 pr-4">0°</td><td class="py-1.5 pr-4">(0, 0.4) m</td><td class="py-1.5 pr-4">0×0 &minus; 0.4×30</td><td class="py-1.5">&minus;12.00 N·m</td></tr>
-              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F3</td><td class="py-1.5 pr-4">25 N</td><td class="py-1.5 pr-4">180°</td><td class="py-1.5 pr-4">(&minus;0.3, &minus;0.2) m</td><td class="py-1.5 pr-4">&minus;0.3×0 &minus; (&minus;0.2)×(&minus;25)</td><td class="py-1.5">&minus;5.00 N·m</td></tr>
-              <tr class="font-semibold"><td class="py-1.5 pr-4">Σ (sum)</td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4">20.00 &minus; 12.00 &minus; 5.00</td><td class="py-1.5">+3.00 N·m</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F1</td><td class="py-1.5 pr-4">40 N</td><td class="py-1.5 pr-4">90°</td><td class="py-1.5 pr-4">(0.5, 0) m</td><td class="py-1.5 pr-4">0.5 m</td><td class="py-1.5">40 × 0.5 = +20.00 N·m</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F2</td><td class="py-1.5 pr-4">30 N</td><td class="py-1.5 pr-4">0°</td><td class="py-1.5 pr-4">(0, 0.4) m</td><td class="py-1.5 pr-4">0.4 m</td><td class="py-1.5">30 × 0.4 = &minus;12.00 N·m</td></tr>
+              <tr class="border-b border-hairline dark:border-hairline-dark"><td class="py-1.5 pr-4">F3</td><td class="py-1.5 pr-4">25 N</td><td class="py-1.5 pr-4">180°</td><td class="py-1.5 pr-4">(&minus;0.3, &minus;0.2) m</td><td class="py-1.5 pr-4">0.2 m</td><td class="py-1.5">25 × 0.2 = &minus;5.00 N·m</td></tr>
+              <tr class="font-semibold"><td class="py-1.5 pr-4">Σ (sum)</td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5 pr-4"></td><td class="py-1.5">20.00 &minus; 12.00 &minus; 5.00 = +3.00 N·m</td></tr>
             </tbody>
           </table>
         </div>

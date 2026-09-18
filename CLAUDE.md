@@ -438,13 +438,24 @@ history for details.") so the section stays skimmable as it grows.
      - F3 = 25 N @ 180°, position (−0.3, −0.2) m → M3 = −5.00 N·m
      - Net = +3.00 N·m (CCW) — small and mixed-sign, showing real
        cancellation rather than everything agreeing.
-     Table (Force / Magnitude / Angle / Position / **M = x·F<sub>y</sub> −
-     y·F<sub>x</sub>** / Moment + a Σ row) — the added equation column
-     shows the substituted-numbers calculation for each row (e.g. F1:
-     "0.5×40 − 0×0"), not just the final value, and the Σ row shows the
-     summing equation ("20.00 − 12.00 − 5.00") the same way, so the
-     table itself demonstrates how each moment (and the net) is computed
-     rather than only reporting results. Plus two
+     Table (Force / Magnitude / Angle / Position / **d** / **Moment
+     (F × d)** + a Σ row) — rather than the algebraic
+     M = x·F<sub>y</sub> − y·F<sub>x</sub> formula, the table uses 2a's
+     own perpendicular-distance method directly: each of the three
+     forces is exactly horizontal or vertical by construction, so d
+     (the perpendicular distance from the pivot to the force's line of
+     action) is just the *other* coordinate of its point of application
+     (F1 is vertical → d is its x; F2/F3 are horizontal → d is the size
+     of their y) — a fact spelled out in the paragraph right before the
+     table, not just asserted. The Moment column shows the substituted
+     F × d equation per row (e.g. F1: "40 × 0.5 = +20.00 N·m"), not just
+     the final value, and the Σ row shows the summing equation the same
+     way ("20.00 − 12.00 − 5.00 = +3.00 N·m"), so the table demonstrates
+     how each moment (and the net) is computed rather than only
+     reporting results — while staying consistent with 2a's method
+     instead of introducing the separate x·F<sub>y</sub> − y·F<sub>x</sub>
+     formula (tried first, then replaced per feedback that all three
+     forces here don't need it). Plus two
      diagrams in the same "Applied Forces" / "Net Moment" two-panel style
      the Moment Calculator tool itself uses — "Applied Forces" plots each
      force as an arrow from its position (dot marks the point, a larger
