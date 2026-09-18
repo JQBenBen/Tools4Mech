@@ -330,7 +330,20 @@ history for details.") so the section stays skimmable as it grows.
      a precomputed-polyline arc + arrowhead — left one sweeping CCW
      (labeled "+"/"CCW (positive)"), right one sweeping CW (labeled
      "−"/"CW (negative)") — purely conventional, not tied to numbers.
-  2. **Calculating a moment**:
+  2. **Calculating a moment** — leads with the **general formula**
+     M = F × d, where d is the perpendicular distance from the pivot to
+     the force's **line of action** (not along the force itself, unless
+     that's the shortest path); 2a and 2b are then framed as two ways of
+     finding that distance, not two unrelated formulas. This intro has
+     its own small generic (non-numeric) diagram: a pivot dot, a force
+     arrow that does *not* pass through the pivot, its line of action
+     extended as a dashed line in both directions, and a dashed
+     perpendicular dropped from the pivot to that line with a small
+     right-angle tick where they meet, labeled "d" — the first
+     appearance on this page of a right-angle tick mark (two short
+     segments off the foot point, along the line direction and the
+     perpendicular direction) and of showing a force whose line of
+     action doesn't pass through the pivot at all.
      - **2a. Perpendicular case (M = F × d)**: wrench example — pivot
        (bolt) with a handle of length d = 0.25 m along +x, force F = 60 N
        straight down at the end → M = 60 × 0.25 = 15.00 N·m, deliberately
@@ -342,27 +355,45 @@ history for details.") so the section stays skimmable as it grows.
        handle/arrow themselves — the corner-legend pattern (established on
        the Resolve topic's inclined-body diagrams) is what fixed an
        initial bug here where a full "F = 60 N" inline label overflowed
-       past the card's right edge at this viewBox width.
-     - **2b. Angled force (resolve first)**: general formula
-       M = x·F<sub>y</sub> − y·F<sub>x</sub> (same as the Moment
-       Calculator) ≡ M = F·r·sin θ (θ = angle between the position vector
-       and the force), i.e. multiplying by only F's perpendicular
-       component. Worked example: position r = 0.4 m at 30° from the
-       pivot (x, y ≈ 0.346, 0.200 m), force F = 100 N straight up (90°) at
-       that point; θ = 60°, F<sub>⊥</sub> = F sin 60° ≈ 86.60 N,
-       M = F<sub>⊥</sub> × r = 86.60 × 0.4 ≈ 34.64 N·m (CCW) —
-       cross-checked in the body text against x·F<sub>y</sub> − y·F<sub>x</sub>
-       ≈ 34.6 N·m. Diagram: pivot, r as a muted vector to the position
-       point, F as an accent vector from there, F<sub>⊥</sub> and
-       F<sub>∥</sub> as muted component arrows sharing tip coordinates
-       with dashed closing lines (same component-arrow convention as the
-       Resolve topic's inclined-body diagrams, forming one consistent
-       parallelogram with F as the diagonal), a small angle arc for r's
-       30° at the pivot and for θ=60° at the position point, plus a
-       separate CCW rotation-direction arc/label placed in the diagram's
-       empty lower-left quadrant so it doesn't collide with the vectors.
-       Numeric F<sub>⊥</sub>/F<sub>∥</sub> readout in a top-left corner
-       legend, matching the established convention.
+       past the card's right edge at this viewBox width. Lead sentence
+       explicitly connects back to the general formula ("the given
+       length is already the perpendicular distance d").
+     - **2b. Force at an angle to the handle** (renamed from "Angled
+       force: resolve first" — the old heading undersold the new
+       content). Deliberately **drops all "position vector" framing**
+       (no r-vector, no x/y coordinates) since that reads as confusing to
+       students at this stage; reuses 2a's exact wrench/handle picture
+       instead (same pivot, same d = 0.25 m handle) with F = 80 N applied
+       at 60° to the handle — deliberately **CCW** this time (opposite
+       sign from 2a) — and presents **two methods side by side**, each
+       its own diagram card in a two-up row (mirroring the Resolve
+       topic's H/V-vs-∥/⊥ two-diagram comparison layout), both landing on
+       the same M ≈ +17.32 N·m:
+       - *Method 1 — extend the line of action*: draw the force's line of
+         action extended (dashed) until a perpendicular from the pivot
+         can reach it, drop that perpendicular (dashed, with the
+         right-angle tick from the §2 intro diagram), read off
+         d<sub>⊥</sub> = d sin 60° ≈ 0.217 m, then M = F × d<sub>⊥</sub> =
+         80 × 0.217 ≈ 17.32 N·m.
+       - *Method 2 — resolve into components*: split F into F<sub>∥</sub>
+         (along the handle, = F cos 60° = 40.00 N) and F<sub>⊥</sub>
+         (perpendicular to it, = F sin 60° ≈ 69.28 N) at the point of
+         application (muted component arrows + dashed closing lines,
+         same convention as the old r-based diagram and the Resolve
+         topic's inclined-body diagrams); F<sub>∥</sub> needs no extra
+         markup to show it passes through the pivot — it's drawn
+         continuing the same straight line as the solid handle bar
+         itself, so the zero-arm claim is visually obvious — so its
+         moment is 0, F<sub>⊥</sub> × d = 69.28 × 0.25 ≈ 17.32 N·m, total
+         17.32 N·m.
+       Both diagrams reuse the same CCW rotation arc + "M = 17.32 N·m
+       (CCW)" label placement (pivot-centered, lower-left quadrant) from
+       the old single r-based 2b diagram, and the same top-left
+       numeric-corner-legend + short-inline-tag convention as 2a. One bug
+       caught and fixed here: Method 1's "d<sub>⊥</sub>" label first sat
+       directly on top of the thick handle bar (offset chosen in the
+       wrong direction off the perpendicular segment) — fixed by
+       re-offsetting it to the open space below the handle instead.
   3. **Net moment from several forces** — ΣM = M₁ + M₂ + …, same sign
      convention. Worked example, 3 forces with deliberately mixed CCW/CW
      contributions (echoes the "one force per quadrant" approach from the
