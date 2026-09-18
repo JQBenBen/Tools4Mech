@@ -510,9 +510,16 @@ history for details.") so the section stays skimmable as it grows.
      angles (T1 up-left @150°, T2 up-right @60°, W straight down @270°),
      small angle arcs (precomputed polyline, not SVG arc) between a
      dashed horizontal reference line through the junction and each
-     cable, numeric corner-legend with all three solved/given values.
-     Closing cross-check by substitution + inline cross-link to the Force
-     Calculator (plug in all three forces, resultant ≈ 0).
+     cable. The corner legend deliberately shows **"T1 = ?" / "T2 = ?"**
+     rather than the solved values — this is a "find the unknowns"
+     problem, so the diagram poses it rather than spoiling the answer;
+     only W (given) shows a number. Per the same logic, no dot marks the
+     T1/T2 arrow tips (a plain dot there — used elsewhere on the site for
+     a *known* point of application, e.g. the beam diagram's support
+     points below — would misleadingly suggest something about those
+     forces is already fixed/known). Closing cross-check by substitution
+     + inline cross-link to the Force Calculator (plug in all three
+     forces, resultant ≈ 0).
   3. **Non-concurrent force systems** — formula block adds ΣM = 0,
      explicitly framed as "one more condition than the concurrent case."
      Worked example: the standard **pin + roller beam** problem — beam
@@ -530,13 +537,21 @@ history for details.") so the section stays skimmable as it grows.
      hatching — new minimal symbol, first appearance of an engineering
      support glyph on this site) and a roller-support glyph at B
      (triangle on two small circles + ground line), the load arrow, a
-     dimension line with two segment labels (4 m / 2 m), and the
-     reaction arrows (A<sub>y</sub>, B<sub>y</sub> drawn; A<sub>x</sub> is
-     zero so only stated in the corner legend, not drawn as an arrow — a
-     zero-length vector can't be drawn meaningfully). One bug caught and
-     fixed here: the diagram originally packed a 4-line numeric legend
-     directly above a dimension line only 6px below it, so "Ax = 0.00 N"
-     ran straight into the "4 m" label — fixed by shifting the entire
+     dimension line with two segment labels (4 m / 2 m), and **all three**
+     reaction arrows drawn (A<sub>x</sub>, A<sub>y</sub>, B<sub>y</sub>) —
+     A<sub>x</sub> is genuinely zero here, but it's still drawn (a short
+     horizontal arrow just above the beam at A, offset up ~7px so it
+     doesn't sit directly on top of the thick beam bar/collinear with
+     it) so the diagram shows all three reactions being checked, not
+     just the two nonzero ones; the corner legend's "Ax = 0.00 N" line
+     states the actual result. None of the three reaction arrows are
+     drawn to force-proportional length (unlike the load arrow, which
+     is) — they're fixed at a uniform, easily-legible length instead,
+     since a real-to-scale Ax arrow would be literally zero pixels long
+     and unrenderable. One bug caught and fixed here: the diagram
+     originally packed a 4-line numeric legend directly above a
+     dimension line only 6px below it, so "Ax = 0.00 N" ran straight
+     into the "4 m" label — fixed by shifting the entire
      beam/support/dimension geometry down 20px to clear the legend, not
      by shrinking the legend. Cross-check via moments about B instead +
      inline cross-links to both the Force Calculator (ΣFx/ΣFy) and Moment
