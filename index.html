@@ -865,24 +865,18 @@
         <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">3. Putting it together: full free-body diagrams</h2>
         <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Two complete free-body diagrams — a real body, isolated, with every applied load and every support reaction shown. Knowns get a value; unknowns get a "?". Neither is solved yet — that's the <button data-topic-id="equilibrium" class="text-accent dark:text-accent-dark hover:underline">Equilibrium</button> topic, next.</p>
 
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">A beam pinned at A and resting on a roller at B, carrying a downward point load — the pin contributes two unknowns (A<sub>x</sub>, A<sub>y</sub>), the roller contributes one (B<sub>y</sub>). This exact beam is <button data-topic-id="equilibrium" class="text-accent dark:text-accent-dark hover:underline">solved in the Equilibrium topic</button>, next.</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">A beam pinned at A and resting on a roller at B, carrying a downward point load P = 120 N.</p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
           <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
-            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Beam Free-Body Diagram</div>
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Beam and Supports</div>
             <svg viewBox="0 0 240 240" class="w-full h-auto">
               <defs>
-                <marker id="fbd-arrow-exa-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="fbd-arrow-exa-setup-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
-                </marker>
-                <marker id="fbd-arrow-exa-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
                 </marker>
               </defs>
               <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">P = 120 N</text>
-              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
-              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">By = ?</text>
-              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
 
               <line x1="40" y1="90" x2="200" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
               <line x1="40" y1="86" x2="40" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
@@ -890,13 +884,6 @@
               <line x1="200" y1="86" x2="200" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
               <text x="93.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">4 m</text>
               <text x="173.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">2 m</text>
-
-              <line x1="40" y1="140" x2="40" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
-              <text x="30" y="114" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
-              <line x1="15" y1="140" x2="37" y2="140" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
-              <text x="13" y="133" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
-              <line x1="200" y1="140" x2="200" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-reaction)"></line>
-              <text x="210" y="114" class="fill-muted dark:fill-muted-dark" font-size="9">By</text>
 
               <line x1="40" y1="140" x2="200" y2="140" class="stroke-primary dark:stroke-primary-dark" stroke-width="5" stroke-linecap="round"></line>
 
@@ -915,37 +902,74 @@
               <line x1="185" y1="165" x2="215" y2="165" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
               <text x="200" y="180" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">B</text>
 
-              <line x1="146.67" y1="140" x2="146.67" y2="176" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exa-load)"></line>
+              <line x1="146.67" y1="140" x2="146.67" y2="176" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exa-setup-load)"></line>
               <text x="152" y="170" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
             </svg>
           </div>
           <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
-            <p>The pin at A can't be assumed to point any particular way, so it gets <strong class="text-primary dark:text-primary-dark">two</strong> perpendicular unknowns, A<sub>x</sub> and A<sub>y</sub>. The roller at B can only push perpendicular to the surface it rests on, so it gets just <strong class="text-primary dark:text-primary-dark">one</strong> unknown, B<sub>y</sub>. The load P = 120 N is given, so it's drawn with its actual value, not a "?".</p>
-            <p class="mt-2">Three unknowns total (A<sub>x</sub>, A<sub>y</sub>, B<sub>y</sub>) is exactly what three equilibrium equations (&Sigma;F<sub>x</sub> = 0, &Sigma;F<sub>y</sub> = 0, &Sigma;M = 0) can solve for — no more, no fewer.</p>
+            <p>The pin at A can't be assumed to point any particular way, so it can resist force in <strong class="text-primary dark:text-primary-dark">any</strong> direction. The roller at B can only push perpendicular to the surface it rests on. The load P = 120 N is real and known — it's drawn here with its actual value.</p>
           </div>
         </div>
 
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-8 max-w-[640px] leading-relaxed">A different combination: a boom pinned to a wall at A, held up by a cable from its far end C to a higher point on the wall, with a sign of weight W hanging at C.</p>
-
         <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
           <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
-            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Boom Free-Body Diagram</div>
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Beam — Free-Body Diagram</div>
             <svg viewBox="0 0 240 240" class="w-full h-auto">
               <defs>
-                <marker id="fbd-arrow-exb-cable" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="fbd-arrow-exa-fbd-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
                 </marker>
-                <marker id="fbd-arrow-exb-weight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
-                </marker>
-                <marker id="fbd-arrow-exb-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="fbd-arrow-exa-fbd-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
                 </marker>
               </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">P = 120 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">By = ?</text>
+              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
+
+              <line x1="40" y1="90" x2="200" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="40" y1="86" x2="40" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="146.67" y1="86" x2="146.67" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="200" y1="86" x2="200" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <text x="93.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">4 m</text>
+              <text x="173.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">2 m</text>
+
+              <line x1="40" y1="140" x2="40" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-fbd-reaction)"></line>
+              <text x="30" y="114" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
+              <line x1="15" y1="140" x2="37" y2="140" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-fbd-reaction)"></line>
+              <text x="13" y="133" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
+              <line x1="200" y1="140" x2="200" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exa-fbd-reaction)"></line>
+              <text x="210" y="114" class="fill-muted dark:fill-muted-dark" font-size="9">By</text>
+
+              <line x1="40" y1="140" x2="200" y2="140" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+              <circle cx="40" cy="140" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="40" y="153" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
+              <circle cx="200" cy="140" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="200" y="153" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">B</text>
+
+              <line x1="146.67" y1="140" x2="146.67" y2="176" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exa-fbd-load)"></line>
+              <text x="152" y="170" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>Isolate the beam and replace every support with the reactions it can actually provide: <strong class="text-primary dark:text-primary-dark">two</strong> perpendicular unknowns at the pin (A<sub>x</sub>, A<sub>y</sub>), <strong class="text-primary dark:text-primary-dark">one</strong> at the roller (B<sub>y</sub>). Nothing but the body and its forces remains — no triangle, no ground line.</p>
+            <p class="mt-2">Three unknowns total (A<sub>x</sub>, A<sub>y</sub>, B<sub>y</sub>) is exactly what three equilibrium equations (&Sigma;F<sub>x</sub> = 0, &Sigma;F<sub>y</sub> = 0, &Sigma;M = 0) can solve for — no more, no fewer. This exact beam is <button data-topic-id="equilibrium" class="text-accent dark:text-accent-dark hover:underline">solved in the Equilibrium topic</button>, next.</p>
+          </div>
+        </div>
+
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-8 max-w-[640px] leading-relaxed">A different combination: a boom pinned to a wall at A, held up by a cable from its far end C to a higher point on the wall, with a sign of weight W = 80 N hanging at C.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Boom and Supports</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-exb-setup-weight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
               <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">W = 80 N</text>
-              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">T = ?</text>
-              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
-              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
 
               <line x1="75" y1="30" x2="75" y2="210" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
               <line x1="75" y1="45" x2="67" y2="53" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
@@ -956,27 +980,64 @@
               <line x1="75" y1="170" x2="67" y2="178" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
               <line x1="75" y1="195" x2="67" y2="203" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
 
-              <line x1="75" y1="60" x2="215" y2="150" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <line x1="215" y1="150" x2="75" y2="60" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <circle cx="75" cy="60" r="2.5" class="fill-primary dark:fill-primary-dark"></circle>
 
               <line x1="75" y1="150" x2="215" y2="150" class="stroke-primary dark:stroke-primary-dark" stroke-width="5" stroke-linecap="round"></line>
 
               <circle cx="75" cy="150" r="4" class="fill-primary dark:fill-primary-dark"></circle>
               <text x="70" y="142" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
-              <line x1="45" y1="150" x2="72" y2="150" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-reaction)"></line>
-              <text x="43" y="144" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
-              <line x1="75" y1="150" x2="75" y2="125" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-reaction)"></line>
-              <text x="65" y="120" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
 
               <circle cx="215" cy="150" r="3" class="fill-primary dark:fill-primary-dark"></circle>
               <text x="221" y="146" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">C</text>
-              <line x1="215" y1="150" x2="159" y2="114" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-cable)"></line>
-              <text x="155" y="108" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">T</text>
-              <line x1="215" y1="150" x2="215" y2="185" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-weight)"></line>
+              <line x1="215" y1="150" x2="215" y2="185" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-setup-weight)"></line>
               <text x="221" y="180" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
             </svg>
           </div>
           <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
-            <p>The pin at A (fixed to the wall) again gets two unknowns, A<sub>x</sub> and A<sub>y</sub>. The cable only pulls along its own length, from C toward its wall anchor, so it contributes just one unknown, T. The sign's weight W = 80 N is applied at C and is given.</p>
+            <p>The pin at A can resist force in any direction. The cable is real too — it runs the whole way from C up to its wall anchor — but a cable can only pull along its own length, so whatever force it carries acts along that same line. The sign's weight W = 80 N is applied at C and is given.</p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Boom — Free-Body Diagram</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="fbd-arrow-exb-fbd-tension" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-exb-fbd-weight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="fbd-arrow-exb-fbd-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">W = 80 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">T = ?</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = ?</text>
+              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = ?</text>
+
+              <line x1="75" y1="150" x2="215" y2="150" class="stroke-primary dark:stroke-primary-dark" stroke-width="3" stroke-linecap="round"></line>
+
+              <circle cx="75" cy="150" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="75" y="163" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
+              <line x1="45" y1="150" x2="72" y2="150" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-fbd-reaction)"></line>
+              <text x="43" y="144" class="fill-muted dark:fill-muted-dark" font-size="9">Ax</text>
+              <line x1="75" y1="150" x2="75" y2="125" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#fbd-arrow-exb-fbd-reaction)"></line>
+              <text x="65" y="120" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
+
+              <circle cx="215" cy="150" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <text x="221" y="146" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">C</text>
+              <line x1="215" y1="150" x2="159" y2="114" class="stroke-muted dark:stroke-muted-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-fbd-tension)"></line>
+              <text x="155" y="108" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">T</text>
+              <line x1="215" y1="150" x2="215" y2="185" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#fbd-arrow-exb-fbd-weight)"></line>
+              <text x="221" y="180" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>Isolate the boom and replace every support with its reactions: two unknowns at the pin (A<sub>x</sub>, A<sub>y</sub>), one along the cable's own line at C (T). W stays exactly as it was — it's a real applied load, not a reaction.</p>
             <p class="mt-2">Same skill, different supports: identify what each connection can and can't resist, then draw exactly that — nothing assumed, nothing extra.</p>
           </div>
         </div>

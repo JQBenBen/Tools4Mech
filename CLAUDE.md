@@ -575,16 +575,33 @@ history for details.") so the section stays skimmable as it grows.
        are what should teach the distinction, not a different-looking
        ground texture.
   3. **Putting it together: full free-body diagrams** — two complete,
-     unsolved examples (each diagram-left/text-right, `sm:max-w-[420px]`,
-     matching every other worked-example row on the site):
-     - The **pin + roller beam** — reuses the Equilibrium topic's beam
-       diagram verbatim (same coordinates: L = 6 m, P = 120 N at 4 m
-       from A), including its "Ax = ? / Ay = ? / By = ?" legend and the
-       Ax arrow positioned left-of-A pointing in (marker ids renamed to
-       `fbd-arrow-exa-*` to stay unique). Text explains why the pin
-       needs two unknowns and the roller only one, and that 3 unknowns
-       matching 3 equilibrium equations is exactly the point. An inline
-       `data-topic-id="equilibrium"` button — not
+     unsolved examples, each now split into **two separate diagrams**
+     (per feedback that a single diagram mixing physical support
+     hardware with reaction arrows wasn't a clean FBD) — every diagram
+     row keeps the site's diagram-left/text-right, `sm:max-w-[420px]`
+     pattern:
+     - A **"…and Supports" diagram** shows the real physical picture:
+       the body plus its actual supports (pin triangle + hatching,
+       roller triangle + circles + ground line, hatched wall, a real
+       cable line drawn its full length to its anchor) and only the
+       *applied* loads (P, W) as arrows with real values — no reaction
+       arrows at all, since a reaction isn't a separate physical object,
+       it's what the support (already drawn) provides.
+     - A **"— Free-Body Diagram" diagram** shows only the isolated body
+       (a plain bar, no support glyphs, no wall, no cable line) with
+       every force acting on it — both the applied load(s) and every
+       support reaction — drawn as arrows from small dots marking A/B/C,
+       exactly matching the "isolate the body, replace supports with
+       reactions" definition from §1. This is the actual free-body
+       diagram; the "…and Supports" diagram beside it is just the
+       real-world context leading into it.
+     - The **pin + roller beam** — same beam as before (L = 6 m,
+       P = 120 N at 4 m from A). Setup diagram: beam bar, pin-triangle
+       glyph at A, roller glyph at B, P arrow only. FBD diagram: bar +
+       dots at A/B + Ax/Ay/By/P arrows and the "Ax = ? / Ay = ? / By = ?"
+       legend (marker ids `fbd-arrow-exa-setup-*` /
+       `fbd-arrow-exa-fbd-*` to stay unique across the two svgs). An
+       inline `data-topic-id="equilibrium"` button — not
        `data-action="show-section"` — jumps straight to the Equilibrium
        topic (not just the Concepts and Theory grid); this is new: the
        delegated click listener already supported a bare `[data-topic-id]`
@@ -597,23 +614,29 @@ history for details.") so the section stays skimmable as it grows.
        instead of opening Equilibrium directly — same mistake, twice, in
        two different paragraphs, both fixed to use bare
        `data-topic-id="equilibrium"`.
-     - The **boom + pin + cable bracket** — a new example: a boom pinned
-       to a wall at A, held by a cable from its far end C to a higher
-       wall anchor at D, with a sign of weight W = 80 N hanging at C.
-       Reuses the fixed-support wall/hatching glyph style (vertical
-       hatched wall) but with a plain pin dot at A (not the ground
-       triangle) since this is a wall-mounted connection, not a
-       ground-mounted one. Text draws the same "two unknowns from the
-       pin, one from the cable" parallel to the beam example, with a
-       different support combination.
+     - The **boom + pin + cable bracket** — a boom pinned to a wall at A,
+       held by a cable from its far end C to a higher wall anchor, with
+       a sign of weight W = 80 N hanging at C ("(fixed to the wall)"
+       dropped from the body text describing the pin — redundant with
+       the diagram). Setup diagram: hatched wall, boom bar, pin dot at
+       A, the cable drawn as a real solid line its full length from C to
+       the wall anchor, W arrow only. FBD diagram: bar + dots at A/C +
+       Ax/Ay (at A) and T/W (at C) arrows and the "W = 80 N / T = ? /
+       Ax = ? / Ay = ?" legend (marker ids `fbd-arrow-exb-setup-*` /
+       `fbd-arrow-exb-fbd-*`). One color-convention bug caught and fixed
+       while splitting this diagram out: the cable tension arrow T had
+       been drawn accent-colored (like a known/applied load) in the old
+       combined diagram, when its own legend already listed it as
+       unknown ("T = ?") — the isolated FBD now correctly draws it
+       muted, matching every other unknown reaction on the page.
   All diagram coordinates precomputed with a small Node script (same
   approach as every prior topic). Verified by rendering every diagram
-  (including the 7-card grid and both full examples) at 2x scale via a
-  test stylesheet with the `sm:`/`lg:` breakpoint media queries actually
-  present this time, catching and fixing the two overflow bugs and the
-  chevron-hatching issue above, plus the full navigation regression and
-  a dedicated check that both new topic-to-topic cross-links resolve to
-  `#topic-view-equilibrium` (not just the section).
+  (including the 7-card grid and all four part-3 diagrams) at 2x scale
+  via a test stylesheet with the `sm:`/`lg:` breakpoint media queries
+  actually present this time, catching and fixing the two overflow bugs
+  and the chevron-hatching issue above, plus the full navigation
+  regression and a dedicated check that both topic-to-topic cross-links
+  resolve to `#topic-view-equilibrium` (not just the section).
 - **Equilibrium** (done): a `CONCEPTS_DATA` topic `equilibrium` (flat, no
   category — appended after `free-body-diagram`), rendered at
   `#topic-view-equilibrium` (sibling of Resolve/Moment inside
