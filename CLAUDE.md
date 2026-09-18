@@ -530,32 +530,36 @@ history for details.") so the section stays skimmable as it grows.
        a separate pin-like point rather than clearly "at the wall," per
        feedback. The M arc reuses the precomputed-polyline-arc technique
        from the Moment topic's rotation arcs.
-     - **Cable/Rope**: a single unified muted arrow drawn along ~85% of
-       the cable's own length, from the body point to just short of a
-       small hatched ceiling-anchor glyph — replacing an earlier version
-       that used a separate dashed "cable" line plus a much shorter
-       tension arrow covering only part of the distance, which didn't
-       clearly read as "tension acts the whole way along the cable,
-       pulling away from the body." One bug fixed earlier here: the
-       anchor's hatch ticks were first drawn as short diagonal strokes
-       angled the same way as the cable itself, which at this scale read
-       as a row of ">" chevrons/arrows rather than hatching — fixed by
-       switching to plain vertical ticks above the anchor bar.
+     - **Cable/Rope**: two visually distinct elements — a plain solid
+       primary-colored line for the cable itself (body point to a free
+       end, no ceiling/anchor glyph at all, removed per feedback that it
+       added clutter without adding clarity) plus a separate muted
+       tension arrow drawn parallel to it, offset a few pixels to one
+       side, spanning most of the cable's length with "T = ?" labeled at
+       its tip. This replaced two earlier attempts: a dashed cable +
+       short partial-length arrow (too partial to read as "along the
+       whole cable"), then a single unified arrow standing in for both
+       the cable and the tension with a hatched ceiling anchor (the
+       merged single-arrow version, and separately its hatch-tick
+       rendering, both drew "not clear" feedback) — separating the cable
+       line from the tension arrow as two distinct strokes, while
+       dropping the ceiling glyph entirely, is what finally read clearly.
      - **Rigid Bar/Link (Tension)** and **Rigid Bar/Link (Compression)**
        — split into two separate cards (both share the same bar
        geometry: a hollow pin dot at the far/fixed end, a filled dot
-       where it connects to the body) since a single generic "F = ?"
-       arrow couldn't show which direction is which. The force is drawn
-       along the bar's own axis with a small perpendicular offset (so
-       the arrowhead is visible beside the thick bar stroke rather than
-       swallowed by it) — Tension points from the connection *back
-       toward* the far pin (the bar pulls the body toward itself,
-       exactly like a cable); Compression points *away* from the far pin
-       (the bar pushes the body away). Getting the tension direction
-       right required care: a force continuing *past* the connection
-       point, away from the far pin, is actually the compression case —
-       tension pulls inward along the member, toward the other end, the
-       same way a taut cable does.
+       where it connects to the body). The force arrow is drawn exactly
+       along the bar's own axis (no perpendicular offset — an earlier
+       version offset the arrow a few px to the side so the arrowhead
+       wouldn't be swallowed by the thick bar stroke, but per feedback
+       the force needed to visibly act *along the bar's line*, not
+       beside it) — Tension points from the connection *back toward* the
+       far pin (the bar pulls the body toward itself, exactly like a
+       cable); Compression points *away* from the far pin (the bar
+       pushes the body away). Getting the tension direction right
+       required care: a force continuing *past* the connection point,
+       away from the far pin, is actually the compression case — tension
+       pulls inward along the member, toward the other end, the same way
+       a taut cable does.
      - **Smooth Surface**: a hatched ground line, 1 unknown (R<sub>y</sub>)
        normal to it, captioned frictionless.
      - **Rough Surface**: the identical ground glyph, but 2 unknowns
