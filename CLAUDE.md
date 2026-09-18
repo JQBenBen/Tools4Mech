@@ -438,7 +438,13 @@ history for details.") so the section stays skimmable as it grows.
      - F3 = 25 N @ 180°, position (−0.3, −0.2) m → M3 = −5.00 N·m
      - Net = +3.00 N·m (CCW) — small and mixed-sign, showing real
        cancellation rather than everything agreeing.
-     Table (Force / Magnitude / Angle / Position / Moment + a Σ row) + two
+     Table (Force / Magnitude / Angle / Position / **M = x·F<sub>y</sub> −
+     y·F<sub>x</sub>** / Moment + a Σ row) — the added equation column
+     shows the substituted-numbers calculation for each row (e.g. F1:
+     "0.5×40 − 0×0"), not just the final value, and the Σ row shows the
+     summing equation ("20.00 − 12.00 − 5.00") the same way, so the
+     table itself demonstrates how each moment (and the net) is computed
+     rather than only reporting results. Plus two
      diagrams in the same "Applied Forces" / "Net Moment" two-panel style
      the Moment Calculator tool itself uses — "Applied Forces" plots each
      force as an arrow from its position (dot marks the point, a larger
