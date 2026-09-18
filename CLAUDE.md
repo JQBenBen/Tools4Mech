@@ -579,7 +579,12 @@ history for details.") so the section stays skimmable as it grows.
      (per feedback that a single diagram mixing physical support
      hardware with reaction arrows wasn't a clean FBD) — every diagram
      row keeps the site's diagram-left/text-right, `sm:max-w-[420px]`
-     pattern:
+     pattern. Each example is headed by its own `<h3>` ("Example 1: Pin +
+     Roller Beam" / "Example 2: Boom + Pin + Cable Bracket", reusing the
+     Moment topic's `2a`/`2b` sub-example heading style — `font-display
+     font-semibold text-[18px] mt-10`) so readers can tell at a glance
+     where one example's pair of diagrams ends and the next begins, now
+     that each example spans two diagram rows instead of one:
      - A **"…and Supports" diagram** shows the real physical picture:
        the body plus its actual supports (pin triangle + hatching,
        roller triangle + circles + ground line, hatched wall, a real
