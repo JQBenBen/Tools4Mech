@@ -657,6 +657,159 @@
         <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">ΣM = 20.00 &minus; 12.00 &minus; 5.00 = <strong class="text-primary dark:text-primary-dark">+3.00 N·m</strong>, i.e. a small net <strong class="text-primary dark:text-primary-dark">counter-clockwise</strong> rotation — the larger CCW contribution from F1 nearly, but not quite, cancels the two CW contributions from F2 and F3. Try the same forces in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Moment Calculator</button> to see it computed live.</p>
       </section>
 
+      <section id="topic-view-equilibrium" class="hidden py-[38px]" data-topic-view>
+        <button data-action="show-section" data-section-id="concepts-and-theory" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Concepts and Theory</button>
+        <h1 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Equilibrium</h1>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">A body is in equilibrium when the net force and net moment acting on it are both zero — it stays at rest. This topic covers <strong class="text-primary dark:text-primary-dark">two-dimensional (2D) equilibrium</strong> only.</p>
+
+        <!-- 1. What is equilibrium? -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-10">1. What is equilibrium?</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">For a rigid body to be in (static) equilibrium, two conditions must both hold: the net force on it is zero, and the net moment on it is zero. If a body isn't accelerating and isn't starting to rotate, it's in equilibrium.</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Whether the moment condition takes any real work depends on how the forces are arranged:</p>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed"><strong class="text-primary dark:text-primary-dark">Concurrent</strong> force systems — every force passes through the same point — automatically satisfy moment balance about that point (a force whose line of action passes through a point has zero moment about it), so only the two force equations matter. <strong class="text-primary dark:text-primary-dark">Non-concurrent</strong> force systems — forces don't all meet at one point — need the moment equation too, on top of the two force equations. The rest of this topic covers each case in turn.</p>
+
+        <div class="mt-6 max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+          <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Three concurrent forces in equilibrium</div>
+          <svg viewBox="0 0 240 240" class="w-full h-auto">
+            <defs>
+              <marker id="eq-arrow-schematic" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+              </marker>
+            </defs>
+            <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+            <line x1="120" y1="120" x2="190" y2="120" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-schematic)"></line>
+            <text x="196" y="123" class="fill-primary dark:fill-primary-dark" font-size="10">F1</text>
+            <line x1="120" y1="120" x2="85" y2="59.38" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-schematic)"></line>
+            <text x="80" y="50" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10">F2</text>
+            <line x1="120" y1="120" x2="85" y2="180.62" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-schematic)"></line>
+            <text x="80" y="196" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10">F3</text>
+            <text x="155" y="155" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="10" font-style="italic">&Sigma;F = 0</text>
+          </svg>
+        </div>
+
+        <!-- 2. Concurrent force systems -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">2. Concurrent force systems</h2>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          &Sigma;F<sub>x</sub> = 0 &nbsp;&nbsp; &Sigma;F<sub>y</sub> = 0
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">No &Sigma;M term is needed here — moment balance is automatic when every force passes through the same point.</p>
+
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">A weight <em>W</em> = 100 N hangs from a junction held by two cables: cable 1 makes a 30° angle with the horizontal on one side, cable 2 makes a 60° angle with the horizontal on the other. Both cables and the weight meet at the same point, so this is a concurrent system — find the tension in each cable.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Free-Body Diagram at the Junction</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="eq-arrow-t1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="eq-arrow-t2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="eq-arrow-w" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">W = 100 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">T1 = 50.00 N</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">T2 = 86.60 N</text>
+              <line x1="60" y1="160" x2="180" y2="160" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
+              <path d="M90,160 L90.06,158.04 L90.26,156.08 L90.58,154.15 L91.02,152.24 L91.59,150.36 L92.28,148.52 L93.09,146.73 L94.02,145" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="81.4" y="149.7" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">30°</text>
+              <path d="M150,160 L149.74,156.08 L148.98,152.24 L147.72,148.52 L145.98,145 L143.8,141.74 L141.21,138.79 L138.26,136.2 L135,134.02" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="154.6" y="140" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">60°</text>
+              <circle cx="120" cy="160" r="3" class="fill-primary dark:fill-primary-dark"></circle>
+              <line x1="120" y1="160" x2="50.72" y2="120" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-t1)"></line>
+              <circle cx="50.72" cy="120" r="3" class="fill-muted dark:fill-muted-dark"></circle>
+              <text x="44" y="113" text-anchor="end" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">T1</text>
+              <line x1="120" y1="160" x2="160" y2="90.72" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-t2)"></line>
+              <circle cx="160" cy="90.72" r="3" class="fill-muted dark:fill-muted-dark"></circle>
+              <text x="166" y="88" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">T2</text>
+              <line x1="120" y1="160" x2="120" y2="220" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-w)"></line>
+              <text x="126" y="215" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">W</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>Taking rightward as +x and upward as +y, and resolving each cable tension into components:</p>
+            <p class="mt-2">&Sigma;F<sub>x</sub> = 0: &minus;T1 cos30° + T2 cos60° = 0</p>
+            <p class="mt-1">&Sigma;F<sub>y</sub> = 0: T1 sin30° + T2 sin60° &minus; W = 0</p>
+            <p class="mt-2">From the first equation, T1 = T2 &times; (cos60°/cos30°) = T2 &times; 0.5774. Substituting into the second:</p>
+            <p class="mt-1">T2 &times; (0.5774 sin30° + sin60°) = W &nbsp;&rArr;&nbsp; T2 &times; 1.1547 = 100</p>
+            <p class="mt-2">T2 = <strong class="text-primary dark:text-primary-dark">86.60 N</strong>, then T1 = 0.5774 &times; 86.60 = <strong class="text-primary dark:text-primary-dark">50.00 N</strong></p>
+          </div>
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">Cross-check: &minus;50.00cos30° + 86.60cos60° = &minus;43.30 + 43.30 &asymp; 0, and 50.00sin30° + 86.60sin60° &minus; 100 = 25.00 + 75.00 &minus; 100 &asymp; 0 — both force sums close, as required. Try all three forces (T1, T2, and W straight down) in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Force Calculator</button> and confirm the resultant is &asymp; 0.</p>
+
+        <!-- 3. Non-concurrent force systems -->
+        <h2 class="font-display font-semibold text-[22px] md:text-[24px] mt-12">3. Non-concurrent force systems</h2>
+        <div class="mt-3 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[10px] px-4 py-3 inline-block font-display text-[15px]">
+          &Sigma;F<sub>x</sub> = 0 &nbsp;&nbsp; &Sigma;F<sub>y</sub> = 0 &nbsp;&nbsp; &Sigma;M = 0
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">One more condition than the concurrent case: since the forces here don't all pass through a single point, satisfying the two force equations alone doesn't rule out the body spinning — the moment equation must be checked too.</p>
+
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">A horizontal beam of length <em>L</em> = 6 m is <strong class="text-primary dark:text-primary-dark">pinned</strong> at end A (a pin can push back in any direction, so it has two unknown reaction components, A<sub>x</sub> and A<sub>y</sub>) and rests on a <strong class="text-primary dark:text-primary-dark">roller</strong> at end B (a roller can only push perpendicular to the surface it sits on, so it has one unknown reaction, B<sub>y</sub>). A downward load <em>P</em> = 120 N acts 4 m from A (2 m from B). Find all three reactions.</p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[420px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Beam Free-Body Diagram</div>
+            <svg viewBox="0 0 240 240" class="w-full h-auto">
+              <defs>
+                <marker id="eq-arrow-load" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
+                </marker>
+                <marker id="eq-arrow-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path>
+                </marker>
+              </defs>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">P = 120 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">Ay = 40.00 N</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">By = 80.00 N</text>
+              <text x="25" y="64" class="fill-primary dark:fill-primary-dark" font-size="10">Ax = 0.00 N</text>
+
+              <line x1="40" y1="90" x2="200" y2="90" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="40" y1="86" x2="40" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="146.67" y1="86" x2="146.67" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <line x1="200" y1="86" x2="200" y2="94" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+              <text x="93.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">4 m</text>
+              <text x="173.3" y="82" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">2 m</text>
+
+              <line x1="40" y1="140" x2="40" y2="128" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#eq-arrow-reaction)"></line>
+              <text x="30" y="122" text-anchor="end" class="fill-muted dark:fill-muted-dark" font-size="9">Ay</text>
+              <line x1="200" y1="140" x2="200" y2="116" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#eq-arrow-reaction)"></line>
+              <text x="210" y="110" class="fill-muted dark:fill-muted-dark" font-size="9">By</text>
+
+              <line x1="40" y1="140" x2="200" y2="140" class="stroke-primary dark:stroke-primary-dark" stroke-width="5" stroke-linecap="round"></line>
+
+              <path d="M40,140 L30,158 L50,158 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <line x1="25" y1="158" x2="55" y2="158" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <line x1="28" y1="158" x2="23" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="34" y1="158" x2="29" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="40" y1="158" x2="35" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="46" y1="158" x2="41" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <line x1="52" y1="158" x2="47" y2="164" class="stroke-primary dark:stroke-primary-dark" stroke-width="1"></line>
+              <text x="40" y="173" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">A</text>
+
+              <path d="M200,140 L190,158 L210,158 Z" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></path>
+              <circle cx="194" cy="161" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <circle cx="206" cy="161" r="3" class="fill-card dark:fill-card-dark stroke-primary dark:stroke-primary-dark" stroke-width="1.2"></circle>
+              <line x1="185" y1="165" x2="215" y2="165" class="stroke-primary dark:stroke-primary-dark" stroke-width="1.5"></line>
+              <text x="200" y="180" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">B</text>
+
+              <line x1="146.67" y1="140" x2="146.67" y2="176" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#eq-arrow-load)"></line>
+              <text x="152" y="170" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">P</text>
+            </svg>
+          </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <p>Take moments about A first — this eliminates both unknown pin reactions (A<sub>x</sub> and A<sub>y</sub> both act right at A, so they have zero moment arm about it) and leaves only B<sub>y</sub>, using M = F × d exactly as in the Moment topic's 2a:</p>
+            <p class="mt-2">&Sigma;M<sub>A</sub> = 0: B<sub>y</sub> &times; 6 &minus; P &times; 4 = 0 &nbsp;&rArr;&nbsp; B<sub>y</sub> = 120 &times; 4 / 6 = <strong class="text-primary dark:text-primary-dark">80.00 N</strong></p>
+            <p class="mt-2">&Sigma;F<sub>y</sub> = 0: A<sub>y</sub> + B<sub>y</sub> &minus; P = 0 &nbsp;&rArr;&nbsp; A<sub>y</sub> = 120 &minus; 80.00 = <strong class="text-primary dark:text-primary-dark">40.00 N</strong></p>
+            <p class="mt-2">&Sigma;F<sub>x</sub> = 0: A<sub>x</sub> = <strong class="text-primary dark:text-primary-dark">0.00 N</strong> — a legitimate result, not an error. The pin could resist a horizontal load if there were one; here there just isn't one to balance.</p>
+          </div>
+        </div>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed">Cross-check by taking moments about B instead: A<sub>y</sub> &times; 6 &minus; P &times; 2 = 40.00 &times; 6 &minus; 120 &times; 2 = 240.00 &minus; 240.00 &asymp; 0 ✓. Try the load and both reactions in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Force Calculator</button> to check &Sigma;Fx/&Sigma;Fy, or in the <button data-action="show-section" data-section-id="tools" class="text-accent dark:text-accent-dark hover:underline">Moment Calculator</button> (about A) to check &Sigma;M.</p>
+      </section>
+
     </div>
 
     <div id="tool-views-container">
@@ -915,6 +1068,7 @@
         topics: [
           { id: "resolve-and-resultant-force", name: "Resolve and Resultant Force", description: "Break a force into components with trigonometry, and combine several forces into one resultant." },
           { id: "moment", name: "Moment", description: "The turning effect of a force about a point — definition, sign convention, calculation, and worked examples." },
+          { id: "equilibrium", name: "Equilibrium", description: "2D equilibrium of concurrent and non-concurrent force systems, with worked examples solving for unknown forces." },
         ],
       },
       // Phase 2+: push additional topics into the array above (no categories).
@@ -923,6 +1077,7 @@
     const CONCEPT_ICONS = {
       'resolve-and-resultant-force': '<line x1="5" y1="19" x2="19" y2="19"></line><line x1="5" y1="19" x2="16" y2="6"></line><line x1="16" y1="6" x2="19" y2="19"></line>',
       'moment': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
+      'equilibrium': '<line x1="12" y1="3" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="7" x2="4" y2="13"></line><path d="M1 13 L4 17 L7 13"></path><line x1="20" y1="7" x2="20" y2="13"></line><path d="M17 13 L20 17 L23 13"></path>',
     };
 
     // Generic "grid of cards grouped by category, leading to a detail view"

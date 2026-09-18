@@ -207,7 +207,7 @@ history for details.") so the section stays skimmable as it grows.
   placeholder (ghost/"coming soon" pattern, back button → Home). See
   Portal shell above for the `SECTIONS_DATA`/navigation details.
 
-### Concepts and Theory (status: in progress — 2 topics, no categories)
+### Concepts and Theory (status: in progress — 3 topics, no categories)
 - **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` topic
   `resolve-and-resultant-force` (flat, no category grouping — see Portal
   shell above), rendered at `#topic-view-resolve-and-resultant-force`. Static content (text,
@@ -477,6 +477,78 @@ history for details.") so the section stays skimmable as it grows.
   `group[groupKey]` is falsy, so Tools' "Force & Moment" heading (and any
   future grid that wants categories) is unaffected. Verified visually
   (no stray heading/spacing) plus the same full navigation regression.
+- **Equilibrium** (done): a `CONCEPTS_DATA` topic `equilibrium` (flat, no
+  category — appended after `moment`), rendered at
+  `#topic-view-equilibrium` (sibling of Resolve/Moment inside
+  `#topic-views-container`); `CONCEPT_ICONS['equilibrium']` is a new
+  simple balance-scale glyph (24×24 viewBox, stem + crossbar + two
+  hanging pans as plain line/path elements) since no existing icon fit —
+  first new icon added since the portal shell's initial set. **2D
+  equilibrium only** (stated up front), split into concurrent vs.
+  non-concurrent per the user's own framing, both worked examples solve
+  for unknowns (confirmed via clarifying questions, not just "verify a
+  fully-given system sums to zero"):
+  1. **What is equilibrium?** — net force AND net moment both zero ⇒ a
+     body stays at rest; explains why concurrent systems only need the
+     two force equations (a force through a point has zero moment about
+     it, so moment balance there is automatic) while non-concurrent
+     systems need the moment equation too. One schematic diagram (no
+     numbers, same style as the Moment topic's §1 CCW/CW schematic):
+     three equal-length arrows from a common point at 0°/120°/240°
+     (symmetric ⇒ sums to zero), labeled "ΣF = 0" — this is the first
+     diagram on the page where three *arrows fanning out from one point*
+     is the whole point (no axes, no pivot-vs-force distinction), so the
+     "ΣF = 0" label needed to be moved off to one side (clear of all
+     three arrow lines) after an initial placement sat right on the
+     downward-left arrow.
+  2. **Concurrent force systems** — formula block ΣF<sub>x</sub> = 0,
+     ΣF<sub>y</sub> = 0 (explicitly no ΣM term). Worked example: a weight
+     W = 100 N hangs from a junction held by two cables (30° and 60°
+     above horizontal — clean 30-60-90 numbers), solving the 2×2 system
+     for both tensions: **T1 = 50.00 N**, **T2 = 86.60 N**. Diagram: the
+     junction point with three labeled force arrows at their true global
+     angles (T1 up-left @150°, T2 up-right @60°, W straight down @270°),
+     small angle arcs (precomputed polyline, not SVG arc) between a
+     dashed horizontal reference line through the junction and each
+     cable, numeric corner-legend with all three solved/given values.
+     Closing cross-check by substitution + inline cross-link to the Force
+     Calculator (plug in all three forces, resultant ≈ 0).
+  3. **Non-concurrent force systems** — formula block adds ΣM = 0,
+     explicitly framed as "one more condition than the concurrent case."
+     Worked example: the standard **pin + roller beam** problem — beam
+     length L = 6 m, pinned at A (unknowns A<sub>x</sub>, A<sub>y</sub>),
+     roller at B (unknown B<sub>y</sub> only), downward load P = 120 N at
+     4 m from A. Solved in the standard order — ΣM<sub>A</sub> = 0 first
+     (ties directly back to the Moment topic's 2a: M = F × d, and both
+     pin reactions have zero moment arm about A so they drop out) →
+     **B<sub>y</sub> = 80.00 N**; then ΣF<sub>y</sub> = 0 →
+     **A<sub>y</sub> = 40.00 N**; then ΣF<sub>x</sub> = 0 →
+     **A<sub>x</sub> = 0.00 N**, called out explicitly as a legitimate
+     result (the pin *could* resist horizontal load, there's just none to
+     balance here) rather than left looking like an omission. Diagram:
+     horizontal beam bar, a pin-support glyph at A (triangle + ground
+     hatching — new minimal symbol, first appearance of an engineering
+     support glyph on this site) and a roller-support glyph at B
+     (triangle on two small circles + ground line), the load arrow, a
+     dimension line with two segment labels (4 m / 2 m), and the
+     reaction arrows (A<sub>y</sub>, B<sub>y</sub> drawn; A<sub>x</sub> is
+     zero so only stated in the corner legend, not drawn as an arrow — a
+     zero-length vector can't be drawn meaningfully). One bug caught and
+     fixed here: the diagram originally packed a 4-line numeric legend
+     directly above a dimension line only 6px below it, so "Ax = 0.00 N"
+     ran straight into the "4 m" label — fixed by shifting the entire
+     beam/support/dimension geometry down 20px to clear the legend, not
+     by shrinking the legend. Cross-check via moments about B instead +
+     inline cross-links to both the Force Calculator (ΣFx/ΣFy) and Moment
+     Calculator (ΣM about A).
+  All diagram coordinates precomputed with a small Node script (same
+  approach as the Resolve and Moment topics). Verified by rendering every
+  diagram at 2x scale — this time including a proper `sm:` breakpoint
+  media query in the test stylesheet (a gap in earlier verification runs
+  for this file, caught while revisiting the Moment topic's 2a/2b) so the
+  true side-by-side desktop layout was actually checked, not just the
+  mobile-stacked fallback — plus the full navigation regression and a
+  check that both new cross-links to Tools work.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
