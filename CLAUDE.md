@@ -365,35 +365,55 @@ history for details.") so the section stays skimmable as it grows.
        students at this stage; reuses 2a's exact wrench/handle picture
        instead (same pivot, same d = 0.25 m handle) with F = 80 N applied
        at 60° to the handle — deliberately **CCW** this time (opposite
-       sign from 2a) — and presents **two methods side by side**, each
-       its own diagram card in a two-up row (mirroring the Resolve
-       topic's H/V-vs-∥/⊥ two-diagram comparison layout), both landing on
-       the same M ≈ +17.32 N·m:
+       sign from 2a) — and presents **two methods**, both landing on the
+       same M ≈ +17.32 N·m. Each method is its own **diagram-left/
+       text-right row** (2a's own layout pattern, `w-full sm:max-w-[280px]`
+       diagram card + `flex-1` text column), stacked one above the other,
+       rather than the two diagrams sitting side-by-side with shared text
+       below — this puts "Method 1"/"Method 2" as an **eyebrow label**
+       (the site's existing uppercase/tracked/accent-colored pattern,
+       documented under Design Direction, normally used for things like
+       "PHASE 1 · 2 of a growing set") at the top of each text column,
+       directly beside its own diagram, rather than baked into the
+       diagram's own caption. Each diagram's own small caption above it
+       is trimmed to just the descriptive title ("Extend the Line of
+       Action" / "Resolve into Components"), since "Method 1"/"Method 2"
+       itself now lives beside it in the text column.
        - *Method 1 — extend the line of action*: draw the force's line of
          action extended (dashed) until a perpendicular from the pivot
          can reach it, drop that perpendicular (dashed, with the
-         right-angle tick from the §2 intro diagram), read off
-         d<sub>⊥</sub> = d sin 60° ≈ 0.217 m, then M = F × d<sub>⊥</sub> =
-         80 × 0.217 ≈ 17.32 N·m.
+         right-angle tick from the §2 intro diagram). The diagram marks
+         the **60° angle itself** (precomputed-polyline arc + label,
+         never an SVG arc command) at the handle end, between the handle
+         and the backward-extended line of action — this is the angle in
+         the right triangle (pivot / handle-end / foot-of-perpendicular)
+         whose hypotenuse is d and whose opposite side is d<sub>⊥</sub>,
+         so marking it there is what visually justifies the
+         d<sub>⊥</sub> = d sin 60° step rather than just asserting it.
+         Corner legend shows all three numbers together, including the
+         derivation inline rather than just the final value: "F = 80 N" /
+         "d = 0.25 m" / "d<sub>⊥</sub> = 0.25×sin60° ≈ 0.217 m". A short
+         "d" tag also sits on the handle bar itself (matching 2a).
        - *Method 2 — resolve into components*: split F into F<sub>∥</sub>
          (along the handle, = F cos 60° = 40.00 N) and F<sub>⊥</sub>
          (perpendicular to it, = F sin 60° ≈ 69.28 N) at the point of
          application (muted component arrows + dashed closing lines,
-         same convention as the old r-based diagram and the Resolve
-         topic's inclined-body diagrams); F<sub>∥</sub> needs no extra
-         markup to show it passes through the pivot — it's drawn
+         same convention as the Resolve topic's inclined-body diagrams);
+         the same 60° angle is marked here too, between the handle/
+         F<sub>∥</sub> direction and F itself. F<sub>∥</sub> needs no
+         extra markup to show it passes through the pivot — it's drawn
          continuing the same straight line as the solid handle bar
          itself, so the zero-arm claim is visually obvious — so its
          moment is 0, F<sub>⊥</sub> × d = 69.28 × 0.25 ≈ 17.32 N·m, total
-         17.32 N·m.
+         17.32 N·m. Corner legend: "d = 0.25 m" / "F<sub>∥</sub> = 40.00 N"
+         / "F<sub>⊥</sub> = 69.28 N", plus the same "d" tag on the handle.
        Both diagrams reuse the same CCW rotation arc + "M = 17.32 N·m
        (CCW)" label placement (pivot-centered, lower-left quadrant) from
-       the old single r-based 2b diagram, and the same top-left
-       numeric-corner-legend + short-inline-tag convention as 2a. One bug
-       caught and fixed here: Method 1's "d<sub>⊥</sub>" label first sat
-       directly on top of the thick handle bar (offset chosen in the
-       wrong direction off the perpendicular segment) — fixed by
-       re-offsetting it to the open space below the handle instead.
+       the old single r-based 2b diagram. One bug caught and fixed here:
+       Method 1's "d<sub>⊥</sub>" label first sat directly on top of the
+       thick handle bar (offset chosen in the wrong direction off the
+       perpendicular segment) — fixed by re-offsetting it to the open
+       space below the handle instead.
   3. **Net moment from several forces** — ΣM = M₁ + M₂ + …, same sign
      convention. Worked example, 3 forces with deliberately mixed CCW/CW
      contributions (echoes the "one force per quadrant" approach from the

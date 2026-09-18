@@ -491,9 +491,9 @@
         <h3 class="font-display font-semibold text-[18px] mt-10">2b. Force at an angle to the handle</h3>
         <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Often the force isn't applied perpendicular to the arm. Take the same wrench and handle as above (<em>d</em> = 0.25 m), but now the force is applied at the end of the handle at an angle instead of straight down — <em>F</em> = 80 N at 60° to the handle, angled so it swings the handle the <strong class="text-primary dark:text-primary-dark">other way</strong> this time.</p>
 
-        <div class="mt-6 flex flex-col sm:flex-row gap-6">
-          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
-            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Method 1: Extend the Line of Action</div>
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[280px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Extend the Line of Action</div>
             <svg viewBox="0 0 240 240" class="w-full h-auto">
               <defs>
                 <marker id="mt-arrow-force-m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -503,14 +503,18 @@
                   <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
                 </marker>
               </defs>
-              <text x="25" y="30" class="fill-primary dark:fill-primary-dark" font-size="10">F = 80 N</text>
-              <text x="25" y="43" class="fill-primary dark:fill-primary-dark" font-size="10">d&perp; &asymp; 0.217 m</text>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">F = 80 N</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">d = 0.25 m</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">d&perp; = 0.25×sin60° &asymp; 0.217 m</text>
               <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="120" y1="120" x2="190" y2="120" class="stroke-primary dark:stroke-primary-dark" stroke-width="4" stroke-linecap="round"></line>
+              <text x="155" y="112" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">d</text>
               <circle cx="190" cy="120" r="3" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="190" y1="120" x2="162.5" y2="167.63" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="190" y1="120" x2="224" y2="61.11" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#mt-arrow-force-m1)"></line>
               <text x="230" y="58" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">F</text>
+              <path d="M168,120 L168.19,122.87 L168.75,125.69 L169.67,128.42 L170.95,131 L172.55,133.39 L174.44,135.56 L176.61,137.45 L179,139.05" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="162.3" y="136" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">60°</text>
               <line x1="120" y1="120" x2="172.5" y2="150.31" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <path d="M177,142.52 L169.21,138.02 L164.71,145.81" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
               <text x="139.3" y="151" class="fill-muted dark:fill-muted-dark" font-size="9">d&perp;</text>
@@ -518,8 +522,17 @@
               <text x="75" y="185" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="9" font-weight="600">M = 17.32 N·m (CCW)</text>
             </svg>
           </div>
-          <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
-            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Method 2: Resolve into Components</div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <div class="text-[12px] font-semibold tracking-[0.12em] uppercase text-accent dark:text-accent-dark mb-2">Method 1</div>
+            <p>Draw the force's line of action as a straight line through where it acts, extended until a perpendicular from the pivot can reach it, then drop that perpendicular — its length is <em>d</em><sub>⊥</sub>. The 60° angle between the handle and the (extended) line of action gives a right triangle with hypotenuse <em>d</em> and opposite side <em>d</em><sub>⊥</sub>.</p>
+            <p class="mt-2">d<sub>⊥</sub> = d sin 60° = 0.25 × 0.8660 &asymp; <strong class="text-primary dark:text-primary-dark">0.217 m</strong></p>
+            <p class="mt-1">M = F × d<sub>⊥</sub> = 80 × 0.217 &asymp; <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong></p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-6 items-start">
+          <div class="w-full sm:max-w-[280px] bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Resolve into Components</div>
             <svg viewBox="0 0 240 240" class="w-full h-auto">
               <defs>
                 <marker id="mt-arrow-force-m2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -532,15 +545,19 @@
                   <path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path>
                 </marker>
               </defs>
-              <text x="25" y="30" class="fill-primary dark:fill-primary-dark" font-size="10">F&parallel; = 40.00 N</text>
-              <text x="25" y="43" class="fill-primary dark:fill-primary-dark" font-size="10">F&perp; = 69.28 N</text>
+              <text x="25" y="25" class="fill-primary dark:fill-primary-dark" font-size="10">d = 0.25 m</text>
+              <text x="25" y="38" class="fill-primary dark:fill-primary-dark" font-size="10">F&parallel; = 40.00 N</text>
+              <text x="25" y="51" class="fill-primary dark:fill-primary-dark" font-size="10">F&perp; = 69.28 N</text>
               <circle cx="120" cy="120" r="4" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="120" y1="120" x2="190" y2="120" class="stroke-primary dark:stroke-primary-dark" stroke-width="4" stroke-linecap="round"></line>
+              <text x="155" y="112" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">d</text>
               <circle cx="190" cy="120" r="3" class="fill-primary dark:fill-primary-dark"></circle>
               <line x1="224" y1="61.11" x2="224" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="224" y1="61.11" x2="190" y2="61.11" class="stroke-muted dark:stroke-muted-dark" stroke-width="1" stroke-dasharray="3,3"></line>
               <line x1="190" y1="120" x2="224" y2="61.11" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#mt-arrow-force-m2)"></line>
               <text x="230" y="58" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">F</text>
+              <path d="M212,120 L211.81,117.13 L211.25,114.31 L210.33,111.58 L209.05,109 L207.45,106.61 L205.56,104.44 L203.39,102.55 L201,100.95" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.2"></path>
+              <text x="214.3" y="104" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">60°</text>
               <line x1="190" y1="120" x2="224" y2="120" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#mt-arrow-comp-m2)"></line>
               <text x="224" y="133" text-anchor="middle" class="fill-muted dark:fill-muted-dark" font-size="9">F&parallel;</text>
               <line x1="190" y1="120" x2="190" y2="61.11" class="stroke-muted dark:stroke-muted-dark" stroke-width="2" marker-end="url(#mt-arrow-comp-m2)"></line>
@@ -549,10 +566,13 @@
               <text x="75" y="185" text-anchor="middle" class="fill-accent dark:fill-accent-dark" font-size="9" font-weight="600">M = 17.32 N·m (CCW)</text>
             </svg>
           </div>
+          <div class="flex-1 text-[14px] text-muted dark:text-muted-dark leading-relaxed pt-1">
+            <div class="text-[12px] font-semibold tracking-[0.12em] uppercase text-accent dark:text-accent-dark mb-2">Method 2</div>
+            <p>Split F into a component along the handle (F<sub>∥</sub> = F cos 60° = <strong class="text-primary dark:text-primary-dark">40.00 N</strong>) and a component perpendicular to it (F<sub>⊥</sub> = F sin 60° &asymp; <strong class="text-primary dark:text-primary-dark">69.28 N</strong>), then find each component's own moment and add them. F<sub>∥</sub> acts along the handle itself, which already passes straight through the pivot, so its perpendicular distance — and its moment — is zero.</p>
+            <p class="mt-2">M = F<sub>⊥</sub> × d = 69.28 × 0.25 &asymp; <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong></p>
+            <p class="mt-1">Total: 0 + 17.32 = <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong></p>
+          </div>
         </div>
-
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-4 max-w-[640px] leading-relaxed"><strong class="text-primary dark:text-primary-dark">Method 1 — extend the line of action.</strong> Draw the force's line of action as a straight line through where it acts, extended until a perpendicular from the pivot can reach it, then drop that perpendicular — its length is <em>d</em><sub>⊥</sub>. Here d<sub>⊥</sub> = d sin 60° = 0.25 × 0.8660 &asymp; <strong class="text-primary dark:text-primary-dark">0.217 m</strong>, so M = F × d<sub>⊥</sub> = 80 × 0.217 &asymp; <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong>.</p>
-        <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed"><strong class="text-primary dark:text-primary-dark">Method 2 — resolve into components.</strong> Split F into a component along the handle (F<sub>∥</sub> = F cos 60° = <strong class="text-primary dark:text-primary-dark">40.00 N</strong>) and a component perpendicular to it (F<sub>⊥</sub> = F sin 60° &asymp; <strong class="text-primary dark:text-primary-dark">69.28 N</strong>), then find each component's own moment and add them. F<sub>∥</sub> acts along the handle itself, which already passes straight through the pivot, so its perpendicular distance — and its moment — is zero. F<sub>⊥</sub> is perpendicular to the full handle length d, exactly like 2a, so its moment is F<sub>⊥</sub> × d = 69.28 × 0.25 &asymp; <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong>. Total: 0 + 17.32 = <strong class="text-primary dark:text-primary-dark">17.32 N·m</strong>.</p>
         <p class="text-[14px] text-muted dark:text-muted-dark mt-3 max-w-[640px] leading-relaxed">Both methods agree: <strong class="text-primary dark:text-primary-dark">M &asymp; +17.32 N·m (CCW)</strong> — the force swings the handle the opposite way from the 2a example. Use whichever is more convenient for the geometry in front of you; they'll always give the same answer.</p>
 
         <!-- 3. Net moment -->
