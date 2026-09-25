@@ -763,15 +763,27 @@ history for details.") so the section stays skimmable as it grows.
   - **Experiment 2A — resolving a force into two perpendicular
     components**: an applied force F (mass 0–500 g via a slider, angle
     0–90° only — hangers can only pull, so cosθ/sinθ must stay ≥ 0) is
-    balanced by a horizontal hanger F1 and a vertical hanger F2 (mass
-    only — their pulley directions are fixed at 180°/270°, matching the
-    real apparatus, so no angle control exists for either). Balanced when
-    F1 = F·cosθ and F2 = F·sinθ.
+    balanced by a horizontal hanger F<sub>1</sub> and a vertical hanger
+    F<sub>2</sub> (mass only — their pulley directions are fixed at
+    180°/270°, matching the real apparatus, so no angle control exists
+    for either). Balanced when F<sub>1</sub> = F·cosθ and
+    F<sub>2</sub> = F·sinθ.
   - **Experiment 2B — resultant of two forces from rectangular
-    components**: two applied forces FA and FB (mass + angle, fully
-    free) are balanced by an adjustable equilibrant FC (mass + angle).
-    Balanced when FC's magnitude equals the resultant FR of FA+FB and FC
-    points opposite to FR (θC = θR + 180°, mod 360°).
+    components**: two applied forces F<sub>A</sub> and F<sub>B</sub>
+    (mass + angle, fully free) are balanced by an adjustable equilibrant
+    F<sub>C</sub> (mass + angle). Balanced when F<sub>C</sub>'s magnitude
+    equals the resultant F<sub>R</sub> of F<sub>A</sub>+F<sub>B</sub> and
+    F<sub>C</sub> points opposite to F<sub>R</sub>
+    (θ<sub>C</sub> = θ<sub>R</sub> + 180°, mod 360°).
+  - **F<sub>1</sub>/F<sub>2</sub>/F<sub>A</sub>/F<sub>B</sub>/F<sub>C</sub>
+    subscripts**: every occurrence of these labels (control labels, intro
+    text, the comparison panels) uses a real HTML `<sub>` tag; the SVG
+    force-diagram vector labels use the same `<tspan font-size="7"
+    dy="2">` technique already established for F<sub>R</sub> in the
+    Resolve topic's diagram (`vectorMarkup(...)`'s `label` argument is
+    passed pre-built with the tspan embedded, since it's inserted via
+    `innerHTML` rather than `textContent`) — no change to `vectorMarkup`
+    itself was needed.
   - **Shared mechanics**: forces are set via mass in grams, converted to
     newtons with F = mg (g = 9.81 m/s²) — matching the handout's own
     methodology rather than entering newtons directly. Each experiment has
@@ -781,17 +793,25 @@ history for details.") so the section stays skimmable as it grows.
     `const` redeclaration in the same scope is a hard `SyntaxError`) plus
     a small non-scaled "ring balance" panel (a dot drifts off-center
     proportionally to the residual net force, snapping to center and
-    turning accent-colored when balanced) and a numeric ΣFx/ΣFy/|ΣF| +
-    status readout. Balance tolerance is 0.1 N — reachable by dragging
-    alone but still requires real convergence. A "compare to theory" panel
-    (theoretical Fx/Fy for 2A, FR/θR for 2B) stays hidden until balanced,
-    so the answer isn't visible before the student finds it, and re-hides
-    if they drag back out of balance. Every experiment-specific helper
-    (`gramsToNewtons`, `vectorMarkup`, `ringMarkup`, `computeExp2A`/`2B`,
-    etc.) is wrapped in one `(function () { ... })();` IIFE at the end of
-    the shared `<script>` block, isolating its names from the rest of the
-    file's ~2000 lines of top-level identifiers rather than hand-checking
-    every possible collision.
+    turning accent-colored when balanced). Balance tolerance is 0.1 N —
+    reachable by dragging alone but still requires real convergence.
+  - **Reveal on demand**: the numeric ΣFx/ΣFy/|ΣF| + status readout and
+    the "compare to theory" panel (theoretical Fx/Fy for 2A, FR/θR for
+    2B) are both hidden by default — even once the student has actually
+    reached balance — until they press a new per-experiment "Check
+    Balance" button (`#e2a-check`/`#e2b-check`), so judging balance
+    visually (via the diagram and the Ring Balance panel, both always
+    visible) comes before seeing exact numbers. A `e2aRevealed`/
+    `e2bRevealed` flag (read by `setStatus(prefix, isBalanced, revealed)`,
+    which now also hides/shows the feedback card, not just the comparison
+    card) tracks this per experiment; Reset clears the flag too, so
+    starting over re-hides both panels and requires pressing Check again.
+    Every experiment-specific helper (`gramsToNewtons`, `vectorMarkup`,
+    `ringMarkup`, `computeExp2A`/`2B`, etc.) is wrapped in one
+    `(function () { ... })();` IIFE at the end of the shared `<script>`
+    block, isolating its names from the rest of the file's ~2000 lines of
+    top-level identifiers rather than hand-checking every possible
+    collision.
   - **First use of `<input type="range">` on this site** — a deliberate,
     scoped exception to the number-input-only convention used elsewhere,
     since a converge-to-balance interaction needs continuous drag
@@ -801,10 +821,12 @@ history for details.") so the section stays skimmable as it grows.
     Tailwind has no utility for the CSS `accent-color` property.
   - Verified: full navigation regression (Home → Virtual Experiments →
     Force Equilibrium → back → back → Home) plus dedicated checks that
-    both experiments start unbalanced, reach "Balanced" (and reveal the
-    compare-to-theory panel) when sliders are set to the theoretical
-    values, and that Reset restores each experiment's defaults and
-    unbalances it again.
+    the feedback/comparison panels stay hidden even once balanced until
+    Check Balance is pressed, that pressing it then reveals the feedback
+    card (and the comparison card too, once balanced), that every
+    subscript renders (both the HTML `<sub>` labels and the SVG `<tspan>`
+    diagram labels), and that Reset restores each experiment's defaults,
+    unbalances it, and re-hides both panels again.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section
