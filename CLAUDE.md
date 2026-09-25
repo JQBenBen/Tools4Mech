@@ -795,12 +795,16 @@ history for details.") so the section stays skimmable as it grows.
     proportionally to the residual net force, snapping to center and
     turning accent-colored when balanced). Balance tolerance is 0.1 N —
     reachable by dragging alone but still requires real convergence.
-  - **Reveal on demand, gated by balance**: the numeric ΣFx/ΣFy/|ΣF| +
-    status readout and the "compare to theory" panel (theoretical Fx/Fy
-    for 2A, FR/θR for 2B) are both hidden by default, revealed only via a
-    per-experiment "Check Balance" button (`#e2a-check`/`#e2b-check`) —
-    so judging balance visually (via the diagram and the Ring Balance
-    panel, both always visible) comes before seeing exact numbers. The
+  - **Live summation, reveal-on-demand comparison**: the numeric
+    ΣFx/ΣFy/|ΣF| + status readout (`#e2a-feedback`/`#e2b-feedback`)
+    **always shows**, live-updating on every slider change regardless of
+    balance state — per explicit feedback that the running totals
+    shouldn't wait behind a click. Only the "compare to theory" panel
+    (theoretical Fx/Fy for 2A, FR/θR for 2B) is hidden by default,
+    revealed via a per-experiment "Check Balance" button
+    (`#e2a-check`/`#e2b-check`) — so judging balance visually (via the
+    diagram, the Ring Balance panel, and now the live summation too, all
+    always visible) comes before seeing the theoretical comparison. The
     button itself is **disabled** (`opacity-40 cursor-not-allowed`,
     matching the site's existing disabled-button convention from the
     row-remove-floor buttons) until the system is actually balanced — it
@@ -812,9 +816,11 @@ history for details.") so the section stays skimmable as it grows.
     reveal requires balance; hiding never does. An `e2aRevealed`/
     `e2bRevealed` flag (read by `setStatus(prefix, isBalanced, revealed)`,
     which now also computes the check button's disabled state as
-    `!revealed && !isBalanced`) tracks this per experiment; Reset clears
-    the flag too, so starting over re-hides both panels and re-disables
-    the button until balanced again.
+    `!revealed && !isBalanced`) tracks this per experiment and gates only
+    the comparison panel's `hidden`; Reset clears the flag too, so
+    starting over re-hides the comparison panel and re-disables the
+    button until balanced again (the live summation stays visible
+    throughout, simply reflecting the just-reset default values).
     Every experiment-specific helper (`gramsToNewtons`, `vectorMarkup`,
     `ringMarkup`, `computeExp2A`/`2B`, etc.) is wrapped in one
     `(function () { ... })();` IIFE at the end of the shared `<script>`
@@ -856,22 +862,30 @@ history for details.") so the section stays skimmable as it grows.
     the site-wide fix.
   - Verified: full navigation regression (Home → Virtual Experiments →
     Force Equilibrium → back → back → Home) plus dedicated checks that
-    the Check Balance button is disabled while unbalanced and clicking it
-    (even forced) does nothing; that it becomes enabled once balanced and
-    a first click reveals the feedback + comparison cards; that a second
-    click hides them again while the button stays enabled (since still
-    balanced), and a third click reveals them once more; that the button
-    stays enabled/clickable to hide even after the student drifts back
-    out of balance post-reveal; that every subscript renders (both the
-    HTML `<sub>` labels and the SVG `<tspan>` diagram labels); and that
-    Reset restores each experiment's defaults, unbalances it, re-hides
-    both panels, and re-disables the button. Re-verified after the
-    `[hidden]`-vs-`flex` fix above with a *different*, layer-accurate test
-    stylesheet (`@layer base, utilities;`, matching Tailwind's real CDN
-    output) checking actual `getComputedStyle(...).display`, not just the
-    `hidden` DOM property/attribute — the earlier tests all read `.hidden`
-    (the property) directly, which was always correctly `true`/`false`
-    and so never would have caught this rendering-only bug.
+    the feedback panel (live ΣFx/ΣFy/status) is visible from the very
+    start, before any balance is reached; that the Check Balance button
+    is disabled while unbalanced and clicking it (even forced) does
+    nothing to the comparison panel; that it becomes enabled once
+    balanced and a first click reveals the comparison card (feedback was
+    already visible); that a second click hides the comparison again
+    while the feedback panel stays visible and the button stays enabled
+    (since still balanced), and a third click reveals the comparison once
+    more; that the button stays enabled/clickable to hide even after the
+    student drifts back out of balance post-reveal; that every subscript
+    renders (both the HTML `<sub>` labels and the SVG `<tspan>` diagram
+    labels); and that Reset restores each experiment's defaults,
+    unbalances it, re-hides the comparison panel (feedback stays visible,
+    now reflecting the reset values), and re-disables the button.
+    Re-verified after the `[hidden]`-vs-`flex` fix above with a
+    *different*, layer-accurate test stylesheet (`@layer base,
+    utilities;`, matching Tailwind's real CDN output) checking actual
+    `getComputedStyle(...).display`, not just the `hidden` DOM property/
+    attribute — the earlier tests all read `.hidden` (the property)
+    directly, which was always correctly `true`/`false` and so never
+    would have caught this rendering-only bug. That same layer-accurate
+    stylesheet was reused again to confirm the feedback-always-visible/
+    comparison-still-gated split renders correctly, not just toggles the
+    right DOM property.
 - **Moment Equilibrium** (done): a second `VIRTUAL_EXPERIMENTS_DATA`
   entry `moments-in-equilibrium`, rendered at
   `#experiment-view-moments-in-equilibrium` (sibling of
@@ -948,17 +962,22 @@ history for details.") so the section stays skimmable as it grows.
     spin visibly speeds up/slows/reverses immediately as sliders (mass
     **or** angle) move and settles to a stop (zero angular velocity, not
     a specific angle) once |ΣM| is within tolerance.
-  - **Check Balance button + reveal panel**: identical disabled-until-
-    balanced/toggle-to-hide/stays-enabled-after-drifting gating as Force
-    Equilibrium's `setStatus`, under its own `emRevealed` flag — balanced
-    requires ΣFx, ΣFy, **and** ΣM all within tolerance (0.15 N / 0.03 N·m).
-    Revealed content is two tables (matching the handout's own "separate
-    tabulations for forces and moments" requirement) rather than prose:
-    a **Forces table** (Fx/Fy per force — A, B, C, Weight — plus a Σ row)
-    and a **Moments about the CG table** (F, d — perpendicular distance
-    from the pivot to that force's line of action, reusing the Moment
-    topic's M=F×d framing — and M=F×d per force, Weight's row hardcoded
-    d=0/M=0 "acts through the pivot", plus a Σ row).
+  - **Live summation, reveal-on-demand tables**: like Force Equilibrium
+    (see its own entry above for the shared rationale), the numeric
+    ΣFx/ΣFy/ΣM + status readout (`#em-feedback`) **always shows**,
+    live-updating on every slider change regardless of balance state.
+    Only the two detailed tables (`#em-comparison`) are gated: identical
+    disabled-until-balanced/toggle-to-hide/stays-enabled-after-drifting
+    gating as Force Equilibrium's `setStatus`, under its own `emRevealed`
+    flag — balanced requires ΣFx, ΣFy, **and** ΣM all within tolerance
+    (0.15 N / 0.03 N·m). Revealed content is two tables (matching the
+    handout's own "separate tabulations for forces and moments"
+    requirement) rather than prose: a **Forces table** (Fx/Fy per force —
+    A, B, C, Weight — plus a Σ row) and a **Moments about the CG table**
+    (F, d — perpendicular distance from the pivot to that force's line of
+    action, reusing the Moment topic's M=F×d framing — and M=F×d per
+    force, Weight's row hardcoded d=0/M=0 "acts through the pivot", plus a
+    Σ row).
   - **Own IIFE**: a second `(function () { ... })();` at the end of the
     shared `<script>` block, entirely separate from Force Equilibrium's —
     duplicates its own tiny `gramsToNewtons` rather than sharing Force
@@ -966,26 +985,35 @@ history for details.") so the section stays skimmable as it grows.
     top-level), so the two experiments have zero shared mutable state.
   - Verified: full navigation regression (Home → Virtual Experiments →
     Moment Equilibrium → back → back → Home) plus dedicated checks
-    that the balance shape's `transform` attribute actively changes over
-    time while unbalanced (confirming the animation loop is really
-    running) and becomes stable once balanced (confirming it stops); that
-    setting mA/mB/mC to the verified solution (at default θA/θB/lamina
-    mass) reaches "Balanced" and drives ΣFx/ΣFy/ΣM in both the feedback
-    line and both tables' Σ rows to ≈0; the Check Balance
-    disabled→enabled transition and the same reveal/hide/stays-enabled-
-    while-drifted toggle behavior as Force Equilibrium; that pushing mC
-    far from the solution makes ΣM noticeably nonzero again and resumes
-    the spin; that nudging θ<sub>A</sub> alone away from its balanced
-    value also unbalances the system (confirming the angle sliders
-    genuinely feed the physics, not just the diagram); that the lamina
-    mass and θ<sub>A</sub>/θ<sub>B</sub> sliders default to and use the
-    documented ranges/values (80 g / 0–300 g; 60°/42°, each 0–90°); that
-    Reset restores all six control defaults (mA/mB/mC, θA, θB, lamina
-    mass) and re-disables the button; subscript checks on the
+    that the feedback panel (live ΣFx/ΣFy/ΣM/status) is visible from the
+    very start, before any balance is reached; that the balance shape's
+    `transform` attribute actively changes over time while unbalanced
+    (confirming the animation loop is really running) and becomes stable
+    once balanced (confirming it stops); that setting mA/mB/mC to the
+    verified solution (at default θA/θB/lamina mass) reaches "Balanced"
+    and drives ΣFx/ΣFy/ΣM in both the (always-visible) feedback line and
+    both tables' Σ rows to ≈0; the Check Balance disabled→enabled
+    transition and the same reveal/hide/stays-enabled-while-drifted
+    toggle behavior as Force Equilibrium, now scoped to just the tables
+    (feedback stays visible throughout every toggle); that pushing mC far
+    from the solution makes ΣM noticeably nonzero again and resumes the
+    spin; that nudging θ<sub>A</sub> alone away from its balanced value
+    also unbalances the system (confirming the angle sliders genuinely
+    feed the physics, not just the diagram); that the lamina mass and
+    θ<sub>A</sub>/θ<sub>B</sub> sliders default to and use the documented
+    ranges/values (80 g / 0–300 g; 60°/42°, each 0–90°); that Reset
+    restores all six control defaults (mA/mB/mC, θA, θB, lamina mass),
+    re-hides the tables (feedback stays visible, now reflecting the reset
+    values), and re-disables the button; subscript checks on the
     m<sub>A</sub>/θ<sub>A</sub>/θ<sub>B</sub> control labels; and a
     cross-check that loading this experiment doesn't leak state into or
     break Force Equilibrium's
-    own Check Balance gating (separate IIFEs, confirmed independent).
+    own Check Balance gating (separate IIFEs, confirmed independent). The
+    same layer-accurate `@layer base, utilities;` test stylesheet used to
+    catch the `[hidden]`-vs-`flex` bug (documented under Force
+    Equilibrium above) was reused here too, confirming the feedback panel
+    is actually rendered visible (`getComputedStyle(...).display`), not
+    just DOM-property-`hidden`-false.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section

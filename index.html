@@ -1514,7 +1514,7 @@
               Check Balance
             </button>
 
-            <div id="e2a-feedback" hidden class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+            <div id="e2a-feedback" class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
               <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
                 <span>&Sigma;Fx = <span id="e2a-sumfx" class="font-semibold"></span> N</span>
                 <span>&Sigma;Fy = <span id="e2a-sumfy" class="font-semibold"></span> N</span>
@@ -1660,7 +1660,7 @@
               Check Balance
             </button>
 
-            <div id="e2b-feedback" hidden class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+            <div id="e2b-feedback" class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
               <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
                 <span>&Sigma;Fx = <span id="e2b-sumfx" class="font-semibold"></span> N</span>
                 <span>&Sigma;Fy = <span id="e2b-sumfy" class="font-semibold"></span> N</span>
@@ -1811,7 +1811,7 @@
               Check Balance
             </button>
 
-            <div id="em-feedback" hidden class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+            <div id="em-feedback" class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
               <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
                 <span>&Sigma;Fx = <span id="em-sumfx" class="font-semibold"></span> N</span>
                 <span>&Sigma;Fy = <span id="em-sumfy" class="font-semibold"></span> N</span>
@@ -2542,7 +2542,8 @@
         const text = document.getElementById(prefix + '-status-text');
         dot.className = 'w-[9px] h-[9px] rounded-full shrink-0 ' + (isBalanced ? 'bg-accent dark:bg-accent-dark' : 'bg-danger dark:bg-danger-dark');
         text.textContent = isBalanced ? 'Balanced — the ring is at rest.' : 'Not balanced yet — keep adjusting.';
-        document.getElementById(prefix + '-feedback').hidden = !revealed;
+        // The live ΣFx/ΣFy/status readout always shows; only the detailed
+        // "compare to theory" panel is gated behind Check Balance.
         document.getElementById(prefix + '-comparison').hidden = !revealed;
 
         // The button can only start a reveal while balanced, but once
@@ -2817,7 +2818,8 @@
         const text = document.getElementById('em-status-text');
         dot.className = 'w-[9px] h-[9px] rounded-full shrink-0 ' + (s.isBalanced ? 'bg-accent dark:bg-accent-dark' : 'bg-danger dark:bg-danger-dark');
         text.textContent = s.isBalanced ? 'Balanced — the lamina is at rest.' : 'Not balanced yet — keep adjusting.';
-        document.getElementById('em-feedback').hidden = !emRevealed;
+        // The live ΣFx/ΣFy/ΣM/status readout always shows; only the detailed
+        // Forces/Moments tables are gated behind Check Balance.
         document.getElementById('em-comparison').hidden = !emRevealed;
 
         const check = document.getElementById('em-check');
