@@ -828,6 +828,32 @@ history for details.") so the section stays skimmable as it grows.
     supplementary `<style>` block (this file's first) for
     `input[type="range"] { accent-color: ... }` (light/dark), since
     Tailwind has no utility for the CSS `accent-color` property.
+  - **`[hidden]`-vs-`flex` bug fix** (caught after the fact, reported as
+    "the table shows before Check Balance"): every reveal panel gated by
+    the native `hidden` boolean attribute (`e2a`/`e2b`/`em`
+    `-feedback`/`-comparison`) also carries a `flex`/`flex-col` Tailwind
+    class for its internal layout. Tailwind's CDN build emits its utility
+    classes inside `@layer utilities`, and CSS Cascade Layers give a
+    later-declared layer priority over an earlier one **regardless of
+    selector specificity** — so `.flex { display: flex }` (utilities
+    layer) silently beat the browser's own `[hidden] { display: none }`
+    rule (which only exists in the low-priority user-agent stylesheet,
+    not in any of Tailwind's layers), and every one of these panels was
+    actually rendering visible on page load the whole time, in the real
+    browser. This escaped every prior verification run in this project
+    because the Playwright test scripts' own convenience stylesheet
+    always added `[hidden] { display: none !important; }` as a
+    (previously unrecognized) workaround, masking the bug in every test
+    without it being present in the shipped page itself. Fixed by adding
+    that same rule — genuinely needed this time, not just a test
+    convenience — as a plain, unlayered declaration in the site's own
+    `<style>` block: an unlayered author-origin rule beats every `@layer`
+    (including `utilities`), regardless of order or `!important`, so
+    `[hidden] { display: none !important; }` there reliably wins now.
+    Confirmed the mechanism with an isolated Playwright repro
+    (`@layer base, utilities;` + `[hidden]` in base vs. `.flex` in
+    utilities — visible without the fix, hidden with it) before trusting
+    the site-wide fix.
   - Verified: full navigation regression (Home → Virtual Experiments →
     Force Equilibrium → back → back → Home) plus dedicated checks that
     the Check Balance button is disabled while unbalanced and clicking it
@@ -839,7 +865,13 @@ history for details.") so the section stays skimmable as it grows.
     out of balance post-reveal; that every subscript renders (both the
     HTML `<sub>` labels and the SVG `<tspan>` diagram labels); and that
     Reset restores each experiment's defaults, unbalances it, re-hides
-    both panels, and re-disables the button.
+    both panels, and re-disables the button. Re-verified after the
+    `[hidden]`-vs-`flex` fix above with a *different*, layer-accurate test
+    stylesheet (`@layer base, utilities;`, matching Tailwind's real CDN
+    output) checking actual `getComputedStyle(...).display`, not just the
+    `hidden` DOM property/attribute — the earlier tests all read `.hidden`
+    (the property) directly, which was always correctly `true`/`false`
+    and so never would have caught this rendering-only bug.
 - **Moment Equilibrium** (done): a second `VIRTUAL_EXPERIMENTS_DATA`
   entry `moments-in-equilibrium`, rendered at
   `#experiment-view-moments-in-equilibrium` (sibling of

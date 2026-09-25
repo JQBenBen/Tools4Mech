@@ -68,6 +68,13 @@
        on the site, so their accent color needs a rule Tailwind has no utility for. */
     input[type="range"] { accent-color: oklch(45% 0.09 200); }
     .dark input[type="range"] { accent-color: oklch(75% 0.09 200); }
+    /* Tailwind's CDN build puts utility classes in an @layer, so a "flex"/
+       "grid" utility on the same element beats the browser's own low-priority
+       [hidden] rule regardless of source order — any reveal panel that's both
+       `hidden` and `flex` (e2a/e2b/em feedback+comparison) was rendering
+       visible from the start. This plain, unlayered rule always wins over any
+       @layer'd utility, so `hidden` reliably hides once more. */
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body class="font-body bg-bg dark:bg-bg-dark text-primary dark:text-primary-dark min-h-screen transition-colors duration-200">
