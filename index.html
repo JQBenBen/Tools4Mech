@@ -1678,7 +1678,7 @@
 
       <section id="experiment-view-moments-in-equilibrium" class="hidden py-[38px]" data-experiment-view>
         <button data-action="show-section" data-section-id="virtual-experiments" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Virtual Experiments</button>
-        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moments in Equilibrium</h2>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moment Equilibrium</h2>
         <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Based on SP's Mechanics 1 &ldquo;Experiment 3: Moments in Equilibrium&rdquo; lab. A lamina hangs from three strings at <strong class="text-primary dark:text-primary-dark">A</strong>, <strong class="text-primary dark:text-primary-dark">B</strong> and <strong class="text-primary dark:text-primary-dark">C</strong>, plus its own weight through its centre of gravity (CG). Because these forces act at different points, balancing forces alone isn't enough &mdash; the lamina will keep <strong class="text-primary dark:text-primary-dark">spinning</strong> until the net moment about the CG is zero too.</p>
 
         <div class="mt-6 flex flex-col lg:flex-row gap-6 items-start">
@@ -1990,7 +1990,7 @@
         category: "",
         experiments: [
           { id: "force-equilibrium", name: "Force Equilibrium", description: "Balance a force board's ring by adjusting hanging masses and angles — resolve a force into components, then find the resultant of two forces." },
-          { id: "moments-in-equilibrium", name: "Moments in Equilibrium", description: "Balance a hanging lamina's forces AND moments — watch it drift and spin until it's truly at rest." },
+          { id: "moments-in-equilibrium", name: "Moment Equilibrium", description: "Balance a hanging lamina's forces AND moments — watch it drift and spin until it's truly at rest." },
         ],
       },
       // Phase 2+: push additional experiments into the array above (no categories).
@@ -2685,7 +2685,7 @@
       updateExp2B();
     })();
 
-    // Moments in Equilibrium (Virtual Experiments). A second, independent
+    // Moment Equilibrium (Virtual Experiments). A second, independent
     // IIFE — own scope, no shared state with the Force Equilibrium IIFE
     // above, so it reuses only the top-level polarToXY/toComponents (never
     // redeclared) and re-declares its own small gramsToNewtons etc.

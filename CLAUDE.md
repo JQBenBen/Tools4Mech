@@ -840,7 +840,7 @@ history for details.") so the section stays skimmable as it grows.
     HTML `<sub>` labels and the SVG `<tspan>` diagram labels); and that
     Reset restores each experiment's defaults, unbalances it, re-hides
     both panels, and re-disables the button.
-- **Moments in Equilibrium** (done): a second `VIRTUAL_EXPERIMENTS_DATA`
+- **Moment Equilibrium** (done): a second `VIRTUAL_EXPERIMENTS_DATA`
   entry `moments-in-equilibrium`, rendered at
   `#experiment-view-moments-in-equilibrium` (sibling of
   `#experiment-view-force-equilibrium`), `EXPERIMENT_ICONS`
@@ -933,7 +933,7 @@ history for details.") so the section stays skimmable as it grows.
     Equilibrium's IIFE-scoped one (deliberately isolated, not hoisted to
     top-level), so the two experiments have zero shared mutable state.
   - Verified: full navigation regression (Home → Virtual Experiments →
-    Moments in Equilibrium → back → back → Home) plus dedicated checks
+    Moment Equilibrium → back → back → Home) plus dedicated checks
     that the balance shape's `transform` attribute actively changes over
     time while unbalanced (confirming the animation loop is really
     running) and becomes stable once balanced (confirming it stops); that
