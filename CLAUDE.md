@@ -110,15 +110,16 @@ history for details.") so the section stays skimmable as it grows.
   `#home-view` → `#section-view-<id>` → `#topic-view-<id>` /
   `#tool-view-<id>`. Home shows the 3 section cards (Concepts and Theory,
   Tools, Virtual Experiments); a section's own back button returns Home; a
-  topic's or tool's back button returns to its section. Generic
-  `showHome()`/`showSection(id)`/`showTopic(id)`/`showTool(id)` all route
-  through one `hideAllViews()` (hides `#home-view` + every
-  `[data-section-view]` + every `[data-topic-view]` + every
-  `[data-tool-view]`, then un-hides the target). Verified working
-  (Playwright click-through: Home → Tools → Force Calculator → back → Tools
-  → back → Home; Home → Concepts and Theory → Resolve and Resultant Force
-  → back → back → Home; the empty Virtual Experiments section → back →
-  Home).
+  topic's, tool's, or experiment's back button returns to its section.
+  Generic `showHome()`/`showSection(id)`/`showTopic(id)`/`showTool(id)`/
+  `showExperiment(id)` all route through one `hideAllViews()` (hides
+  `#home-view` + every `[data-section-view]` + every `[data-topic-view]`
+  + every `[data-tool-view]` + every `[data-experiment-view]`, then
+  un-hides the target). Verified working (Playwright click-through:
+  Home → Tools → Force Calculator → back → Tools → back → Home; Home →
+  Concepts and Theory → Resolve and Resultant Force → back → back → Home;
+  Home → Virtual Experiments → Force Equilibrium → back → back → Home,
+  once real content replaced the section's original empty/ghost state).
 - Dark/light toggle persisted in `localStorage`, defaulting to OS
   preference until the user explicitly chooses. Verified working.
 - **Data model**: `SECTIONS_DATA = [{ id, name, description }]` (+
@@ -143,12 +144,12 @@ history for details.") so the section stays skimmable as it grows.
 - **Key flows**: one delegated click listener, checked in this order so a
   button's `data-action` always wins over a bare card attribute:
   `[data-action="show-home"]` → `showHome()`; `[data-action="show-section"]`
-  (reads `data-section-id`) → `showSection(...)` (used by topic/tool back
-  buttons, and by inline cross-links in topic content); `[data-action=
-  "remove-row"]` (unchanged); `[data-tool-id]` → `showTool(...)`;
-  `[data-topic-id]` → `showTopic(...)`; bare `[data-section-id]` (home's
-  section cards) → `showSection(...)`. The shared dynamic add/remove-row
-  pattern
+  (reads `data-section-id`) → `showSection(...)` (used by topic/tool/
+  experiment back buttons, and by inline cross-links in topic content);
+  `[data-action="remove-row"]` (unchanged); `[data-tool-id]` →
+  `showTool(...)`; `[data-topic-id]` → `showTopic(...)`; `[data-experiment-
+  id]` → `showExperiment(...)`; bare `[data-section-id]` (home's section
+  cards) → `showSection(...)`. The shared dynamic add/remove-row pattern
   (`<template>`-based, min 1 row, default 2 rows, `addRow`/`removeRow`/
   `updateRemoveButtons` + a `rows-changed` event for listeners) is built
   and used by both calculators, unaffected by the sections change.
@@ -203,9 +204,9 @@ history for details.") so the section stays skimmable as it grows.
 - Homepage shows 3 top-level sections instead of items directly:
   **Concepts and Theory** holds topics (see below) and its own back
   button → Home; **Tools** holds the Phase 1 calculators (see above) and
-  its own back button → Home; **Virtual Experiments** is still a
-  placeholder (ghost/"coming soon" pattern, back button → Home). See
-  Portal shell above for the `SECTIONS_DATA`/navigation details.
+  its own back button → Home; **Virtual Experiments** holds interactive
+  experiments (see below) and its own back button → Home. See Portal
+  shell above for the `SECTIONS_DATA`/navigation details.
 
 ### Concepts and Theory (status: in progress — 4 topics, no categories)
 - **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` topic
@@ -737,6 +738,73 @@ history for details.") so the section stays skimmable as it grows.
   true side-by-side desktop layout was actually checked, not just the
   mobile-stacked fallback — plus the full navigation regression and a
   check that both new cross-links to Tools work.
+
+### Virtual Experiments (status: in progress — 1 experiment, no categories)
+- **Portal shell reuse**: the section's own data-driven grid follows the
+  exact same pattern as Tools/Concepts — a new `VIRTUAL_EXPERIMENTS_DATA`
+  (flat, `category: ""`, one entry so far) + `EXPERIMENT_ICONS` +
+  `renderExperimentsGrid()` (a thin wrapper around the shared
+  `renderItemGrid`, dataset key `experimentId`) replaces the section's old
+  ghost/"coming soon" placeholder; a fourth `showExperiment(id)` /
+  `data-experiment-view` / `experiment-view-<id>` view layer (mirroring
+  `showTool`/`data-tool-view`/`tool-view-<id>` exactly) was added alongside
+  the existing three, with `hideAllViews()` and the delegated click
+  listener updated to match. Zero changes to any other section's
+  navigation/grid code — the generic pattern absorbed a fourth view type
+  without modification, as designed.
+- **Force Equilibrium** (done): a single `VIRTUAL_EXPERIMENTS_DATA` entry
+  `force-equilibrium`, rendered at `#experiment-view-force-equilibrium`.
+  Adapted from an SP Mechanics 1 lab handout ("Experiment 2: Resolution of
+  Forces") — first drafted and approved as a standalone Artifact preview,
+  then ported in verbatim once approved. Two force-board simulations, each
+  a converge-to-balance interaction (not a one-shot "Calculate" button
+  like the Tools calculators): drag sliders until a virtual force ring's
+  net force is ≈ 0.
+  - **Experiment 2A — resolving a force into two perpendicular
+    components**: an applied force F (mass 0–500 g via a slider, angle
+    0–90° only — hangers can only pull, so cosθ/sinθ must stay ≥ 0) is
+    balanced by a horizontal hanger F1 and a vertical hanger F2 (mass
+    only — their pulley directions are fixed at 180°/270°, matching the
+    real apparatus, so no angle control exists for either). Balanced when
+    F1 = F·cosθ and F2 = F·sinθ.
+  - **Experiment 2B — resultant of two forces from rectangular
+    components**: two applied forces FA and FB (mass + angle, fully
+    free) are balanced by an adjustable equilibrant FC (mass + angle).
+    Balanced when FC's magnitude equals the resultant FR of FA+FB and FC
+    points opposite to FR (θC = θR + 180°, mod 360°).
+  - **Shared mechanics**: forces are set via mass in grams, converted to
+    newtons with F = mg (g = 9.81 m/s²) — matching the handout's own
+    methodology rather than entering newtons directly. Each experiment has
+    its own live 240×240 vector diagram (reusing the Force Calculator's
+    exact `polarToXY`/`toComponents`/`DIAGRAM_CX`/`DIAGRAM_CY`/
+    `DIAGRAM_RADIUS` — not redeclared, just called directly, since a
+    `const` redeclaration in the same scope is a hard `SyntaxError`) plus
+    a small non-scaled "ring balance" panel (a dot drifts off-center
+    proportionally to the residual net force, snapping to center and
+    turning accent-colored when balanced) and a numeric ΣFx/ΣFy/|ΣF| +
+    status readout. Balance tolerance is 0.1 N — reachable by dragging
+    alone but still requires real convergence. A "compare to theory" panel
+    (theoretical Fx/Fy for 2A, FR/θR for 2B) stays hidden until balanced,
+    so the answer isn't visible before the student finds it, and re-hides
+    if they drag back out of balance. Every experiment-specific helper
+    (`gramsToNewtons`, `vectorMarkup`, `ringMarkup`, `computeExp2A`/`2B`,
+    etc.) is wrapped in one `(function () { ... })();` IIFE at the end of
+    the shared `<script>` block, isolating its names from the rest of the
+    file's ~2000 lines of top-level identifiers rather than hand-checking
+    every possible collision.
+  - **First use of `<input type="range">` on this site** — a deliberate,
+    scoped exception to the number-input-only convention used elsewhere,
+    since a converge-to-balance interaction needs continuous drag
+    feedback, not an explicit "Calculate" click. Needed one small
+    supplementary `<style>` block (this file's first) for
+    `input[type="range"] { accent-color: ... }` (light/dark), since
+    Tailwind has no utility for the CSS `accent-color` property.
+  - Verified: full navigation regression (Home → Virtual Experiments →
+    Force Equilibrium → back → back → Home) plus dedicated checks that
+    both experiments start unbalanced, reach "Balanced" (and reveal the
+    compare-to-theory panel) when sliders are set to the theoretical
+    values, and that Reset restores each experiment's defaults and
+    unbalances it again.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section

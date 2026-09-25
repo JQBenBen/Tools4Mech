@@ -62,6 +62,13 @@
       },
     };
   </script>
+
+  <style>
+    /* Force Equilibrium experiment: sliders are the only <input type="range">
+       on the site, so their accent color needs a rule Tailwind has no utility for. */
+    input[type="range"] { accent-color: oklch(45% 0.09 200); }
+    .dark input[type="range"] { accent-color: oklch(75% 0.09 200); }
+  </style>
 </head>
 <body class="font-body bg-bg dark:bg-bg-dark text-primary dark:text-primary-dark min-h-screen transition-colors duration-200">
 
@@ -108,13 +115,7 @@
         <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all sections</button>
         <h1 class="font-display font-semibold text-[32px] md:text-[38px] mt-4">Virtual Experiments</h1>
         <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Interactive simulations to explore mechanics concepts hands-on.</p>
-        <div class="mt-8 bg-ghost dark:bg-ghost-dark border-[1.5px] border-dashed border-dashed dark:border-dashed-dark rounded-[14px] p-[30px] flex flex-col gap-3 items-start max-w-[420px]">
-          <div class="w-[46px] h-[46px] rounded-full bg-card dark:bg-card-dark flex items-center justify-center text-muted dark:text-muted-dark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </div>
-          <div class="font-display font-semibold text-[16.5px]">Content coming soon</div>
-          <div class="text-[13px] text-caption dark:text-caption-dark italic">This section hasn't been built yet.</div>
-        </div>
+        <div id="experiments-grid-container" class="py-[38px]"></div>
       </section>
 
     </div>
@@ -1395,6 +1396,278 @@
 
     </div>
 
+    <div id="experiment-views-container">
+
+      <section id="experiment-view-force-equilibrium" class="hidden py-[38px]" data-experiment-view>
+        <button data-action="show-section" data-section-id="virtual-experiments" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Virtual Experiments</button>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Force Equilibrium</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Two force-board simulations, based on SP's Mechanics 1 &ldquo;Experiment 2: Resolution of Forces&rdquo; lab. Drag the sliders to adjust each hanging mass and pulley angle until the ring sits still &mdash; that's equilibrium.</p>
+
+        <!-- ===================== Experiment 2A ===================== -->
+        <h3 class="font-display font-semibold text-[18px] mt-10">Experiment 2A: Resolving a Force into Two Perpendicular Components</h3>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">An applied force <strong class="text-primary dark:text-primary-dark">F</strong> pulls the ring at angle <strong class="text-primary dark:text-primary-dark">&theta;</strong>. It's balanced by a horizontal hanger <strong class="text-primary dark:text-primary-dark">F1</strong> and a vertical hanger <strong class="text-primary dark:text-primary-dark">F2</strong> &mdash; their pulleys are fixed in place, so only their mass (not direction) is adjustable, just like the real force board.</p>
+
+        <div class="mt-6 flex flex-col lg:flex-row gap-6 items-start">
+          <div class="w-full lg:w-[320px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Applied force</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2a-f-mass-slider" class="text-[13px] font-medium">F &mdash; mass on hanger</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2a-f-mass-number" type="number" min="0" max="500" step="1" value="300" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2a-f-mass-slider" type="range" min="0" max="500" step="5" value="300" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2a-f-angle-slider" class="text-[13px] font-medium">&theta; &mdash; angle above horizontal</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2a-f-angle-number" type="number" min="0" max="90" step="1" value="40" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="e2a-f-angle-slider" type="range" min="0" max="90" step="1" value="40" class="w-full">
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-1">0&ndash;90&deg; only &mdash; hangers can only pull, never push.</div>
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Balancing forces</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2a-f1-mass-slider" class="text-[13px] font-medium">F1 &mdash; fixed horizontal</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2a-f1-mass-number" type="number" min="0" max="500" step="1" value="150" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2a-f1-mass-slider" type="range" min="0" max="500" step="5" value="150" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2a-f2-mass-slider" class="text-[13px] font-medium">F2 &mdash; fixed vertical</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2a-f2-mass-number" type="number" min="0" max="500" step="1" value="250" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2a-f2-mass-slider" type="range" min="0" max="500" step="5" value="250" class="w-full">
+            </div>
+
+            <button type="button" id="e2a-reset" class="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              Reset
+            </button>
+          </div>
+
+          <div class="flex-1 w-full flex flex-col gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Force Diagram</div>
+                <svg viewBox="0 0 240 240" class="w-full h-auto">
+                  <defs>
+                    <marker id="e2a-arrow-force" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
+                    <marker id="e2a-arrow-residual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-danger dark:fill-danger-dark"></path></marker>
+                  </defs>
+                  <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                    <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                    <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+                  </g>
+                  <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+                  <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+                  <g id="e2a-vectors"></g>
+                </svg>
+              </div>
+              <div class="w-full sm:w-[200px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Ring Balance</div>
+                <svg viewBox="0 0 200 200" class="w-full h-auto">
+                  <circle cx="100" cy="100" r="78" fill="none" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1.5"></circle>
+                  <circle cx="100" cy="22" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="178" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="100" cy="178" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="22" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <line x1="94" y1="100" x2="106" y2="100" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <line x1="100" y1="94" x2="100" y2="106" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <g id="e2a-ring"></g>
+                </svg>
+              </div>
+            </div>
+
+            <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+              <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
+                <span>&Sigma;Fx = <span id="e2a-sumfx" class="font-semibold"></span> N</span>
+                <span>&Sigma;Fy = <span id="e2a-sumfy" class="font-semibold"></span> N</span>
+                <span>|&Sigma;F| = <span id="e2a-residual" class="font-semibold"></span> N</span>
+              </div>
+              <div class="flex items-center gap-2 text-[14px] font-medium">
+                <span id="e2a-status-dot" class="w-[9px] h-[9px] rounded-full shrink-0"></span>
+                <span id="e2a-status-text"></span>
+              </div>
+            </div>
+
+            <div id="e2a-comparison" hidden class="bg-accent-tint dark:bg-accent-tint-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-accent dark:text-accent-dark mb-2">Compare to theory</div>
+              <div class="text-[13px] leading-relaxed [font-variant-numeric:tabular-nums]">
+                F<sub>x</sub> = F&middot;cos&theta; = <span id="e2a-fx-theory"></span> N &mdash; your F1 = <span id="e2a-f1-actual"></span> N<br>
+                F<sub>y</sub> = F&middot;sin&theta; = <span id="e2a-fy-theory"></span> N &mdash; your F2 = <span id="e2a-f2-actual"></span> N
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== Experiment 2B ===================== -->
+        <h3 class="font-display font-semibold text-[18px] mt-10">Experiment 2B: Resultant of Two Forces from Rectangular Components</h3>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Two applied forces <strong class="text-primary dark:text-primary-dark">FA</strong> and <strong class="text-primary dark:text-primary-dark">FB</strong> pull the ring. Adjust the equilibrant <strong class="text-primary dark:text-primary-dark">FC</strong> &mdash; both its mass and its angle &mdash; until the ring is at rest. At balance, FC equals the resultant of FA and FB, pointing the opposite way.</p>
+
+        <div class="mt-6 flex flex-col lg:flex-row gap-6 items-start">
+          <div class="w-full lg:w-[320px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Applied forces</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fa-mass-slider" class="text-[13px] font-medium">FA &mdash; mass</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fa-mass-number" type="number" min="0" max="500" step="1" value="250" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2b-fa-mass-slider" type="range" min="0" max="500" step="5" value="250" class="w-full">
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fa-angle-slider" class="text-[13px] font-medium">FA &mdash; angle</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fa-angle-number" type="number" min="0" max="360" step="1" value="30" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="e2b-fa-angle-slider" type="range" min="0" max="360" step="1" value="30" class="w-full">
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fb-mass-slider" class="text-[13px] font-medium">FB &mdash; mass</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fb-mass-number" type="number" min="0" max="500" step="1" value="200" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2b-fb-mass-slider" type="range" min="0" max="500" step="5" value="200" class="w-full">
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fb-angle-slider" class="text-[13px] font-medium">FB &mdash; angle</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fb-angle-number" type="number" min="0" max="360" step="1" value="130" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="e2b-fb-angle-slider" type="range" min="0" max="360" step="1" value="130" class="w-full">
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Equilibrant</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fc-mass-slider" class="text-[13px] font-medium">FC &mdash; mass</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fc-mass-number" type="number" min="0" max="500" step="1" value="200" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="e2b-fc-mass-slider" type="range" min="0" max="500" step="5" value="200" class="w-full">
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="e2b-fc-angle-slider" class="text-[13px] font-medium">FC &mdash; angle</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="e2b-fc-angle-number" type="number" min="0" max="360" step="1" value="90" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="e2b-fc-angle-slider" type="range" min="0" max="360" step="1" value="90" class="w-full">
+            </div>
+
+            <button type="button" id="e2b-reset" class="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              Reset
+            </button>
+          </div>
+
+          <div class="flex-1 w-full flex flex-col gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Force Diagram</div>
+                <svg viewBox="0 0 240 240" class="w-full h-auto">
+                  <defs>
+                    <marker id="e2b-arrow-force" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
+                    <marker id="e2b-arrow-residual" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-danger dark:fill-danger-dark"></path></marker>
+                  </defs>
+                  <g class="text-hairline dark:text-hairline-dark" stroke="currentColor" stroke-width="1">
+                    <line x1="70" y1="20" x2="70" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="170" y1="20" x2="170" y2="220" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="70" x2="220" y2="70" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="170" x2="220" y2="170" stroke-dasharray="2,3" opacity="0.6"></line>
+                    <line x1="20" y1="120" x2="220" y2="120" stroke-width="1.5"></line>
+                    <line x1="120" y1="20" x2="120" y2="220" stroke-width="1.5"></line>
+                  </g>
+                  <text x="222" y="132" class="fill-muted dark:fill-muted-dark" font-size="10">x</text>
+                  <text x="128" y="18" class="fill-muted dark:fill-muted-dark" font-size="10">y</text>
+                  <g id="e2b-vectors"></g>
+                </svg>
+              </div>
+              <div class="w-full sm:w-[200px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Ring Balance</div>
+                <svg viewBox="0 0 200 200" class="w-full h-auto">
+                  <circle cx="100" cy="100" r="78" fill="none" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1.5"></circle>
+                  <circle cx="100" cy="22" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="178" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="100" cy="178" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="22" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <line x1="94" y1="100" x2="106" y2="100" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <line x1="100" y1="94" x2="100" y2="106" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <g id="e2b-ring"></g>
+                </svg>
+              </div>
+            </div>
+
+            <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+              <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
+                <span>&Sigma;Fx = <span id="e2b-sumfx" class="font-semibold"></span> N</span>
+                <span>&Sigma;Fy = <span id="e2b-sumfy" class="font-semibold"></span> N</span>
+                <span>|&Sigma;F| = <span id="e2b-residual" class="font-semibold"></span> N</span>
+              </div>
+              <div class="flex items-center gap-2 text-[14px] font-medium">
+                <span id="e2b-status-dot" class="w-[9px] h-[9px] rounded-full shrink-0"></span>
+                <span id="e2b-status-text"></span>
+              </div>
+            </div>
+
+            <div id="e2b-comparison" hidden class="bg-accent-tint dark:bg-accent-tint-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-accent dark:text-accent-dark mb-2">Compare to theory</div>
+              <div class="text-[13px] leading-relaxed [font-variant-numeric:tabular-nums]">
+                Resultant of FA + FB: F<sub>R</sub> = <span id="e2b-fr-theory"></span> N at &theta;<sub>R</sub> = <span id="e2b-thetar-theory"></span>&deg;<br>
+                Equilibrant should be: F<sub>C</sub> = <span id="e2b-fc-theory"></span> N at &theta;<sub>C</sub> = <span id="e2b-thetac-theory"></span>&deg; &mdash; your FC = <span id="e2b-fc-actual"></span> N at <span id="e2b-thc-actual"></span>&deg;
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
   </main>
 
   <footer class="px-6 md:px-[60px] py-[18px] border-t border-hairline dark:border-hairline-dark text-center text-[12px] text-caption dark:text-caption-dark">Mechanics Fundamentals — built one phase at a time.</footer>
@@ -1526,12 +1799,31 @@
       renderItemGrid('concepts-grid-container', CONCEPTS_DATA, 'category', 'topics', CONCEPT_ICONS, 'topicId', 'More topics coming soon');
     }
 
+    const VIRTUAL_EXPERIMENTS_DATA = [
+      {
+        category: "",
+        experiments: [
+          { id: "force-equilibrium", name: "Force Equilibrium", description: "Balance a force board's ring by adjusting hanging masses and angles — resolve a force into components, then find the resultant of two forces." },
+        ],
+      },
+      // Phase 2+: push additional experiments into the array above (no categories).
+    ];
+
+    const EXPERIMENT_ICONS = {
+      'force-equilibrium': '<circle cx="12" cy="12" r="8"></circle><line x1="12" y1="9" x2="12" y2="15"></line><line x1="9" y1="12" x2="15" y2="12"></line>',
+    };
+
+    function renderExperimentsGrid() {
+      renderItemGrid('experiments-grid-container', VIRTUAL_EXPERIMENTS_DATA, 'category', 'experiments', EXPERIMENT_ICONS, 'experimentId', 'More experiments coming soon');
+    }
+
     // Four view layers (home / section / topic / tool) — exactly one visible at a time.
     function hideAllViews() {
       document.getElementById('home-view').classList.add('hidden');
       document.querySelectorAll('[data-section-view]').forEach((s) => s.classList.add('hidden'));
       document.querySelectorAll('[data-topic-view]').forEach((s) => s.classList.add('hidden'));
       document.querySelectorAll('[data-tool-view]').forEach((s) => s.classList.add('hidden'));
+      document.querySelectorAll('[data-experiment-view]').forEach((s) => s.classList.add('hidden'));
     }
 
     function showHome() {
@@ -1561,6 +1853,13 @@
       window.scrollTo(0, 0);
     }
 
+    function showExperiment(experimentId) {
+      hideAllViews();
+      const target = document.getElementById('experiment-view-' + experimentId);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
     document.addEventListener('click', function (e) {
       // Checked in this order so a button's data-action always wins over a
       // bare card attribute that might also be present on the same element.
@@ -1578,6 +1877,9 @@
 
       const topicCard = e.target.closest('[data-topic-id]');
       if (topicCard) return showTopic(topicCard.dataset.topicId);
+
+      const experimentCard = e.target.closest('[data-experiment-id]');
+      if (experimentCard) return showExperiment(experimentCard.dataset.experimentId);
 
       const sectionCard = e.target.closest('[data-section-id]');
       if (sectionCard) return showSection(sectionCard.dataset.sectionId);
@@ -1939,6 +2241,7 @@
     renderSectionsGrid();
     renderToolsGrid();
     renderConceptsGrid();
+    renderExperimentsGrid();
     updateThemeButtons();
 
     document.getElementById('force-rows').addEventListener('input', updateForceDiagrams);
@@ -1960,6 +2263,215 @@
     });
     document.getElementById('moment-calculate').addEventListener('click', calculateNetMoment);
     updateMomentDiagrams();
+
+    // Force Equilibrium (Virtual Experiments). Wrapped in an IIFE so its
+    // helper names can't collide with the rest of this file's ~2000 lines of
+    // top-level identifiers; it reuses the existing polarToXY/toComponents/
+    // DIAGRAM_CX/CY/RADIUS from the Force Calculator above rather than
+    // redeclaring them.
+    (function () {
+      const G = 9.81;
+      const BALANCE_TOL_N = 0.1;
+      const RING_CX = 100, RING_CY = 100, RING_DISP_SCALE = 6, RING_DISP_MAX = 55;
+
+      function gramsToNewtons(g) { return (g / 1000) * G; }
+      function normalizeDeg(a) { return ((a % 360) + 360) % 360; }
+      function fmt(n) { return n.toFixed(2); }
+      function fmt1(n) { return n.toFixed(1); }
+      function readNum(id) {
+        const v = parseFloat(document.getElementById(id).value);
+        return Number.isNaN(v) ? 0 : v;
+      }
+
+      function bindSliderNumber(prefix, min, max, onChange) {
+        const slider = document.getElementById(prefix + '-slider');
+        const number = document.getElementById(prefix + '-number');
+        function clamp(v) { return Math.min(max, Math.max(min, v)); }
+        slider.addEventListener('input', function () {
+          number.value = slider.value;
+          onChange();
+        });
+        number.addEventListener('input', onChange);
+        number.addEventListener('change', function () {
+          const v = clamp(parseFloat(number.value) || min);
+          number.value = v;
+          slider.value = v;
+          onChange();
+        });
+      }
+
+      function vectorMarkup(mag, angDeg, scale, cx, cy, label, markerId, dashed) {
+        if (mag < 0.001) return '';
+        const p = polarToXY(mag, angDeg, scale, cx, cy);
+        const nearRight = p.x >= cx;
+        const anchor = nearRight ? 'end' : 'start';
+        const dx = nearRight ? -6 : 6;
+        const dy = p.y >= cy ? 14 : -8;
+        const colorClass = dashed ? 'stroke-danger dark:stroke-danger-dark' : 'stroke-accent dark:stroke-accent-dark';
+        const fillClass = dashed ? 'fill-danger dark:fill-danger-dark' : 'fill-primary dark:fill-primary-dark';
+        return (
+          '<line x1="' + cx + '" y1="' + cy + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) +
+          '" class="' + colorClass + '" stroke-width="2.5" ' + (dashed ? 'stroke-dasharray="4,3"' : '') +
+          ' marker-end="url(#' + markerId + ')"></line>' +
+          '<text x="' + (p.x + dx).toFixed(1) + '" y="' + (p.y + dy).toFixed(1) +
+          '" font-size="10" text-anchor="' + anchor + '" class="' + fillClass + '">' + label + '</text>'
+        );
+      }
+
+      function ringMarkup(sumFx, sumFy, residualMag, isBalanced) {
+        if (residualMag < 0.001) {
+          return '<circle cx="' + RING_CX + '" cy="' + RING_CY + '" r="9" class="fill-accent dark:fill-accent-dark"></circle>';
+        }
+        const dispMag = Math.min(residualMag * RING_DISP_SCALE, RING_DISP_MAX);
+        const ang = Math.atan2(sumFy, sumFx);
+        const cx = RING_CX + dispMag * Math.cos(ang);
+        const cy = RING_CY - dispMag * Math.sin(ang);
+        const colorClass = isBalanced ? 'accent' : 'danger';
+        return (
+          '<line x1="' + RING_CX + '" y1="' + RING_CY + '" x2="' + cx.toFixed(1) + '" y2="' + cy.toFixed(1) +
+          '" class="stroke-' + colorClass + ' dark:stroke-' + colorClass + '-dark" stroke-width="1.5"></line>' +
+          '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="9" class="fill-' + colorClass + ' dark:fill-' + colorClass + '-dark"></circle>'
+        );
+      }
+
+      function computeScale(mags) {
+        let maxMag = 0.5;
+        mags.forEach((m) => { if (m > maxMag) maxMag = m; });
+        return DIAGRAM_RADIUS / maxMag;
+      }
+
+      function setStatus(prefix, isBalanced) {
+        const dot = document.getElementById(prefix + '-status-dot');
+        const text = document.getElementById(prefix + '-status-text');
+        dot.className = 'w-[9px] h-[9px] rounded-full shrink-0 ' + (isBalanced ? 'bg-accent dark:bg-accent-dark' : 'bg-danger dark:bg-danger-dark');
+        text.textContent = isBalanced ? 'Balanced — the ring is at rest.' : 'Not balanced yet — keep adjusting.';
+        document.getElementById(prefix + '-comparison').hidden = !isBalanced;
+      }
+
+      // ---- Experiment 2A ----
+      function computeExp2A() {
+        const F_N = gramsToNewtons(readNum('e2a-f-mass-number'));
+        const th = readNum('e2a-f-angle-number');
+        const F1_N = gramsToNewtons(readNum('e2a-f1-mass-number'));
+        const F2_N = gramsToNewtons(readNum('e2a-f2-mass-number'));
+
+        const F = toComponents(F_N, th);
+        const F1 = toComponents(F1_N, 180);
+        const F2 = toComponents(F2_N, 270);
+
+        const sumFx = F.fx + F1.fx + F2.fx;
+        const sumFy = F.fy + F1.fy + F2.fy;
+        const residualMag = Math.hypot(sumFx, sumFy);
+        const residualAngle = normalizeDeg(Math.atan2(sumFy, sumFx) * 180 / Math.PI);
+        const isBalanced = residualMag < BALANCE_TOL_N;
+
+        const FxTheory = F_N * Math.cos(th * Math.PI / 180);
+        const FyTheory = F_N * Math.sin(th * Math.PI / 180);
+
+        return { F_N, th, F1_N, F2_N, sumFx, sumFy, residualMag, residualAngle, isBalanced, FxTheory, FyTheory };
+      }
+
+      function updateExp2A() {
+        const s = computeExp2A();
+        const scale = computeScale([s.F_N, s.F1_N, s.F2_N, s.residualMag]);
+        let html = '';
+        html += vectorMarkup(s.F_N, s.th, scale, DIAGRAM_CX, DIAGRAM_CY, 'F', 'e2a-arrow-force', false);
+        html += vectorMarkup(s.F1_N, 180, scale, DIAGRAM_CX, DIAGRAM_CY, 'F1', 'e2a-arrow-force', false);
+        html += vectorMarkup(s.F2_N, 270, scale, DIAGRAM_CX, DIAGRAM_CY, 'F2', 'e2a-arrow-force', false);
+        if (!s.isBalanced) html += vectorMarkup(s.residualMag, s.residualAngle, scale, DIAGRAM_CX, DIAGRAM_CY, 'ΣF', 'e2a-arrow-residual', true);
+        document.getElementById('e2a-vectors').innerHTML = html;
+        document.getElementById('e2a-ring').innerHTML = ringMarkup(s.sumFx, s.sumFy, s.residualMag, s.isBalanced);
+
+        document.getElementById('e2a-sumfx').textContent = fmt(s.sumFx);
+        document.getElementById('e2a-sumfy').textContent = fmt(s.sumFy);
+        document.getElementById('e2a-residual').textContent = fmt(s.residualMag);
+        setStatus('e2a', s.isBalanced);
+
+        document.getElementById('e2a-fx-theory').textContent = fmt(s.FxTheory);
+        document.getElementById('e2a-fy-theory').textContent = fmt(s.FyTheory);
+        document.getElementById('e2a-f1-actual').textContent = fmt(s.F1_N);
+        document.getElementById('e2a-f2-actual').textContent = fmt(s.F2_N);
+      }
+
+      const E2A_DEFAULTS = { 'e2a-f-mass': 300, 'e2a-f-angle': 40, 'e2a-f1-mass': 150, 'e2a-f2-mass': 250 };
+      bindSliderNumber('e2a-f-mass', 0, 500, updateExp2A);
+      bindSliderNumber('e2a-f-angle', 0, 90, updateExp2A);
+      bindSliderNumber('e2a-f1-mass', 0, 500, updateExp2A);
+      bindSliderNumber('e2a-f2-mass', 0, 500, updateExp2A);
+      document.getElementById('e2a-reset').addEventListener('click', function () {
+        Object.keys(E2A_DEFAULTS).forEach(function (k) {
+          document.getElementById(k + '-slider').value = E2A_DEFAULTS[k];
+          document.getElementById(k + '-number').value = E2A_DEFAULTS[k];
+        });
+        updateExp2A();
+      });
+
+      // ---- Experiment 2B ----
+      function computeExp2B() {
+        const FA_N = gramsToNewtons(readNum('e2b-fa-mass-number')); const thA = readNum('e2b-fa-angle-number');
+        const FB_N = gramsToNewtons(readNum('e2b-fb-mass-number')); const thB = readNum('e2b-fb-angle-number');
+        const FC_N = gramsToNewtons(readNum('e2b-fc-mass-number')); const thC = readNum('e2b-fc-angle-number');
+
+        const FA = toComponents(FA_N, thA);
+        const FB = toComponents(FB_N, thB);
+        const FC = toComponents(FC_N, thC);
+
+        const sumFx = FA.fx + FB.fx + FC.fx;
+        const sumFy = FA.fy + FB.fy + FC.fy;
+        const residualMag = Math.hypot(sumFx, sumFy);
+        const residualAngle = normalizeDeg(Math.atan2(sumFy, sumFx) * 180 / Math.PI);
+        const isBalanced = residualMag < BALANCE_TOL_N;
+
+        const abFx = FA.fx + FB.fx, abFy = FA.fy + FB.fy;
+        const FR = Math.hypot(abFx, abFy);
+        const thetaR = normalizeDeg(Math.atan2(abFy, abFx) * 180 / Math.PI);
+        const thetaC_theory = normalizeDeg(thetaR + 180);
+
+        return { FA_N, thA, FB_N, thB, FC_N, thC, sumFx, sumFy, residualMag, residualAngle, isBalanced, FR, thetaR, thetaC_theory };
+      }
+
+      function updateExp2B() {
+        const s = computeExp2B();
+        const scale = computeScale([s.FA_N, s.FB_N, s.FC_N, s.residualMag]);
+        let html = '';
+        html += vectorMarkup(s.FA_N, s.thA, scale, DIAGRAM_CX, DIAGRAM_CY, 'FA', 'e2b-arrow-force', false);
+        html += vectorMarkup(s.FB_N, s.thB, scale, DIAGRAM_CX, DIAGRAM_CY, 'FB', 'e2b-arrow-force', false);
+        html += vectorMarkup(s.FC_N, s.thC, scale, DIAGRAM_CX, DIAGRAM_CY, 'FC', 'e2b-arrow-force', false);
+        if (!s.isBalanced) html += vectorMarkup(s.residualMag, s.residualAngle, scale, DIAGRAM_CX, DIAGRAM_CY, 'ΣF', 'e2b-arrow-residual', true);
+        document.getElementById('e2b-vectors').innerHTML = html;
+        document.getElementById('e2b-ring').innerHTML = ringMarkup(s.sumFx, s.sumFy, s.residualMag, s.isBalanced);
+
+        document.getElementById('e2b-sumfx').textContent = fmt(s.sumFx);
+        document.getElementById('e2b-sumfy').textContent = fmt(s.sumFy);
+        document.getElementById('e2b-residual').textContent = fmt(s.residualMag);
+        setStatus('e2b', s.isBalanced);
+
+        document.getElementById('e2b-fr-theory').textContent = fmt(s.FR);
+        document.getElementById('e2b-thetar-theory').textContent = fmt1(s.thetaR);
+        document.getElementById('e2b-fc-theory').textContent = fmt(s.FR);
+        document.getElementById('e2b-thetac-theory').textContent = fmt1(s.thetaC_theory);
+        document.getElementById('e2b-fc-actual').textContent = fmt(s.FC_N);
+        document.getElementById('e2b-thc-actual').textContent = fmt1(s.thC);
+      }
+
+      const E2B_DEFAULTS = { 'e2b-fa-mass': 250, 'e2b-fa-angle': 30, 'e2b-fb-mass': 200, 'e2b-fb-angle': 130, 'e2b-fc-mass': 200, 'e2b-fc-angle': 90 };
+      bindSliderNumber('e2b-fa-mass', 0, 500, updateExp2B);
+      bindSliderNumber('e2b-fa-angle', 0, 360, updateExp2B);
+      bindSliderNumber('e2b-fb-mass', 0, 500, updateExp2B);
+      bindSliderNumber('e2b-fb-angle', 0, 360, updateExp2B);
+      bindSliderNumber('e2b-fc-mass', 0, 500, updateExp2B);
+      bindSliderNumber('e2b-fc-angle', 0, 360, updateExp2B);
+      document.getElementById('e2b-reset').addEventListener('click', function () {
+        Object.keys(E2B_DEFAULTS).forEach(function (k) {
+          document.getElementById(k + '-slider').value = E2B_DEFAULTS[k];
+          document.getElementById(k + '-number').value = E2B_DEFAULTS[k];
+        });
+        updateExp2B();
+      });
+
+      updateExp2A();
+      updateExp2B();
+    })();
   </script>
 
 </body>
