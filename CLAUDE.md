@@ -854,22 +854,40 @@ history for details.") so the section stays skimmable as it grows.
   its centre of gravity (CG/pivot). Balancing forces alone isn't enough,
   so the experiment adds a genuine rotation visualization on top of Force
   Equilibrium's drift-to-center pattern:
-  - **Geometry (fixed, not adjustable)**: CG/pivot at (150,150) in a
-    300×300 diagram viewBox; A=(190,140) pulling toward a pulley at
-    (260,20) → fixed angle ≈59.74°; B=(130,100) toward a pulley at
-    (40,20) → fixed angle ≈138.37°; C=(195,205), no pulley, straight down
-    → fixed angle 270°. Lamina mass fixed at 80 g (W≈0.785 N via F=mg,
-    g=9.81 m/s², same methodology as Force Equilibrium). Only mA/mB/mC
-    (0–500 g sliders, default 200/150/200 — deliberately unbalanced) are
-    adjustable, mirroring the real apparatus's 3 hangers. **CCW-positive
-    sign convention kept** (matching every other topic/tool on the site)
-    rather than this specific handout's own CW-positive figure labels —
-    confirmed via clarifying questions before building. This fixed
+  - **Geometry**: CG/pivot at (150,150) in a 300×300 diagram viewBox;
+    attachment points A=(190,140), B=(130,100), C=(195,205) are fixed (the
+    string attachment points on the physical lamina); C has no pulley and
+    always pulls straight down (fixed angle 270°). A and B pull over
+    pulleys and, per a later revision, are **adjustable in direction as
+    well as mass** — each angle is measured from its own reference axis
+    and constrained to 0–90° (hangers can only pull, never push):
+    θ<sub>A</sub> (`em-anga-slider`) from the **+x axis**, θ<sub>B</sub>
+    (`em-angb-slider`) from the **−x axis**, so both stay comfortably
+    below 90° regardless of direction; the true math angle used in
+    `toComponents` is `angA = θA` and `angB = 180 − θB`. Defaults
+    θ<sub>A</sub>=60°, θ<sub>B</sub>=42° (rounded from this experiment's
+    first, fixed-direction version: ≈59.74°/≈41.63°, i.e. 180−138.37°) so
+    the diagram looks the same as that version until a student moves a
+    slider. **Lamina mass is also adjustable** (`em-lamina-slider`,
+    0–300 g — a narrower range than the 0–500 g hanging-mass sliders,
+    since the lamina is a light sheet rather than a hanging weight;
+    default 80 g, matching the original fixed value so nothing visibly
+    changes on load) rather than fixed, converted to weight via F=mg
+    (g=9.81 m/s², same methodology as Force Equilibrium). Only mA/mB/mC
+    (0–500 g sliders, default 200/150/200 — deliberately unbalanced)
+    remain otherwise as before, mirroring the real apparatus's 3 hangers.
+    **CCW-positive sign convention kept** (matching every other topic/
+    tool on the site) rather than this specific handout's own
+    CW-positive figure labels — confirmed via clarifying questions
+    before building. At the default angles/lamina mass, this
     3-force-plus-weight geometry has a *unique* all-positive balancing
     mass triple (a 3×3 linear system — most geometry choices yield at
     least one negative, unbuildable mass; this geometry was found by
-    numerical search): mA≈271.15 g, mB≈182.80 g, mC≈275.66 g, verified by
-    direct substitution to ΣFx≈0, ΣFy≈0, ΣM≈0.
+    numerical search): mA≈264.84 g, mB≈178.19 g, mC≈268.59 g, verified by
+    direct substitution to ΣFx≈0, ΣFy≈0, ΣM≈0 — since θA/θB/lamina mass
+    are now themselves adjustable, this is one balance point among many
+    (used only as a known-good state for verification), not a fixed
+    target the tool solves for.
   - **"Lamina Diagram" panel**: a static reference diagram — the pentagon
     lamina outline in its fixed position (muted stroke), dots at A/B/C/CG,
     and each force drawn as an arrow from its own fixed point in its fixed
@@ -889,13 +907,15 @@ history for details.") so the section stays skimmable as it grows.
     state) — the "not translating" condition; `spinAngle` accumulates via
     `angularSpeed = clamp(SPIN_K · ΣM, -SPIN_MAX, SPIN_MAX)` deg/s — the
     "not rotating" condition, and the literal rotation effect requested.
-    The transform negates `spinAngle` because SVG's native `rotate()` is
-    clockwise-positive while the site's CCW-positive math convention
-    needs the opposite sign. Both drift and spin recompute from live
-    slider values every animation frame, so the spin visibly speeds up/
-    slows/reverses immediately as sliders move and settles to a stop
-    (zero angular velocity, not a specific angle) once |ΣM| is within
-    tolerance.
+    `SPIN_K`/`SPIN_MAX` were halved (400→200 deg/s per N·m, 300→150 deg/s
+    cap) from the experiment's first version per explicit feedback that
+    the spin read as too fast. The transform negates `spinAngle` because
+    SVG's native `rotate()` is clockwise-positive while the site's
+    CCW-positive math convention needs the opposite sign. Both drift and
+    spin recompute from live slider values every animation frame, so the
+    spin visibly speeds up/slows/reverses immediately as sliders (mass
+    **or** angle) move and settles to a stop (zero angular velocity, not
+    a specific angle) once |ΣM| is within tolerance.
   - **Check Balance button + reveal panel**: identical disabled-until-
     balanced/toggle-to-hide/stays-enabled-after-drifting gating as Force
     Equilibrium's `setStatus`, under its own `emRevealed` flag — balanced
@@ -917,15 +937,22 @@ history for details.") so the section stays skimmable as it grows.
     that the balance shape's `transform` attribute actively changes over
     time while unbalanced (confirming the animation loop is really
     running) and becomes stable once balanced (confirming it stops); that
-    setting mA/mB/mC to the verified solution reaches "Balanced" and
-    drives ΣFx/ΣFy/ΣM in both the feedback line and both tables' Σ rows to
-    ≈0; the Check Balance disabled→enabled transition and the same
-    reveal/hide/stays-enabled-while-drifted toggle behavior as Force
-    Equilibrium; that pushing mC far from the solution makes ΣM
-    noticeably nonzero again and resumes the spin; that Reset restores
-    the unbalanced defaults and re-disables the button; a subscript check
-    on the m<sub>A</sub> control label; and a cross-check that loading
-    this experiment doesn't leak state into or break Force Equilibrium's
+    setting mA/mB/mC to the verified solution (at default θA/θB/lamina
+    mass) reaches "Balanced" and drives ΣFx/ΣFy/ΣM in both the feedback
+    line and both tables' Σ rows to ≈0; the Check Balance
+    disabled→enabled transition and the same reveal/hide/stays-enabled-
+    while-drifted toggle behavior as Force Equilibrium; that pushing mC
+    far from the solution makes ΣM noticeably nonzero again and resumes
+    the spin; that nudging θ<sub>A</sub> alone away from its balanced
+    value also unbalances the system (confirming the angle sliders
+    genuinely feed the physics, not just the diagram); that the lamina
+    mass and θ<sub>A</sub>/θ<sub>B</sub> sliders default to and use the
+    documented ranges/values (80 g / 0–300 g; 60°/42°, each 0–90°); that
+    Reset restores all six control defaults (mA/mB/mC, θA, θB, lamina
+    mass) and re-disables the button; subscript checks on the
+    m<sub>A</sub>/θ<sub>A</sub>/θ<sub>B</sub> control labels; and a
+    cross-check that loading this experiment doesn't leak state into or
+    break Force Equilibrium's
     own Check Balance gating (separate IIFEs, confirmed independent).
 
 ### Phase 2+ — future tools, topics, and sections (not started)

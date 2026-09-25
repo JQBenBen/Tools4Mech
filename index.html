@@ -1698,6 +1698,17 @@
 
             <div>
               <div class="flex items-baseline justify-between mb-1">
+                <label for="em-anga-slider" class="text-[13px] font-medium">&theta;<sub>A</sub> &mdash; angle from +x axis</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-anga-number" type="number" min="0" max="90" step="1" value="60" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="em-anga-slider" type="range" min="0" max="90" step="1" value="60" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
                 <label for="em-mb-slider" class="text-[13px] font-medium">m<sub>B</sub> &mdash; mass at B</label>
                 <div class="flex items-baseline gap-1">
                   <input id="em-mb-number" type="number" min="0" max="500" step="1" value="150" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
@@ -1709,6 +1720,17 @@
 
             <div>
               <div class="flex items-baseline justify-between mb-1">
+                <label for="em-angb-slider" class="text-[13px] font-medium">&theta;<sub>B</sub> &mdash; angle from &minus;x axis</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-angb-number" type="number" min="0" max="90" step="1" value="42" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">&deg;</span>
+                </div>
+              </div>
+              <input id="em-angb-slider" type="range" min="0" max="90" step="1" value="42" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
                 <label for="em-mc-slider" class="text-[13px] font-medium">m<sub>C</sub> &mdash; mass at C</label>
                 <div class="flex items-baseline gap-1">
                   <input id="em-mc-number" type="number" min="0" max="500" step="1" value="200" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
@@ -1716,11 +1738,22 @@
                 </div>
               </div>
               <input id="em-mc-slider" type="range" min="0" max="500" step="1" value="200" class="w-full">
-              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-1">A, B and C each pull in a fixed direction &mdash; two over pulleys, one straight down &mdash; just like the real apparatus. Only the mass is yours to adjust.</div>
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-1">A and B pull over pulleys &mdash; you can adjust their direction as well as their mass, but hangers can only pull, so each angle stays within 0&ndash;90&deg; of its own reference axis. C pulls straight down, just like the real apparatus.</div>
             </div>
 
             <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
-            <div class="text-[13px] text-muted dark:text-muted-dark">Lamina mass: <strong class="text-primary dark:text-primary-dark">80 g</strong> (fixed &mdash; a real object, not adjustable)</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="em-lamina-slider" class="text-[13px] font-medium">Lamina mass</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-lamina-number" type="number" min="0" max="300" step="1" value="80" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="em-lamina-slider" type="range" min="0" max="300" step="1" value="80" class="w-full">
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-1">The lamina's own weight acts straight down through its centre of gravity (CG).</div>
+            </div>
 
             <button type="button" id="em-reset" class="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
@@ -2659,15 +2692,14 @@
     (function () {
       const CG = { x: 150, y: 150 };
       const PT_A = { x: 190, y: 140 }, PT_B = { x: 130, y: 100 }, PT_C = { x: 195, y: 205 };
-      const ANG_A = 59.74, ANG_B = 138.37, ANG_C = 270;
-      const LAMINA_MASS_G = 80;
+      const ANG_C = 270; // C has no pulley — always straight down
       const BALANCE_TOL_F = 0.15;
       const BALANCE_TOL_M = 0.03;
       const MAX_ARROW_LEN = 90;
       const BALANCE_CX = 100, BALANCE_CY = 100;
       const DRIFT_SCALE = 6, DRIFT_MAX = 55;
-      const SPIN_K = 400;   // deg/s per N·m of residual moment
-      const SPIN_MAX = 300; // deg/s cap
+      const SPIN_K = 200;   // deg/s per N·m of residual moment
+      const SPIN_MAX = 150; // deg/s cap
 
       const G = 9.81;
       function gramsToNewtons(g) { return (g / 1000) * G; }
@@ -2728,9 +2760,16 @@
       function computeExpMoments() {
         const mA = readNum('em-ma-number'), mB = readNum('em-mb-number'), mC = readNum('em-mc-number');
         const FA = gramsToNewtons(mA), FB = gramsToNewtons(mB), FC = gramsToNewtons(mC);
-        const W = gramsToNewtons(LAMINA_MASS_G);
+        const laminaMassG = readNum('em-lamina-number');
+        const W = gramsToNewtons(laminaMassG);
 
-        const fA = toComponents(FA, ANG_A), fB = toComponents(FB, ANG_B), fC = toComponents(FC, ANG_C);
+        // θA measured from +x axis; θB measured from −x axis (so both stay
+        // 0–90°, matching that a hanger can only pull, never push) — convert
+        // θB to its true math angle before use.
+        const angA = readNum('em-anga-number');
+        const angB = 180 - readNum('em-angb-number');
+
+        const fA = toComponents(FA, angA), fB = toComponents(FB, angB), fC = toComponents(FC, ANG_C);
         const fW = { fx: 0, fy: -W };
 
         const sumFx = fA.fx + fB.fx + fC.fx + fW.fx;
@@ -2748,7 +2787,7 @@
         const residualF = Math.hypot(sumFx, sumFy);
         const isBalanced = residualF < BALANCE_TOL_F && Math.abs(sumM) < BALANCE_TOL_M;
 
-        return { mA, mB, mC, FA, FB, FC, W, fA, fB, fC, fW, sumFx, sumFy, sumM, MA, MB, MC, dA, dB, dC, residualF, isBalanced };
+        return { mA, mB, mC, FA, FB, FC, W, angA, angB, fA, fB, fC, fW, sumFx, sumFy, sumM, MA, MB, MC, dA, dB, dC, residualF, isBalanced };
       }
 
       function updateExpMoments() {
@@ -2757,8 +2796,8 @@
 
         const scale = computeArrowScale([s.FA, s.FB, s.FC, s.W]);
         let html = '';
-        html += forceArrowMarkup(PT_A, ANG_A, s.FA, scale, 'F<tspan font-size="7" dy="2">A</tspan>');
-        html += forceArrowMarkup(PT_B, ANG_B, s.FB, scale, 'F<tspan font-size="7" dy="2">B</tspan>');
+        html += forceArrowMarkup(PT_A, s.angA, s.FA, scale, 'F<tspan font-size="7" dy="2">A</tspan>');
+        html += forceArrowMarkup(PT_B, s.angB, s.FB, scale, 'F<tspan font-size="7" dy="2">B</tspan>');
         html += forceArrowMarkup(PT_C, ANG_C, s.FC, scale, 'F<tspan font-size="7" dy="2">C</tspan>');
         html += forceArrowMarkup(CG, 270, s.W, scale, 'W');
         document.getElementById('em-vectors').innerHTML = html;
@@ -2830,10 +2869,13 @@
         requestAnimationFrame(animateBalance);
       }
 
-      const EM_DEFAULTS = { 'em-ma': 200, 'em-mb': 150, 'em-mc': 200 };
+      const EM_DEFAULTS = { 'em-ma': 200, 'em-anga': 60, 'em-mb': 150, 'em-angb': 42, 'em-mc': 200, 'em-lamina': 80 };
       bindSliderNumber('em-ma', 0, 500, updateExpMoments);
+      bindSliderNumber('em-anga', 0, 90, updateExpMoments);
       bindSliderNumber('em-mb', 0, 500, updateExpMoments);
+      bindSliderNumber('em-angb', 0, 90, updateExpMoments);
       bindSliderNumber('em-mc', 0, 500, updateExpMoments);
+      bindSliderNumber('em-lamina', 0, 300, updateExpMoments);
 
       document.getElementById('em-reset').addEventListener('click', function () {
         Object.keys(EM_DEFAULTS).forEach(function (k) {
