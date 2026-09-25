@@ -795,17 +795,26 @@ history for details.") so the section stays skimmable as it grows.
     proportionally to the residual net force, snapping to center and
     turning accent-colored when balanced). Balance tolerance is 0.1 N —
     reachable by dragging alone but still requires real convergence.
-  - **Reveal on demand**: the numeric ΣFx/ΣFy/|ΣF| + status readout and
-    the "compare to theory" panel (theoretical Fx/Fy for 2A, FR/θR for
-    2B) are both hidden by default — even once the student has actually
-    reached balance — until they press a new per-experiment "Check
-    Balance" button (`#e2a-check`/`#e2b-check`), so judging balance
-    visually (via the diagram and the Ring Balance panel, both always
-    visible) comes before seeing exact numbers. A `e2aRevealed`/
+  - **Reveal on demand, gated by balance**: the numeric ΣFx/ΣFy/|ΣF| +
+    status readout and the "compare to theory" panel (theoretical Fx/Fy
+    for 2A, FR/θR for 2B) are both hidden by default, revealed only via a
+    per-experiment "Check Balance" button (`#e2a-check`/`#e2b-check`) —
+    so judging balance visually (via the diagram and the Ring Balance
+    panel, both always visible) comes before seeing exact numbers. The
+    button itself is **disabled** (`opacity-40 cursor-not-allowed`,
+    matching the site's existing disabled-button convention from the
+    row-remove-floor buttons) until the system is actually balanced — it
+    can only *start* a reveal once the student has genuinely found
+    equilibrium, not before. Once revealed, a second click of the same
+    button **hides it again** (a plain on/off toggle from then on), and
+    the button stays clickable for this even if the student nudges a
+    slider afterward and drifts back out of balance — only the initial
+    reveal requires balance; hiding never does. An `e2aRevealed`/
     `e2bRevealed` flag (read by `setStatus(prefix, isBalanced, revealed)`,
-    which now also hides/shows the feedback card, not just the comparison
-    card) tracks this per experiment; Reset clears the flag too, so
-    starting over re-hides both panels and requires pressing Check again.
+    which now also computes the check button's disabled state as
+    `!revealed && !isBalanced`) tracks this per experiment; Reset clears
+    the flag too, so starting over re-hides both panels and re-disables
+    the button until balanced again.
     Every experiment-specific helper (`gramsToNewtons`, `vectorMarkup`,
     `ringMarkup`, `computeExp2A`/`2B`, etc.) is wrapped in one
     `(function () { ... })();` IIFE at the end of the shared `<script>`
@@ -821,12 +830,16 @@ history for details.") so the section stays skimmable as it grows.
     Tailwind has no utility for the CSS `accent-color` property.
   - Verified: full navigation regression (Home → Virtual Experiments →
     Force Equilibrium → back → back → Home) plus dedicated checks that
-    the feedback/comparison panels stay hidden even once balanced until
-    Check Balance is pressed, that pressing it then reveals the feedback
-    card (and the comparison card too, once balanced), that every
-    subscript renders (both the HTML `<sub>` labels and the SVG `<tspan>`
-    diagram labels), and that Reset restores each experiment's defaults,
-    unbalances it, and re-hides both panels again.
+    the Check Balance button is disabled while unbalanced and clicking it
+    (even forced) does nothing; that it becomes enabled once balanced and
+    a first click reveals the feedback + comparison cards; that a second
+    click hides them again while the button stays enabled (since still
+    balanced), and a third click reveals them once more; that the button
+    stays enabled/clickable to hide even after the student drifts back
+    out of balance post-reveal; that every subscript renders (both the
+    HTML `<sub>` labels and the SVG `<tspan>` diagram labels); and that
+    Reset restores each experiment's defaults, unbalances it, re-hides
+    both panels, and re-disables the button.
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section

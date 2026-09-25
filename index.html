@@ -2358,7 +2358,18 @@
         dot.className = 'w-[9px] h-[9px] rounded-full shrink-0 ' + (isBalanced ? 'bg-accent dark:bg-accent-dark' : 'bg-danger dark:bg-danger-dark');
         text.textContent = isBalanced ? 'Balanced — the ring is at rest.' : 'Not balanced yet — keep adjusting.';
         document.getElementById(prefix + '-feedback').hidden = !revealed;
-        document.getElementById(prefix + '-comparison').hidden = !(revealed && isBalanced);
+        document.getElementById(prefix + '-comparison').hidden = !revealed;
+
+        // The button can only start a reveal while balanced, but once
+        // revealed, it stays clickable (as a hide toggle) regardless of
+        // whether the student has since drifted out of balance.
+        const check = document.getElementById(prefix + '-check');
+        const checkDisabled = !revealed && !isBalanced;
+        check.disabled = checkDisabled;
+        check.classList.toggle('opacity-40', checkDisabled);
+        check.classList.toggle('cursor-not-allowed', checkDisabled);
+        check.classList.toggle('hover:border-accent', !checkDisabled);
+        check.classList.toggle('dark:hover:border-accent-dark', !checkDisabled);
       }
 
       // ---- Experiment 2A ----
@@ -2420,7 +2431,7 @@
         updateExp2A();
       });
       document.getElementById('e2a-check').addEventListener('click', function () {
-        e2aRevealed = true;
+        e2aRevealed = !e2aRevealed;
         updateExp2A();
       });
 
@@ -2488,7 +2499,7 @@
         updateExp2B();
       });
       document.getElementById('e2b-check').addEventListener('click', function () {
-        e2bRevealed = true;
+        e2bRevealed = !e2bRevealed;
         updateExp2B();
       });
 
