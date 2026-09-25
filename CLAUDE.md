@@ -739,7 +739,7 @@ history for details.") so the section stays skimmable as it grows.
   mobile-stacked fallback — plus the full navigation regression and a
   check that both new cross-links to Tools work.
 
-### Virtual Experiments (status: in progress — 1 experiment, no categories)
+### Virtual Experiments (status: in progress — 2 experiments, no categories)
 - **Portal shell reuse**: the section's own data-driven grid follows the
   exact same pattern as Tools/Concepts — a new `VIRTUAL_EXPERIMENTS_DATA`
   (flat, `category: ""`, one entry so far) + `EXPERIMENT_ICONS` +
@@ -840,6 +840,93 @@ history for details.") so the section stays skimmable as it grows.
     HTML `<sub>` labels and the SVG `<tspan>` diagram labels); and that
     Reset restores each experiment's defaults, unbalances it, re-hides
     both panels, and re-disables the button.
+- **Moments in Equilibrium** (done): a second `VIRTUAL_EXPERIMENTS_DATA`
+  entry `moments-in-equilibrium`, rendered at
+  `#experiment-view-moments-in-equilibrium` (sibling of
+  `#experiment-view-force-equilibrium`), `EXPERIMENT_ICONS`
+  reuses the Moment topic/Moment Calculator's rotate/torque icon path.
+  Adapted from a second SP Mechanics 1 lab handout ("Experiment 3: Moments
+  in Equilibrium"). Unlike Force Equilibrium's concurrent force-board
+  (all forces meet at one ring), this is a **rigid-body** problem — a
+  lamina (flat sheet) hangs from three strings at fixed points A/B/C, each
+  pulling in a fixed direction (two over pulleys, one straight down —
+  matching the real apparatus), plus its own fixed weight acting through
+  its centre of gravity (CG/pivot). Balancing forces alone isn't enough,
+  so the experiment adds a genuine rotation visualization on top of Force
+  Equilibrium's drift-to-center pattern:
+  - **Geometry (fixed, not adjustable)**: CG/pivot at (150,150) in a
+    300×300 diagram viewBox; A=(190,140) pulling toward a pulley at
+    (260,20) → fixed angle ≈59.74°; B=(130,100) toward a pulley at
+    (40,20) → fixed angle ≈138.37°; C=(195,205), no pulley, straight down
+    → fixed angle 270°. Lamina mass fixed at 80 g (W≈0.785 N via F=mg,
+    g=9.81 m/s², same methodology as Force Equilibrium). Only mA/mB/mC
+    (0–500 g sliders, default 200/150/200 — deliberately unbalanced) are
+    adjustable, mirroring the real apparatus's 3 hangers. **CCW-positive
+    sign convention kept** (matching every other topic/tool on the site)
+    rather than this specific handout's own CW-positive figure labels —
+    confirmed via clarifying questions before building. This fixed
+    3-force-plus-weight geometry has a *unique* all-positive balancing
+    mass triple (a 3×3 linear system — most geometry choices yield at
+    least one negative, unbuildable mass; this geometry was found by
+    numerical search): mA≈271.15 g, mB≈182.80 g, mC≈275.66 g, verified by
+    direct substitution to ΣFx≈0, ΣFy≈0, ΣM≈0.
+  - **"Lamina Diagram" panel**: a static reference diagram — the pentagon
+    lamina outline in its fixed position (muted stroke), dots at A/B/C/CG,
+    and each force drawn as an arrow from its own fixed point in its fixed
+    direction, magnitude-scaled by its current mass (reuses the top-level
+    `polarToXY`/`toComponents` — never redeclared, called directly, same
+    `SyntaxError` reasoning as Force Equilibrium's own IIFE). The weight
+    arrow is drawn from the CG at a fixed length (its magnitude never
+    changes).
+  - **"Balance Check" panel — the rotation effect**: reuses Force
+    Equilibrium's ring/compass-dot/crosshair shell, but the centered dot
+    is replaced with a small lamina silhouette inside a
+    `transform="translate(dx,dy) rotate(-spinAngle, cx, cy)"` group,
+    driven by a persistent `requestAnimationFrame` loop decoupled from
+    slider-driven recompute (so it animates smoothly between input
+    events): `dx,dy` come from the ΣF residual (same drift formula as
+    Force Equilibrium's ring, capped, colored accent/danger by balance
+    state) — the "not translating" condition; `spinAngle` accumulates via
+    `angularSpeed = clamp(SPIN_K · ΣM, -SPIN_MAX, SPIN_MAX)` deg/s — the
+    "not rotating" condition, and the literal rotation effect requested.
+    The transform negates `spinAngle` because SVG's native `rotate()` is
+    clockwise-positive while the site's CCW-positive math convention
+    needs the opposite sign. Both drift and spin recompute from live
+    slider values every animation frame, so the spin visibly speeds up/
+    slows/reverses immediately as sliders move and settles to a stop
+    (zero angular velocity, not a specific angle) once |ΣM| is within
+    tolerance.
+  - **Check Balance button + reveal panel**: identical disabled-until-
+    balanced/toggle-to-hide/stays-enabled-after-drifting gating as Force
+    Equilibrium's `setStatus`, under its own `emRevealed` flag — balanced
+    requires ΣFx, ΣFy, **and** ΣM all within tolerance (0.15 N / 0.03 N·m).
+    Revealed content is two tables (matching the handout's own "separate
+    tabulations for forces and moments" requirement) rather than prose:
+    a **Forces table** (Fx/Fy per force — A, B, C, Weight — plus a Σ row)
+    and a **Moments about the CG table** (F, d — perpendicular distance
+    from the pivot to that force's line of action, reusing the Moment
+    topic's M=F×d framing — and M=F×d per force, Weight's row hardcoded
+    d=0/M=0 "acts through the pivot", plus a Σ row).
+  - **Own IIFE**: a second `(function () { ... })();` at the end of the
+    shared `<script>` block, entirely separate from Force Equilibrium's —
+    duplicates its own tiny `gramsToNewtons` rather than sharing Force
+    Equilibrium's IIFE-scoped one (deliberately isolated, not hoisted to
+    top-level), so the two experiments have zero shared mutable state.
+  - Verified: full navigation regression (Home → Virtual Experiments →
+    Moments in Equilibrium → back → back → Home) plus dedicated checks
+    that the balance shape's `transform` attribute actively changes over
+    time while unbalanced (confirming the animation loop is really
+    running) and becomes stable once balanced (confirming it stops); that
+    setting mA/mB/mC to the verified solution reaches "Balanced" and
+    drives ΣFx/ΣFy/ΣM in both the feedback line and both tables' Σ rows to
+    ≈0; the Check Balance disabled→enabled transition and the same
+    reveal/hide/stays-enabled-while-drifted toggle behavior as Force
+    Equilibrium; that pushing mC far from the solution makes ΣM
+    noticeably nonzero again and resumes the spin; that Reset restores
+    the unbalanced defaults and re-disables the button; a subscript check
+    on the m<sub>A</sub> control label; and a cross-check that loading
+    this experiment doesn't leak state into or break Force Equilibrium's
+    own Check Balance gating (separate IIFEs, confirmed independent).
 
 ### Phase 2+ — future tools, topics, and sections (not started)
 - New tool: append to `TOOLS_DATA` and add a `#tool-view-<id>` section

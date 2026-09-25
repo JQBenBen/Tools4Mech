@@ -1676,6 +1676,149 @@
         </div>
       </section>
 
+      <section id="experiment-view-moments-in-equilibrium" class="hidden py-[38px]" data-experiment-view>
+        <button data-action="show-section" data-section-id="virtual-experiments" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Virtual Experiments</button>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Moments in Equilibrium</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">Based on SP's Mechanics 1 &ldquo;Experiment 3: Moments in Equilibrium&rdquo; lab. A lamina hangs from three strings at <strong class="text-primary dark:text-primary-dark">A</strong>, <strong class="text-primary dark:text-primary-dark">B</strong> and <strong class="text-primary dark:text-primary-dark">C</strong>, plus its own weight through its centre of gravity (CG). Because these forces act at different points, balancing forces alone isn't enough &mdash; the lamina will keep <strong class="text-primary dark:text-primary-dark">spinning</strong> until the net moment about the CG is zero too.</p>
+
+        <div class="mt-6 flex flex-col lg:flex-row gap-6 items-start">
+          <div class="w-full lg:w-[320px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-5">
+            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Hanging masses</div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="em-ma-slider" class="text-[13px] font-medium">m<sub>A</sub> &mdash; mass at A</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-ma-number" type="number" min="0" max="500" step="1" value="200" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="em-ma-slider" type="range" min="0" max="500" step="1" value="200" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="em-mb-slider" class="text-[13px] font-medium">m<sub>B</sub> &mdash; mass at B</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-mb-number" type="number" min="0" max="500" step="1" value="150" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="em-mb-slider" type="range" min="0" max="500" step="1" value="150" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between mb-1">
+                <label for="em-mc-slider" class="text-[13px] font-medium">m<sub>C</sub> &mdash; mass at C</label>
+                <div class="flex items-baseline gap-1">
+                  <input id="em-mc-number" type="number" min="0" max="500" step="1" value="200" class="w-[64px] rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-2 py-1 text-[13px] text-right focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                  <span class="text-[12px] text-muted dark:text-muted-dark">g</span>
+                </div>
+              </div>
+              <input id="em-mc-slider" type="range" min="0" max="500" step="1" value="200" class="w-full">
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-1">A, B and C each pull in a fixed direction &mdash; two over pulleys, one straight down &mdash; just like the real apparatus. Only the mass is yours to adjust.</div>
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+            <div class="text-[13px] text-muted dark:text-muted-dark">Lamina mass: <strong class="text-primary dark:text-primary-dark">80 g</strong> (fixed &mdash; a real object, not adjustable)</div>
+
+            <button type="button" id="em-reset" class="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              Reset
+            </button>
+          </div>
+
+          <div class="flex-1 w-full flex flex-col gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <div class="flex-1 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Lamina Diagram</div>
+                <svg viewBox="0 0 300 300" class="w-full h-auto">
+                  <defs>
+                    <marker id="em-arrow-force" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
+                    <marker id="em-arrow-weight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
+                  </defs>
+                  <path d="M130,100 L170,85 L190,140 L195,205 L115,195 Z" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.5"></path>
+                  <circle cx="150" cy="150" r="4" class="fill-primary dark:fill-primary-dark"></circle>
+                  <text x="157" y="147" class="fill-primary dark:fill-primary-dark" font-size="10" font-weight="600">CG</text>
+                  <circle cx="190" cy="140" r="3" class="fill-muted dark:fill-muted-dark"></circle>
+                  <text x="197" y="137" class="fill-muted dark:fill-muted-dark" font-size="10" font-weight="600">A</text>
+                  <circle cx="130" cy="100" r="3" class="fill-muted dark:fill-muted-dark"></circle>
+                  <text x="118" y="92" class="fill-muted dark:fill-muted-dark" font-size="10" font-weight="600">B</text>
+                  <circle cx="195" cy="205" r="3" class="fill-muted dark:fill-muted-dark"></circle>
+                  <text x="202" y="210" class="fill-muted dark:fill-muted-dark" font-size="10" font-weight="600">C</text>
+                  <g id="em-vectors"></g>
+                </svg>
+              </div>
+              <div class="w-full sm:w-[200px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Balance Check</div>
+                <svg viewBox="0 0 200 200" class="w-full h-auto">
+                  <circle cx="100" cy="100" r="78" fill="none" class="stroke-hairline dark:stroke-hairline-dark" stroke-width="1.5"></circle>
+                  <circle cx="100" cy="22" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="178" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="100" cy="178" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <circle cx="22" cy="100" r="4" class="fill-muted dark:fill-muted-dark" opacity="0.5"></circle>
+                  <line x1="94" y1="100" x2="106" y2="100" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <line x1="100" y1="94" x2="100" y2="106" class="stroke-muted dark:stroke-muted-dark" stroke-width="1"></line>
+                  <g id="em-balance-group">
+                    <path id="em-balance-shape" d="M90,75 L110,67.5 L120,95 L122.5,127.5 L82.5,122.5 Z" class="fill-danger dark:fill-danger-dark" opacity="0.75"></path>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <button type="button" id="em-check" class="self-start inline-flex items-center justify-center gap-1.5 rounded-md border border-hairline dark:border-hairline-dark px-3 py-2 text-[13px] font-medium hover:border-accent dark:hover:border-accent-dark transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Check Balance
+            </button>
+
+            <div id="em-feedback" hidden class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-2">
+              <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
+                <span>&Sigma;Fx = <span id="em-sumfx" class="font-semibold"></span> N</span>
+                <span>&Sigma;Fy = <span id="em-sumfy" class="font-semibold"></span> N</span>
+                <span>&Sigma;M = <span id="em-summ" class="font-semibold"></span> N&middot;m</span>
+              </div>
+              <div class="flex items-center gap-2 text-[14px] font-medium">
+                <span id="em-status-dot" class="w-[9px] h-[9px] rounded-full shrink-0"></span>
+                <span id="em-status-text"></span>
+              </div>
+            </div>
+
+            <div id="em-comparison" hidden class="bg-accent-tint dark:bg-accent-tint-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-4">
+              <div>
+                <div class="text-[12px] uppercase tracking-[0.1em] text-accent dark:text-accent-dark mb-2">Forces</div>
+                <table class="w-full text-[13px] [font-variant-numeric:tabular-nums] border-collapse">
+                  <thead>
+                    <tr class="text-left text-muted dark:text-muted-dark"><th class="font-medium pr-3 pb-1">Force</th><th class="font-medium pr-3 pb-1">Fx (N)</th><th class="font-medium pb-1">Fy (N)</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="pr-3">F<sub>A</sub></td><td class="pr-3" id="em-fa-fx"></td><td id="em-fa-fy"></td></tr>
+                    <tr><td class="pr-3">F<sub>B</sub></td><td class="pr-3" id="em-fb-fx"></td><td id="em-fb-fy"></td></tr>
+                    <tr><td class="pr-3">F<sub>C</sub></td><td class="pr-3" id="em-fc-fx"></td><td id="em-fc-fy"></td></tr>
+                    <tr><td class="pr-3">Weight</td><td class="pr-3" id="em-w-fx"></td><td id="em-w-fy"></td></tr>
+                    <tr class="font-semibold border-t border-hairline dark:border-hairline-dark"><td class="pr-3 pt-1">&Sigma;</td><td class="pr-3 pt-1" id="em-sum-fx"></td><td class="pt-1" id="em-sum-fy"></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <div class="text-[12px] uppercase tracking-[0.1em] text-accent dark:text-accent-dark mb-2">Moments about the CG</div>
+                <table class="w-full text-[13px] [font-variant-numeric:tabular-nums] border-collapse">
+                  <thead>
+                    <tr class="text-left text-muted dark:text-muted-dark"><th class="font-medium pr-3 pb-1">Force</th><th class="font-medium pr-3 pb-1">F (N)</th><th class="font-medium pr-3 pb-1">d (m)</th><th class="font-medium pb-1">M = F&times;d (N&middot;m)</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="pr-3">F<sub>A</sub></td><td class="pr-3" id="em-fa-f"></td><td class="pr-3" id="em-fa-d"></td><td id="em-fa-m"></td></tr>
+                    <tr><td class="pr-3">F<sub>B</sub></td><td class="pr-3" id="em-fb-f"></td><td class="pr-3" id="em-fb-d"></td><td id="em-fb-m"></td></tr>
+                    <tr><td class="pr-3">F<sub>C</sub></td><td class="pr-3" id="em-fc-f"></td><td class="pr-3" id="em-fc-d"></td><td id="em-fc-m"></td></tr>
+                    <tr><td class="pr-3">Weight</td><td class="pr-3" id="em-w-f"></td><td class="pr-3">0 <span class="text-caption dark:text-caption-dark italic">(pivot)</span></td><td>0.00</td></tr>
+                    <tr class="font-semibold border-t border-hairline dark:border-hairline-dark"><td class="pr-3 pt-1">&Sigma;</td><td class="pr-3 pt-1"></td><td class="pr-3 pt-1"></td><td class="pt-1" id="em-sum-m"></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
   </main>
@@ -1814,6 +1957,7 @@
         category: "",
         experiments: [
           { id: "force-equilibrium", name: "Force Equilibrium", description: "Balance a force board's ring by adjusting hanging masses and angles — resolve a force into components, then find the resultant of two forces." },
+          { id: "moments-in-equilibrium", name: "Moments in Equilibrium", description: "Balance a hanging lamina's forces AND moments — watch it drift and spin until it's truly at rest." },
         ],
       },
       // Phase 2+: push additional experiments into the array above (no categories).
@@ -1821,6 +1965,7 @@
 
     const EXPERIMENT_ICONS = {
       'force-equilibrium': '<circle cx="12" cy="12" r="8"></circle><line x1="12" y1="9" x2="12" y2="15"></line><line x1="9" y1="12" x2="15" y2="12"></line>',
+      'moments-in-equilibrium': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
     };
 
     function renderExperimentsGrid() {
@@ -2505,6 +2650,206 @@
 
       updateExp2A();
       updateExp2B();
+    })();
+
+    // Moments in Equilibrium (Virtual Experiments). A second, independent
+    // IIFE — own scope, no shared state with the Force Equilibrium IIFE
+    // above, so it reuses only the top-level polarToXY/toComponents (never
+    // redeclared) and re-declares its own small gramsToNewtons etc.
+    (function () {
+      const CG = { x: 150, y: 150 };
+      const PT_A = { x: 190, y: 140 }, PT_B = { x: 130, y: 100 }, PT_C = { x: 195, y: 205 };
+      const ANG_A = 59.74, ANG_B = 138.37, ANG_C = 270;
+      const LAMINA_MASS_G = 80;
+      const BALANCE_TOL_F = 0.15;
+      const BALANCE_TOL_M = 0.03;
+      const MAX_ARROW_LEN = 90;
+      const BALANCE_CX = 100, BALANCE_CY = 100;
+      const DRIFT_SCALE = 6, DRIFT_MAX = 55;
+      const SPIN_K = 400;   // deg/s per N·m of residual moment
+      const SPIN_MAX = 300; // deg/s cap
+
+      const G = 9.81;
+      function gramsToNewtons(g) { return (g / 1000) * G; }
+
+      let emRevealed = false;
+      let lastState = null;
+      let spinAngle = 0;
+      let lastFrameTime = null;
+
+      function relToPivot(P) { return { x: (P.x - CG.x) / 100, y: -(P.y - CG.y) / 100 }; }
+      const rA = relToPivot(PT_A), rB = relToPivot(PT_B), rC = relToPivot(PT_C);
+
+      function readNum(id) {
+        const v = parseFloat(document.getElementById(id).value);
+        return Number.isNaN(v) ? 0 : v;
+      }
+
+      function bindSliderNumber(prefix, min, max, onChange) {
+        const slider = document.getElementById(prefix + '-slider');
+        const number = document.getElementById(prefix + '-number');
+        function clamp(v) { return Math.min(max, Math.max(min, v)); }
+        slider.addEventListener('input', function () {
+          number.value = slider.value;
+          onChange();
+        });
+        number.addEventListener('input', onChange);
+        number.addEventListener('change', function () {
+          const v = clamp(parseFloat(number.value) || min);
+          number.value = v;
+          slider.value = v;
+          onChange();
+        });
+      }
+
+      function fmt(n) { return n.toFixed(2); }
+
+      function forceArrowMarkup(anchor, angDeg, magN, scale, label) {
+        if (magN < 0.001) return '';
+        const tip = polarToXY(magN, angDeg, scale, anchor.x, anchor.y);
+        const nearRight = tip.x >= anchor.x;
+        const anchorText = nearRight ? 'end' : 'start';
+        const dx = nearRight ? -6 : 6;
+        const dy = tip.y >= anchor.y ? 14 : -8;
+        return (
+          '<line x1="' + anchor.x + '" y1="' + anchor.y + '" x2="' + tip.x.toFixed(1) + '" y2="' + tip.y.toFixed(1) +
+          '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#em-arrow-force)"></line>' +
+          '<text x="' + (tip.x + dx).toFixed(1) + '" y="' + (tip.y + dy).toFixed(1) +
+          '" font-size="10" text-anchor="' + anchorText + '" class="fill-primary dark:fill-primary-dark">' + label + '</text>'
+        );
+      }
+
+      function computeArrowScale(mags) {
+        let maxMag = 0.5;
+        mags.forEach(function (m) { if (m > maxMag) maxMag = m; });
+        return MAX_ARROW_LEN / maxMag;
+      }
+
+      function computeExpMoments() {
+        const mA = readNum('em-ma-number'), mB = readNum('em-mb-number'), mC = readNum('em-mc-number');
+        const FA = gramsToNewtons(mA), FB = gramsToNewtons(mB), FC = gramsToNewtons(mC);
+        const W = gramsToNewtons(LAMINA_MASS_G);
+
+        const fA = toComponents(FA, ANG_A), fB = toComponents(FB, ANG_B), fC = toComponents(FC, ANG_C);
+        const fW = { fx: 0, fy: -W };
+
+        const sumFx = fA.fx + fB.fx + fC.fx + fW.fx;
+        const sumFy = fA.fy + fB.fy + fC.fy + fW.fy;
+
+        const MA = rA.x * fA.fy - rA.y * fA.fx;
+        const MB = rB.x * fB.fy - rB.y * fB.fx;
+        const MC = rC.x * fC.fy - rC.y * fC.fx;
+        const sumM = MA + MB + MC; // weight acts through the pivot (CG) — zero moment arm
+
+        const dA = FA > 0.001 ? Math.abs(MA) / FA : 0;
+        const dB = FB > 0.001 ? Math.abs(MB) / FB : 0;
+        const dC = FC > 0.001 ? Math.abs(MC) / FC : 0;
+
+        const residualF = Math.hypot(sumFx, sumFy);
+        const isBalanced = residualF < BALANCE_TOL_F && Math.abs(sumM) < BALANCE_TOL_M;
+
+        return { mA, mB, mC, FA, FB, FC, W, fA, fB, fC, fW, sumFx, sumFy, sumM, MA, MB, MC, dA, dB, dC, residualF, isBalanced };
+      }
+
+      function updateExpMoments() {
+        const s = computeExpMoments();
+        lastState = s;
+
+        const scale = computeArrowScale([s.FA, s.FB, s.FC, s.W]);
+        let html = '';
+        html += forceArrowMarkup(PT_A, ANG_A, s.FA, scale, 'F<tspan font-size="7" dy="2">A</tspan>');
+        html += forceArrowMarkup(PT_B, ANG_B, s.FB, scale, 'F<tspan font-size="7" dy="2">B</tspan>');
+        html += forceArrowMarkup(PT_C, ANG_C, s.FC, scale, 'F<tspan font-size="7" dy="2">C</tspan>');
+        html += forceArrowMarkup(CG, 270, s.W, scale, 'W');
+        document.getElementById('em-vectors').innerHTML = html;
+
+        document.getElementById('em-sumfx').textContent = fmt(s.sumFx);
+        document.getElementById('em-sumfy').textContent = fmt(s.sumFy);
+        document.getElementById('em-summ').textContent = fmt(s.sumM);
+
+        const dot = document.getElementById('em-status-dot');
+        const text = document.getElementById('em-status-text');
+        dot.className = 'w-[9px] h-[9px] rounded-full shrink-0 ' + (s.isBalanced ? 'bg-accent dark:bg-accent-dark' : 'bg-danger dark:bg-danger-dark');
+        text.textContent = s.isBalanced ? 'Balanced — the lamina is at rest.' : 'Not balanced yet — keep adjusting.';
+        document.getElementById('em-feedback').hidden = !emRevealed;
+        document.getElementById('em-comparison').hidden = !emRevealed;
+
+        const check = document.getElementById('em-check');
+        const checkDisabled = !emRevealed && !s.isBalanced;
+        check.disabled = checkDisabled;
+        check.classList.toggle('opacity-40', checkDisabled);
+        check.classList.toggle('cursor-not-allowed', checkDisabled);
+        check.classList.toggle('hover:border-accent', !checkDisabled);
+        check.classList.toggle('dark:hover:border-accent-dark', !checkDisabled);
+
+        document.getElementById('em-fa-fx').textContent = fmt(s.fA.fx);
+        document.getElementById('em-fa-fy').textContent = fmt(s.fA.fy);
+        document.getElementById('em-fb-fx').textContent = fmt(s.fB.fx);
+        document.getElementById('em-fb-fy').textContent = fmt(s.fB.fy);
+        document.getElementById('em-fc-fx').textContent = fmt(s.fC.fx);
+        document.getElementById('em-fc-fy').textContent = fmt(s.fC.fy);
+        document.getElementById('em-w-fx').textContent = fmt(s.fW.fx);
+        document.getElementById('em-w-fy').textContent = fmt(s.fW.fy);
+        document.getElementById('em-sum-fx').textContent = fmt(s.sumFx);
+        document.getElementById('em-sum-fy').textContent = fmt(s.sumFy);
+
+        document.getElementById('em-fa-f').textContent = fmt(s.FA);
+        document.getElementById('em-fa-d').textContent = fmt(s.dA);
+        document.getElementById('em-fa-m').textContent = fmt(s.MA);
+        document.getElementById('em-fb-f').textContent = fmt(s.FB);
+        document.getElementById('em-fb-d').textContent = fmt(s.dB);
+        document.getElementById('em-fb-m').textContent = fmt(s.MB);
+        document.getElementById('em-fc-f').textContent = fmt(s.FC);
+        document.getElementById('em-fc-d').textContent = fmt(s.dC);
+        document.getElementById('em-fc-m').textContent = fmt(s.MC);
+        document.getElementById('em-w-f').textContent = fmt(s.W);
+        document.getElementById('em-sum-m').textContent = fmt(s.sumM);
+      }
+
+      function animateBalance(timestamp) {
+        if (lastFrameTime === null) lastFrameTime = timestamp;
+        const dt = Math.min((timestamp - lastFrameTime) / 1000, 0.1);
+        lastFrameTime = timestamp;
+
+        if (lastState) {
+          const s = lastState;
+          const angularSpeed = Math.max(-SPIN_MAX, Math.min(SPIN_MAX, SPIN_K * s.sumM));
+          spinAngle += angularSpeed * dt; // math convention, CCW positive
+
+          const dispMag = Math.min(s.residualF * DRIFT_SCALE, DRIFT_MAX);
+          const angRad = Math.atan2(s.sumFy, s.sumFx);
+          const dx = dispMag * Math.cos(angRad);
+          const dy = -dispMag * Math.sin(angRad); // svg y-down
+
+          const colorClass = s.isBalanced ? 'accent' : 'danger';
+          const shape = document.getElementById('em-balance-shape');
+          shape.setAttribute('class', 'fill-' + colorClass + ' dark:fill-' + colorClass + '-dark');
+          // rotate() is SVG-native clockwise-positive, so negate the math (CCW-positive) spinAngle
+          shape.setAttribute('transform', 'translate(' + dx.toFixed(2) + ',' + dy.toFixed(2) + ') rotate(' + (-spinAngle).toFixed(2) + ',' + BALANCE_CX + ',' + BALANCE_CY + ')');
+        }
+        requestAnimationFrame(animateBalance);
+      }
+
+      const EM_DEFAULTS = { 'em-ma': 200, 'em-mb': 150, 'em-mc': 200 };
+      bindSliderNumber('em-ma', 0, 500, updateExpMoments);
+      bindSliderNumber('em-mb', 0, 500, updateExpMoments);
+      bindSliderNumber('em-mc', 0, 500, updateExpMoments);
+
+      document.getElementById('em-reset').addEventListener('click', function () {
+        Object.keys(EM_DEFAULTS).forEach(function (k) {
+          document.getElementById(k + '-slider').value = EM_DEFAULTS[k];
+          document.getElementById(k + '-number').value = EM_DEFAULTS[k];
+        });
+        emRevealed = false;
+        updateExpMoments();
+      });
+      document.getElementById('em-check').addEventListener('click', function () {
+        emRevealed = !emRevealed;
+        updateExpMoments();
+      });
+
+      updateExpMoments();
+      requestAnimationFrame(animateBalance);
     })();
   </script>
 
