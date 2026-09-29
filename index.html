@@ -68,6 +68,10 @@
        on the site, so their accent color needs a rule Tailwind has no utility for. */
     input[type="range"] { accent-color: oklch(45% 0.09 200); }
     .dark input[type="range"] { accent-color: oklch(75% 0.09 200); }
+    /* Equilibrium Calculator: "unknown" checkboxes are the only <input
+       type="checkbox"> on the site, same accent-color exception as above. */
+    input[type="checkbox"] { accent-color: oklch(45% 0.09 200); }
+    .dark input[type="checkbox"] { accent-color: oklch(75% 0.09 200); }
     /* Tailwind's CDN build puts utility classes in an @layer, so a "flex"/
        "grid" utility on the same element beats the browser's own low-priority
        [hidden] rule regardless of source order — any reveal panel that's both
@@ -114,7 +118,7 @@
       <section id="section-view-tools" class="hidden py-[38px]" data-section-view>
         <button data-action="show-home" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to all sections</button>
         <h1 class="font-display font-semibold text-[32px] md:text-[38px] mt-4">Tools</h1>
-        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Small calculators for common mechanics problems — 2 so far, with more added each phase.</p>
+        <p class="text-[14px] md:text-[15.5px] text-muted dark:text-muted-dark mt-2 max-w-[560px] leading-relaxed">Small calculators for common mechanics problems — 3 so far, with more added each phase.</p>
         <div id="tools-grid-container" class="py-[38px]"></div>
       </section>
 
@@ -1401,6 +1405,139 @@
         </template>
       </section>
 
+      <section id="tool-view-equilibrium-calculator" class="hidden py-[38px]" data-tool-view>
+        <button data-action="show-section" data-section-id="tools" class="text-[13px] text-accent dark:text-accent-dark hover:underline">&larr; Back to Tools</button>
+        <h2 class="font-display font-semibold text-[28px] md:text-[32px] mt-4">Equilibrium Calculator</h2>
+        <p class="text-[14px] text-muted dark:text-muted-dark mt-2 max-w-[640px] leading-relaxed">A 2D rigid body is in equilibrium when &Sigma;F<sub>x</sub> = 0, &Sigma;F<sub>y</sub> = 0, and &Sigma;M = 0 about any point. Enter the block's supports, its pivot, and any other forces or moments &mdash; mark up to three quantities &ldquo;unknown&rdquo; and Calculate finds them from the three equilibrium equations.</p>
+
+        <div class="mt-8 flex flex-col lg:flex-row gap-6 items-start">
+          <div class="w-full lg:w-[420px] shrink-0 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-5">
+            <!-- Supports -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Supports</div>
+                <button type="button" id="eqcalc-add-support" class="text-[12px] text-accent dark:text-accent-dark hover:underline">+ Add support</button>
+              </div>
+              <div id="eqcalc-support-rows" data-min-rows="1" class="flex flex-col gap-3"></div>
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-2">Each support's position also sets the block's footprint below &mdash; the block spans (0,0) to the farthest support in each direction.</div>
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+
+            <div>
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Pivot (sum moments about this point)</div>
+              <div class="grid grid-cols-2 gap-3">
+                <label>
+                  <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">x (m)</span>
+                  <input id="eqcalc-pivot-x" type="number" step="any" value="0" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                </label>
+                <label>
+                  <span class="block text-[12px] text-muted dark:text-muted-dark mb-1">y (m)</span>
+                  <input id="eqcalc-pivot-y" type="number" step="any" value="0" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+                </label>
+              </div>
+            </div>
+
+            <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+
+            <!-- Angled forces -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Forces at a known angle</div>
+                <button type="button" id="eqcalc-add-angled" class="text-[12px] text-accent dark:text-accent-dark hover:underline">+ Add force</button>
+              </div>
+              <div id="eqcalc-angled-rows" data-min-rows="0" class="flex flex-col gap-3"></div>
+            </div>
+
+            <!-- Couples -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Pure moments (couples)</div>
+                <button type="button" id="eqcalc-add-couple" class="text-[12px] text-accent dark:text-accent-dark hover:underline">+ Add moment</button>
+              </div>
+              <div id="eqcalc-couple-rows" data-min-rows="0" class="flex flex-col gap-3"></div>
+              <div class="text-[11px] text-caption dark:text-caption-dark italic mt-2">A couple has no position &mdash; its moment is the same about every point.</div>
+            </div>
+
+            <button type="button" id="eqcalc-calculate" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-accent dark:bg-accent-dark text-white dark:text-[oklch(20%_0.015_250)] px-5 py-2.5 text-[14px] font-semibold hover:opacity-90 transition-opacity">Calculate</button>
+            <div id="eqcalc-error" class="hidden text-[13px] text-danger dark:text-danger-dark"></div>
+          </div>
+
+          <!-- Diagram + results -->
+          <div class="flex-1 w-full flex flex-col gap-4">
+            <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Body Diagram</div>
+              <svg viewBox="0 0 300 300" class="w-full h-auto max-w-[400px] mx-auto">
+                <defs>
+                  <marker id="eqcalc-arrow-known" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
+                  <marker id="eqcalc-arrow-unknown" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-muted dark:fill-muted-dark"></path></marker>
+                </defs>
+                <g id="eqcalc-diagram"></g>
+              </svg>
+              <div class="flex items-center gap-4 justify-center text-[11px] text-caption dark:text-caption-dark mt-1">
+                <span class="flex items-center gap-1.5"><span class="w-[10px] h-[2px] bg-accent dark:bg-accent-dark inline-block"></span>known</span>
+                <span class="flex items-center gap-1.5"><span class="w-[10px] h-[2px] bg-muted dark:bg-muted-dark inline-block"></span>unknown</span>
+              </div>
+            </div>
+
+            <div id="eqcalc-result" class="hidden bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5 flex flex-col gap-3">
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Solved</div>
+              <div id="eqcalc-unknowns-list" class="flex flex-col gap-1.5 text-[14px]"></div>
+              <div class="h-px bg-hairline dark:bg-hairline-dark"></div>
+              <div class="flex flex-wrap gap-x-6 gap-y-1 text-[13px] [font-variant-numeric:tabular-nums]">
+                <span>&Sigma;Fx = <span id="eqcalc-res-fx" class="font-semibold"></span> N</span>
+                <span>&Sigma;Fy = <span id="eqcalc-res-fy" class="font-semibold"></span> N</span>
+                <span>&Sigma;M = <span id="eqcalc-res-m" class="font-semibold"></span> N&middot;m</span>
+              </div>
+              <div id="eqcalc-consistency" class="text-[13px]"></div>
+            </div>
+          </div>
+        </div>
+
+        <template id="eqcalc-angled-row-template">
+          <div data-row class="border border-hairline dark:border-hairline-dark rounded-md p-3 flex flex-col gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">x (m)</span><input type="number" step="any" data-field="x" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">y (m)</span><input type="number" step="any" data-field="y" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Angle (&deg;)</span><input type="number" step="any" data-field="angle" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Magnitude (N)</span><input type="number" step="any" data-field="magnitude" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 text-[13px] text-muted dark:text-muted-dark"><input type="checkbox" data-field="magnitude-unknown" class="rounded">Magnitude is unknown</label>
+              <button type="button" data-action="remove-row" aria-label="Remove force" class="w-[32px] h-[32px] shrink-0 rounded-md border border-hairline dark:border-hairline-dark flex items-center justify-center text-muted dark:text-muted-dark hover:text-danger hover:border-danger dark:hover:text-danger-dark dark:hover:border-danger-dark transition-colors"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            </div>
+          </div>
+        </template>
+
+        <template id="eqcalc-support-row-template">
+          <div data-row class="border border-hairline dark:border-hairline-dark rounded-md p-3 flex flex-col gap-3">
+            <div class="grid grid-cols-2 gap-3">
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">x (m)</span><input type="number" step="any" data-field="x" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+              <label><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">y (m)</span><input type="number" step="any" data-field="y" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="flex items-center justify-between mb-1"><span class="text-[12px] text-muted dark:text-muted-dark">Fx (N)</span><label class="flex items-center gap-1 text-[11px] text-muted dark:text-muted-dark"><input type="checkbox" data-field="fx-unknown" class="rounded">unknown</label></label>
+                <input type="number" step="any" data-field="fx" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </div>
+              <div>
+                <label class="flex items-center justify-between mb-1"><span class="text-[12px] text-muted dark:text-muted-dark">Fy (N)</span><label class="flex items-center gap-1 text-[11px] text-muted dark:text-muted-dark"><input type="checkbox" data-field="fy-unknown" class="rounded">unknown</label></label>
+                <input type="number" step="any" data-field="fy" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark">
+              </div>
+            </div>
+            <button type="button" data-action="remove-row" aria-label="Remove support" class="self-end w-[32px] h-[32px] shrink-0 rounded-md border border-hairline dark:border-hairline-dark flex items-center justify-center text-muted dark:text-muted-dark hover:text-danger hover:border-danger dark:hover:text-danger-dark dark:hover:border-danger-dark transition-colors"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          </div>
+        </template>
+
+        <template id="eqcalc-couple-row-template">
+          <div data-row class="border border-hairline dark:border-hairline-dark rounded-md p-3 flex items-end gap-3">
+            <label class="flex-1"><span class="block text-[12px] text-muted dark:text-muted-dark mb-1">Magnitude (N&middot;m, + = CCW)</span><input type="number" step="any" data-field="magnitude" class="w-full rounded-md border border-hairline dark:border-hairline-dark bg-card dark:bg-card-dark px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accent-dark"></label>
+            <label class="flex items-center gap-2 text-[13px] text-muted dark:text-muted-dark pb-2"><input type="checkbox" data-field="magnitude-unknown" class="rounded">unknown</label>
+            <button type="button" data-action="remove-row" aria-label="Remove moment" class="w-[36px] h-[36px] shrink-0 rounded-md border border-hairline dark:border-hairline-dark flex items-center justify-center text-muted dark:text-muted-dark hover:text-danger hover:border-danger dark:hover:text-danger-dark dark:hover:border-danger-dark transition-colors"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          </div>
+        </template>
+      </section>
+
     </div>
 
     <div id="experiment-views-container">
@@ -1906,6 +2043,7 @@
         tools: [
           { id: "force-calculator", name: "Force Calculator", description: "Compute the resultant of multiple 2D forces from magnitude and angle." },
           { id: "moment-calculator", name: "Moment Calculator", description: "Compute the net moment of multiple 2D forces about a pivot point." },
+          { id: "equilibrium-calculator", name: "Equilibrium Calculator", description: "Solve for up to three unknown forces or moments from the equilibrium equations (ΣFx=0, ΣFy=0, ΣM=0)." },
         ],
       },
       // Phase 2+: push additional { category, tools: [...] } objects here.
@@ -1914,6 +2052,7 @@
     const TOOL_ICONS = {
       'force-calculator': '<line x1="5" y1="19" x2="17" y2="7"></line><polyline points="9 7 17 7 17 15"></polyline>',
       'moment-calculator': '<path d="M4 12a8 8 0 1 1 2.6 5.9"></path><polyline points="3 15 4 19 8 18"></polyline>',
+      'equilibrium-calculator': '<line x1="12" y1="3" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="7" x2="4" y2="13"></line><path d="M1 13 L4 17 L7 13"></path><line x1="20" y1="7" x2="20" y2="13"></line><path d="M17 13 L20 17 L23 13"></path>',
     };
 
     const CONCEPTS_DATA = [
@@ -2089,10 +2228,19 @@
       container.dispatchEvent(new CustomEvent('rows-changed'));
     }
 
+    // A container's own data-min-rows can legitimately be "0" (fully optional
+    // rows, e.g. Equilibrium Calculator's angled-force/couple lists) — only
+    // fall back to the default of 1 when the attribute is missing/invalid,
+    // not just falsy, so an explicit "0" isn't silently forced back up to 1.
+    function rowFloor(container) {
+      const parsed = parseInt(container.dataset.minRows, 10);
+      return Number.isNaN(parsed) ? 1 : parsed;
+    }
+
     function removeRow(rowEl) {
       if (!rowEl) return;
       const container = rowEl.parentElement;
-      const minRows = parseInt(container.dataset.minRows, 10) || 1;
+      const minRows = rowFloor(container);
       if (container.children.length <= minRows) return;
       rowEl.remove();
       updateRemoveButtons(container);
@@ -2100,7 +2248,7 @@
     }
 
     function updateRemoveButtons(container) {
-      const minRows = parseInt(container.dataset.minRows, 10) || 1;
+      const minRows = rowFloor(container);
       const atFloor = container.children.length <= minRows;
       container.querySelectorAll('[data-action="remove-row"]').forEach((btn) => {
         btn.disabled = atFloor;
@@ -2901,6 +3049,374 @@
 
       updateExpMoments();
       requestAnimationFrame(animateBalance);
+    })();
+
+    // Equilibrium Calculator (Tools). A third IIFE — own scope, no shared
+    // state with the Virtual Experiments IIFEs above — reuses only the
+    // top-level toComponents/polarToXY/addRow/removeRow (never redeclared)
+    // and declares its own solver/diagram helpers under names that would
+    // otherwise be far too generic (fmt, num, collectSystem, drawDiagram...)
+    // to risk at top level among this file's other identifiers.
+    (function () {
+      var VIEW_W = 300, VIEW_H = 300, VIEW_PAD = 40;
+      var ARROW_MAX = 45, UNKNOWN_ARROW_LEN = 32;
+      var BLOCK_FALLBACK_SIZE = 2, BLOCK_FALLBACK_FRACTION = 0.25;
+
+      function fmt(n) { return n.toFixed(2); }
+      function markInvalid(input, invalid) {
+        input.classList.toggle('border-danger', invalid);
+        input.classList.toggle('dark:border-danger-dark', invalid);
+      }
+      function num(input) { var v = parseFloat(input.value); return Number.isNaN(v) ? null : v; }
+      function vectorLabelAnchor(x, y, cx, cy) {
+        var nearRight = x >= cx;
+        return { dx: nearRight ? -6 : 6, dy: y >= cy ? 14 : -8, anchor: nearRight ? 'end' : 'start' };
+      }
+
+      // ---- Generic linear solver (Gaussian elimination, partial pivoting) ----
+      function solveLinear(A, b) {
+        var n = b.length;
+        var M = A.map(function (row, i) { return row.slice().concat([b[i]]); });
+        for (var col = 0; col < n; col++) {
+          var pivot = col;
+          for (var r = col + 1; r < n; r++) { if (Math.abs(M[r][col]) > Math.abs(M[pivot][col])) pivot = r; }
+          if (Math.abs(M[pivot][col]) < 1e-9) return null;
+          var tmp = M[col]; M[col] = M[pivot]; M[pivot] = tmp;
+          for (r = 0; r < n; r++) {
+            if (r === col) continue;
+            var factor = M[r][col] / M[col][col];
+            for (var c = col; c <= n; c++) M[r][c] -= factor * M[col][c];
+          }
+        }
+        return M.map(function (row, i) { return row[n] / row[i]; });
+      }
+
+      function solveEquilibrium(unknownCols, knownSum) {
+        var n = unknownCols.length;
+        if (n === 0) {
+          var residual0 = { fx: knownSum.fx, fy: knownSum.fy, m: knownSum.m };
+          return { values: [], residual: residual0, balanced: Math.abs(residual0.fx) < 1e-6 && Math.abs(residual0.fy) < 1e-6 && Math.abs(residual0.m) < 1e-6 };
+        }
+        if (n > 3) return { error: 'too-many' };
+        var b = [-knownSum.fx, -knownSum.fy, -knownSum.m];
+        var A = [0, 1, 2].map(function (eq) { return unknownCols.map(function (c) { return [c.cFx, c.cFy, c.cM][eq]; }); });
+        var x;
+        if (n === 3) {
+          x = solveLinear(A, b);
+        } else {
+          var AtA = [], Atb = [];
+          for (var i = 0; i < n; i++) {
+            var row = [];
+            for (var j = 0; j < n; j++) {
+              var s = 0;
+              for (var eq = 0; eq < 3; eq++) s += A[eq][i] * A[eq][j];
+              row.push(s);
+            }
+            AtA.push(row);
+            var sb = 0;
+            for (eq = 0; eq < 3; eq++) sb += A[eq][i] * b[eq];
+            Atb.push(sb);
+          }
+          x = solveLinear(AtA, Atb);
+        }
+        if (!x) return { error: 'singular' };
+        var residual = { fx: 0, fy: 0, m: 0 }, keys = ['fx', 'fy', 'm'];
+        for (var eq2 = 0; eq2 < 3; eq2++) {
+          var s2 = 0;
+          for (var j2 = 0; j2 < n; j2++) s2 += A[eq2][j2] * x[j2];
+          residual[keys[eq2]] = s2 - b[eq2];
+        }
+        return {
+          values: x, residual: residual,
+          balanced: Math.abs(residual.fx) < 1e-6 && Math.abs(residual.fy) < 1e-6 && Math.abs(residual.m) < 1e-6,
+        };
+      }
+
+      // ---- Collect the system from the form ----
+      function collectSystem() {
+        var pivotXInput = document.getElementById('eqcalc-pivot-x'), pivotYInput = document.getElementById('eqcalc-pivot-y');
+        var px = num(pivotXInput), py = num(pivotYInput);
+        var invalid = false;
+        markInvalid(pivotXInput, px === null); markInvalid(pivotYInput, py === null);
+        if (px === null || py === null) invalid = true;
+        px = px === null ? 0 : px; py = py === null ? 0 : py;
+
+        var knownSum = { fx: 0, fy: 0, m: 0 };
+        var unknownCols = [];
+        var unknownLabels = [];
+        var drawItems = { angled: [], support: [], couple: [] };
+        var rowCount = 0;
+
+        document.querySelectorAll('#eqcalc-angled-rows [data-row]').forEach(function (row, idx) {
+          var xIn = row.querySelector('[data-field="x"]'), yIn = row.querySelector('[data-field="y"]');
+          var angIn = row.querySelector('[data-field="angle"]'), magIn = row.querySelector('[data-field="magnitude"]');
+          var unknownChk = row.querySelector('[data-field="magnitude-unknown"]');
+          var x = num(xIn), y = num(yIn), ang = num(angIn);
+          var magUnknown = unknownChk.checked;
+          magIn.disabled = magUnknown;
+          magIn.classList.toggle('opacity-50', magUnknown);
+          var mag = magUnknown ? null : num(magIn);
+          markInvalid(xIn, x === null); markInvalid(yIn, y === null); markInvalid(angIn, ang === null);
+          markInvalid(magIn, !magUnknown && mag === null);
+          if (x === null || y === null || ang === null || (!magUnknown && mag === null)) { invalid = true; return; }
+          rowCount++;
+          var rx = x - px, ry = y - py;
+          var u = toComponents(1, ang);
+          if (magUnknown) {
+            unknownCols.push({ cFx: u.fx, cFy: u.fy, cM: rx * u.fy - ry * u.fx });
+            unknownLabels.push({ text: 'Angled force ' + (idx + 1) + ' — magnitude', row: row, field: magIn });
+          } else {
+            var f = toComponents(mag, ang);
+            knownSum.fx += f.fx; knownSum.fy += f.fy; knownSum.m += rx * f.fy - ry * f.fx;
+          }
+          drawItems.angled.push({ x: x, y: y, ang: ang, mag: mag, unknown: magUnknown, magInput: magIn });
+        });
+
+        var supportPositions = []; // absolute (x,y), for sizing the block below
+        document.querySelectorAll('#eqcalc-support-rows [data-row]').forEach(function (row, idx) {
+          var xIn = row.querySelector('[data-field="x"]'), yIn = row.querySelector('[data-field="y"]');
+          var fxIn = row.querySelector('[data-field="fx"]'), fyIn = row.querySelector('[data-field="fy"]');
+          var fxUnknownChk = row.querySelector('[data-field="fx-unknown"]'), fyUnknownChk = row.querySelector('[data-field="fy-unknown"]');
+          var x = num(xIn), y = num(yIn);
+          var fxUnknown = fxUnknownChk.checked, fyUnknown = fyUnknownChk.checked;
+          fxIn.disabled = fxUnknown; fxIn.classList.toggle('opacity-50', fxUnknown);
+          fyIn.disabled = fyUnknown; fyIn.classList.toggle('opacity-50', fyUnknown);
+          var fx = fxUnknown ? null : num(fxIn), fy = fyUnknown ? null : num(fyIn);
+          markInvalid(xIn, x === null); markInvalid(yIn, y === null);
+          markInvalid(fxIn, !fxUnknown && fx === null); markInvalid(fyIn, !fyUnknown && fy === null);
+          if (x === null || y === null || (!fxUnknown && fx === null) || (!fyUnknown && fy === null)) { invalid = true; return; }
+          rowCount++;
+          supportPositions.push({ x: x, y: y });
+          var rx = x - px, ry = y - py;
+          var knownFx = 0, knownFy = 0;
+          if (fxUnknown) {
+            unknownCols.push({ cFx: 1, cFy: 0, cM: -ry });
+            unknownLabels.push({ text: 'Support ' + (idx + 1) + ' — Fx', row: row, field: fxIn });
+          } else { knownSum.fx += fx; knownFx = fx; }
+          if (fyUnknown) {
+            unknownCols.push({ cFx: 0, cFy: 1, cM: rx });
+            unknownLabels.push({ text: 'Support ' + (idx + 1) + ' — Fy', row: row, field: fyIn });
+          } else { knownSum.fy += fy; knownFy = fy; }
+          if (!fxUnknown) knownSum.m += -ry * knownFx; // Fx-only contributes -ry*Fx to M
+          if (!fyUnknown) knownSum.m += rx * knownFy; // Fy-only contributes rx*Fy to M
+          drawItems.support.push({ x: x, y: y, rx: rx, ry: ry, fx: fx, fy: fy, fxUnknown: fxUnknown, fyUnknown: fyUnknown, fxInput: fxIn, fyInput: fyIn });
+        });
+
+        // Block footprint: bottom-left pinned at (0,0), sized so the farthest
+        // support in each direction sits exactly on that edge. A dimension with
+        // no spread (e.g. every support at the same y) falls back to a small
+        // decorative thickness — visual only, no effect on the physics.
+        var maxSupportX = supportPositions.reduce(function (m, p) { return Math.max(m, p.x); }, 0);
+        var maxSupportY = supportPositions.reduce(function (m, p) { return Math.max(m, p.y); }, 0);
+        var blockW = maxSupportX, blockH = maxSupportY;
+        if (blockW < 1e-6 && blockH < 1e-6) { blockW = BLOCK_FALLBACK_SIZE; blockH = BLOCK_FALLBACK_SIZE; }
+        else if (blockW < 1e-6) { blockW = blockH * BLOCK_FALLBACK_FRACTION; }
+        else if (blockH < 1e-6) { blockH = blockW * BLOCK_FALLBACK_FRACTION; }
+
+        document.querySelectorAll('#eqcalc-couple-rows [data-row]').forEach(function (row, idx) {
+          var magIn = row.querySelector('[data-field="magnitude"]');
+          var unknownChk = row.querySelector('[data-field="magnitude-unknown"]');
+          var magUnknown = unknownChk.checked;
+          magIn.disabled = magUnknown; magIn.classList.toggle('opacity-50', magUnknown);
+          var mag = magUnknown ? null : num(magIn);
+          markInvalid(magIn, !magUnknown && mag === null);
+          if (!magUnknown && mag === null) { invalid = true; return; }
+          rowCount++;
+          if (magUnknown) {
+            unknownCols.push({ cFx: 0, cFy: 0, cM: 1 });
+            unknownLabels.push({ text: 'Couple ' + (idx + 1), row: row, field: magIn });
+          } else { knownSum.m += mag; }
+          drawItems.couple.push({ mag: mag, unknown: magUnknown, magInput: magIn });
+        });
+
+        return { px: px, py: py, invalid: invalid, rowCount: rowCount, knownSum: knownSum, unknownCols: unknownCols, unknownLabels: unknownLabels, drawItems: drawItems, blockW: blockW, blockH: blockH };
+      }
+
+      // ---- Diagram ----
+      function drawDiagram(sys, solvedValues) {
+        var g = document.getElementById('eqcalc-diagram');
+
+        var pts = [
+          { x: 0, y: 0 }, { x: sys.blockW, y: 0 }, { x: 0, y: sys.blockH }, { x: sys.blockW, y: sys.blockH },
+          { x: sys.px, y: sys.py },
+        ];
+        sys.drawItems.angled.forEach(function (f) { pts.push({ x: f.x, y: f.y }); });
+        sys.drawItems.support.forEach(function (f) { pts.push({ x: f.x, y: f.y }); });
+        var minX = pts.reduce(function (m, p) { return Math.min(m, p.x); }, 0);
+        var maxX = pts.reduce(function (m, p) { return Math.max(m, p.x); }, 0);
+        var minY = pts.reduce(function (m, p) { return Math.min(m, p.y); }, 0);
+        var maxY = pts.reduce(function (m, p) { return Math.max(m, p.y); }, 0);
+        var spanX = Math.max(maxX - minX, 1e-6), spanY = Math.max(maxY - minY, 1e-6);
+        var scale = Math.min((VIEW_W - 2 * VIEW_PAD) / spanX, (VIEW_H - 2 * VIEW_PAD) / spanY);
+        function screenX(x) { return VIEW_PAD + (x - minX) * scale; }
+        function screenY(y) { return (VIEW_H - VIEW_PAD) - (y - minY) * scale; }
+
+        var maxMag = 1e-6;
+        sys.drawItems.angled.forEach(function (f) { if (!f.unknown) maxMag = Math.max(maxMag, Math.abs(f.mag)); });
+        sys.drawItems.support.forEach(function (f) {
+          if (!f.fxUnknown) maxMag = Math.max(maxMag, Math.abs(f.fx));
+          if (!f.fyUnknown) maxMag = Math.max(maxMag, Math.abs(f.fy));
+        });
+        var arrowScale = ARROW_MAX / maxMag;
+
+        var svg = '';
+        svg += '<rect x="' + screenX(0).toFixed(1) + '" y="' + screenY(sys.blockH).toFixed(1) + '" width="' + (scale * sys.blockW).toFixed(1) + '" height="' + (scale * sys.blockH).toFixed(1) +
+          '" rx="4" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.5"></rect>';
+        var pivotPt = { x: screenX(sys.px), y: screenY(sys.py) };
+        svg += '<circle cx="' + pivotPt.x.toFixed(1) + '" cy="' + pivotPt.y.toFixed(1) + '" r="3.5" class="fill-primary dark:fill-primary-dark"></circle>' +
+          '<text x="' + (pivotPt.x + 6).toFixed(1) + '" y="' + (pivotPt.y - 6).toFixed(1) + '" class="fill-primary dark:fill-primary-dark" font-size="9">pivot</text>';
+
+        function arrowMarkup(anchor, angDeg, len, known, label) {
+          var tip = polarToXY(len, angDeg, 1, anchor.x, anchor.y);
+          var a = vectorLabelAnchor(tip.x, tip.y, VIEW_W / 2, VIEW_H / 2);
+          var colorClass = known ? 'accent' : 'muted';
+          var marker = known ? 'eqcalc-arrow-known' : 'eqcalc-arrow-unknown';
+          return '<line x1="' + anchor.x.toFixed(1) + '" y1="' + anchor.y.toFixed(1) + '" x2="' + tip.x.toFixed(1) + '" y2="' + tip.y.toFixed(1) +
+            '" class="stroke-' + colorClass + ' dark:stroke-' + colorClass + '-dark" stroke-width="2.2" marker-end="url(#' + marker + ')"></line>' +
+            '<text x="' + (tip.x + a.dx).toFixed(1) + '" y="' + (tip.y + a.dy).toFixed(1) + '" font-size="9.5" text-anchor="' + a.anchor +
+            '" class="fill-primary dark:fill-primary-dark">' + label + '</text>';
+        }
+
+        var vi = 0; // index into solvedValues, following the same order collectSystem() pushed unknownCols in
+        sys.drawItems.angled.forEach(function (f, idx) {
+          var anchor = { x: screenX(f.x), y: screenY(f.y) };
+          svg += '<circle cx="' + anchor.x.toFixed(1) + '" cy="' + anchor.y.toFixed(1) + '" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>';
+          var mag = f.mag, known = !f.unknown, len;
+          if (f.unknown) { mag = solvedValues ? solvedValues[vi] : null; vi++; len = UNKNOWN_ARROW_LEN; }
+          else { len = arrowScale * Math.abs(mag); }
+          var label = 'F' + (idx + 1) + ' = ' + (mag === null || mag === undefined ? '?' : fmt(mag)) + 'N';
+          svg += arrowMarkup(anchor, f.ang, len, known && mag !== null, label);
+        });
+        sys.drawItems.support.forEach(function (f, idx) {
+          var anchor = { x: screenX(f.x), y: screenY(f.y) };
+          svg += '<circle cx="' + anchor.x.toFixed(1) + '" cy="' + anchor.y.toFixed(1) + '" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>';
+          var fx = f.fx, fy = f.fy;
+          if (f.fxUnknown) { fx = solvedValues ? solvedValues[vi] : null; vi++; }
+          if (f.fyUnknown) { fy = solvedValues ? solvedValues[vi] : null; vi++; }
+          var fxLen = f.fxUnknown ? UNKNOWN_ARROW_LEN : arrowScale * Math.abs(fx);
+          var fxAng = (f.fxUnknown ? 1 : (fx >= 0 ? 1 : -1)) > 0 ? 0 : 180;
+          svg += arrowMarkup(anchor, fxAng, fxLen, !f.fxUnknown && fx !== null, 'F' + (idx + 1) + 'x=' + (fx === null || fx === undefined ? '?' : fmt(fx)) + 'N');
+          var fyLen = f.fyUnknown ? UNKNOWN_ARROW_LEN : arrowScale * Math.abs(fy);
+          var fyAng = (f.fyUnknown ? 1 : (fy >= 0 ? 1 : -1)) > 0 ? 90 : 270;
+          svg += arrowMarkup(anchor, fyAng, fyLen, !f.fyUnknown && fy !== null, 'F' + (idx + 1) + 'y=' + (fy === null || fy === undefined ? '?' : fmt(fy)) + 'N');
+        });
+        sys.drawItems.couple.forEach(function (c, idx) {
+          var cy = 20 + idx * 16;
+          var mag = c.mag;
+          if (c.unknown) { mag = solvedValues ? solvedValues[vi] : null; vi++; }
+          var known = !c.unknown && mag !== null;
+          var colorClass = known ? 'accent' : 'muted';
+          var label = 'M' + (idx + 1) + ' = ' + (mag === null || mag === undefined ? '?' : fmt(mag)) + ' N&middot;m';
+          svg += '<path d="M 14 ' + cy + ' a 8 8 0 1 1 16 0" fill="none" class="stroke-' + colorClass + ' dark:stroke-' + colorClass + '-dark" stroke-width="1.5" marker-end="url(#' + (known ? 'eqcalc-arrow-known' : 'eqcalc-arrow-unknown') + ')"></path>' +
+            '<text x="38" y="' + (cy + 4) + '" font-size="9.5" class="fill-primary dark:fill-primary-dark">' + label + '</text>';
+        });
+
+        g.innerHTML = svg;
+      }
+
+      function recomputeAll() {
+        var sys = collectSystem();
+        drawDiagram(sys, null);
+      }
+
+      document.getElementById('eqcalc-calculate').addEventListener('click', function () {
+        var sys = collectSystem();
+        var errorEl = document.getElementById('eqcalc-error');
+        var resultEl = document.getElementById('eqcalc-result');
+        if (sys.invalid) {
+          errorEl.textContent = 'Fix the highlighted field(s): every position/angle and every known value needs a number.';
+          errorEl.classList.remove('hidden');
+          resultEl.classList.add('hidden');
+          return;
+        }
+        if (sys.rowCount === 0) {
+          errorEl.textContent = 'Add at least one support, force, or moment.';
+          errorEl.classList.remove('hidden');
+          resultEl.classList.add('hidden');
+          return;
+        }
+        if (sys.unknownCols.length > 3) {
+          errorEl.textContent = sys.unknownCols.length + ' unknowns given — at most 3 can be solved from ΣFx=0, ΣFy=0, ΣM=0.';
+          errorEl.classList.remove('hidden');
+          resultEl.classList.add('hidden');
+          return;
+        }
+        var result = solveEquilibrium(sys.unknownCols, sys.knownSum);
+        if (result.error === 'singular') {
+          errorEl.textContent = 'This system is indeterminate — the unknowns you chose can’t be separated (e.g. two unknown forces along the same line). Try marking a different quantity unknown.';
+          errorEl.classList.remove('hidden');
+          resultEl.classList.add('hidden');
+          return;
+        }
+        errorEl.classList.add('hidden');
+        resultEl.classList.remove('hidden');
+
+        var listEl = document.getElementById('eqcalc-unknowns-list');
+        if (sys.unknownLabels.length === 0) {
+          listEl.innerHTML = '<div>' + (result.balanced ? 'Already balanced — nothing to solve.' : 'Not balanced, and nothing was marked unknown.') + '</div>';
+        } else {
+          listEl.innerHTML = sys.unknownLabels.map(function (u, i) {
+            return '<div class="flex justify-between"><span class="text-muted dark:text-muted-dark">' + u.text + '</span><span class="font-semibold [font-variant-numeric:tabular-nums]">' + fmt(result.values[i]) + (u.text.indexOf('Couple') === 0 ? ' N·m' : ' N') + '</span></div>';
+          }).join('');
+        }
+        document.getElementById('eqcalc-res-fx').textContent = fmt(result.residual.fx);
+        document.getElementById('eqcalc-res-fy').textContent = fmt(result.residual.fy);
+        document.getElementById('eqcalc-res-m').textContent = fmt(result.residual.m);
+        var consistencyEl = document.getElementById('eqcalc-consistency');
+        if (result.balanced) {
+          consistencyEl.textContent = 'All three equilibrium equations are satisfied.';
+          consistencyEl.className = 'text-[13px] text-accent dark:text-accent-dark';
+        } else {
+          consistencyEl.textContent = 'Residual isn’t zero — with fewer than 3 unknowns, this means the given values aren’t actually consistent with equilibrium.';
+          consistencyEl.className = 'text-[13px] text-danger dark:text-danger-dark';
+        }
+
+        drawDiagram(sys, result.values);
+      });
+
+      ['eqcalc-angled-rows', 'eqcalc-support-rows', 'eqcalc-couple-rows'].forEach(function (id) {
+        var container = document.getElementById(id);
+        container.addEventListener('input', recomputeAll);
+        container.addEventListener('rows-changed', recomputeAll);
+      });
+      document.getElementById('eqcalc-pivot-x').addEventListener('input', recomputeAll);
+      document.getElementById('eqcalc-pivot-y').addEventListener('input', recomputeAll);
+
+      document.getElementById('eqcalc-add-angled').addEventListener('click', function () {
+        addRow('eqcalc-angled-rows', 'eqcalc-angled-row-template');
+      });
+      document.getElementById('eqcalc-add-support').addEventListener('click', function () {
+        addRow('eqcalc-support-rows', 'eqcalc-support-row-template');
+      });
+      document.getElementById('eqcalc-add-couple').addEventListener('click', function () {
+        addRow('eqcalc-couple-rows', 'eqcalc-couple-row-template');
+      });
+
+      // Seed the classic pin+roller beam example: pin at A=(0,0) with both
+      // reactions unknown, roller at B=(6,0) with only its vertical reaction
+      // unknown, and a 120N downward load at 4m from A.
+      addRow('eqcalc-support-rows', 'eqcalc-support-row-template');
+      addRow('eqcalc-support-rows', 'eqcalc-support-row-template');
+      addRow('eqcalc-angled-rows', 'eqcalc-angled-row-template');
+      (function seedDefaults() {
+        var supports = document.querySelectorAll('#eqcalc-support-rows [data-row]');
+        supports[0].querySelector('[data-field="x"]').value = '0';
+        supports[0].querySelector('[data-field="y"]').value = '0';
+        supports[0].querySelector('[data-field="fx-unknown"]').checked = true;
+        supports[0].querySelector('[data-field="fy-unknown"]').checked = true;
+        supports[1].querySelector('[data-field="x"]').value = '6';
+        supports[1].querySelector('[data-field="y"]').value = '0';
+        supports[1].querySelector('[data-field="fx"]').value = '0';
+        supports[1].querySelector('[data-field="fy-unknown"]').checked = true;
+
+        var angled = document.querySelector('#eqcalc-angled-rows [data-row]');
+        angled.querySelector('[data-field="x"]').value = '4';
+        angled.querySelector('[data-field="y"]').value = '0';
+        angled.querySelector('[data-field="angle"]').value = '270';
+        angled.querySelector('[data-field="magnitude"]').value = '120';
+      })();
+
+      recomputeAll();
     })();
   </script>
 

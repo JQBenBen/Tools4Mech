@@ -199,6 +199,132 @@ history for details.") so the section stays skimmable as it grows.
   ° / m / N·m; 2-decimal display rounding computed from full-precision
   sums; an invalid/blank row blocks calculation and highlights that row;
   no URL/hash routing.
+- **Equilibrium Calculator** (done): a third `TOOLS_DATA` entry
+  `equilibrium-calculator` in the same "Force & Moment" category,
+  rendered at `#tool-view-equilibrium-calculator` (sibling of
+  `#tool-view-moment-calculator`), `TOOL_ICONS['equilibrium-calculator']`
+  reuses the exact same balance-scale path as `CONCEPT_ICONS['equilibrium']`
+  for visual consistency. General-purpose 2D rigid-body equilibrium
+  solver (ΣFx=0, ΣFy=0, ΣM=0 about a chosen pivot) — generalizes what
+  Force Calculator (sum forces), Moment Calculator (sum moments), and the
+  Equilibrium topic's own worked examples each do separately into one
+  interactive "enter knowns and unknowns, solve for the rest" tool.
+  First drafted and iterated as a standalone Artifact preview (per this
+  project's established "draft, approve, then port" workflow — see Force
+  Equilibrium's own entry under Virtual Experiments), then ported in with
+  its ids/logic reconciled against this file's real shared utilities
+  (see "Reconciling a ported Artifact" below).
+  - **Three row types + one pivot input**: a **Supports** section
+    (`eqcalc-support-rows`, `data-min-rows="1"`, default 2 rows) — x, y,
+    and independently unknown/known Fx, Fy per row, covering reaction-type
+    unknowns like a pin's Ax/Ay where the direction itself isn't known;
+    a **Pivot** (`eqcalc-pivot-x`/`-y`, free x/y input, not fixed at the
+    origin) — the point ΣM is summed about; **Forces at a known angle**
+    (`eqcalc-angled-rows`, `data-min-rows="0"`) — x, y, angle (always
+    known), magnitude (optionally unknown); **Pure moments/couples**
+    (`eqcalc-couple-rows`, `data-min-rows="0"`) — magnitude only, no
+    position, since a couple's moment is the same about every point.
+    Supports are asked for first because their positions also size the
+    block footprint (see below); angled forces and couples are fully
+    optional (can be removed to zero), which needed a small shared-utility
+    fix — see below.
+  - **Block footprint anchored at the origin**: the block's bottom-left
+    corner is fixed at data-space (0,0); its width/height are
+    `max(0, max support x)` / `max(0, max support y)`, which places every
+    *extremal* support exactly on an edge (the realistic cases this tool
+    targets: a beam with supports along one edge, or a plate with supports
+    at its corners). A dimension with no spread (e.g. two supports at the
+    same y) falls back to a small decorative thickness (25% of the other
+    dimension, or a fixed minimum if *both* collapse — a single support at
+    the origin) — visual only, no effect on the physics.
+  - **Solver**: every marked-unknown scalar (an angled force's magnitude,
+    a support's Fx and/or Fy independently, or a couple's magnitude)
+    becomes one linear variable; every known value folds into a constant.
+    Builds the 3×N system (N = unknown count, equations = ΣFx/ΣFy/ΣM):
+    N=0 just reports balanced/not; N=1–3 solves via
+    `AᵀA·x = Aᵀb` normal equations (exact for N=3 assuming non-singular;
+    least-squares for N=1–2, doubling as a consistency check on the
+    leftover equation — the same "solve via one equation, verify via the
+    others" structure already used in the Equilibrium topic's worked
+    examples); N>3 is rejected with an explicit error. One hand-rolled
+    Gaussian-elimination-with-partial-pivoting solver (≤3×3) covers both
+    the N=3 exact case and the N≤2 normal-equations case. Sanity-checked
+    against the Equilibrium topic's own two worked examples (two-cable
+    junction: T1=50.00N/T2=86.60N; pin+roller beam: Ax=0.00N/Ay=40.00N/
+    By=80.00N) before trusting it in the page.
+  - **Body Diagram**: one `<svg>` panel (not two side-by-side like Moment
+    Calculator's, since this tool has one unified diagram) using a
+    bounding-box-fit transform — collects every point that must stay
+    visible (the block's 4 corners including the origin, every support,
+    every angled force position, and the pivot), fits that bounding box
+    into the viewBox with margin, and maps everything through one shared
+    `screenX`/`screenY` pair — rather than the fixed-pivot-centered
+    `polarToXY`-around-one-point approach Moment Calculator uses, since
+    here the block's *true footprint* has to render to scale together
+    with the pivot and every force, not just vectors from a single origin.
+    Known values render normally (accent-colored); unknown ones show "?"
+    at a fixed nominal arrow length until solved (matching the Equilibrium
+    topic's own "Ax = ?" convention), then update to the solved number,
+    still muted-colored (reusing the Free Body Diagram topic's "accent =
+    known, muted = unknown" color convention).
+  - **Reconciling a ported Artifact with the site's real shared code**: the
+    standalone Artifact preview had duplicated `toComponents`/`polarToXY`/
+    `addRow`/`removeRow`/a `wireRow` helper (needed there since it was a
+    fully standalone page); the port deleted all of those and calls the
+    real top-level `toComponents`/`polarToXY`/`addRow`/`removeRow`
+    directly instead — same "never redeclare, always call the existing
+    one" rule this file already documents for the Virtual Experiments'
+    IIFEs. Live keystroke updates are wired the same way Force/Moment
+    Calculator do it — one delegated `input` listener plus one
+    `rows-changed` listener *per row container* (three containers here),
+    not per-row/per-input binding, matching
+    `document.getElementById('moment-rows').addEventListener('input', ...)`
+    exactly. The three "Add ___" buttons each get their own id + their own
+    `addEventListener('click', ...)` (mirroring `force-add-row`/
+    `moment-add-row`), rather than the Artifact's own bespoke delegated
+    `data-action` click listener, which was deleted — `data-action=
+    "remove-row"` on each row's remove button needed no new wiring at all,
+    since the site's one global delegated click listener already handles
+    that case for every tool/experiment. The result panel was restyled
+    from the Artifact's `bg-accent-tint` + accent-colored "reveal" look
+    (a Virtual-Experiments convention) to `bg-card` + a muted-colored
+    eyebrow label, matching `#moment-result` exactly — Tools' own
+    convention, not Virtual Experiments'. Own trailing IIFE (after the
+    Moment Equilibrium IIFE, before `</script>`) rather than Force/Moment
+    Calculator's top-level-function style, since this tool's solver
+    introduces substantially more generic-sounding helper names (`fmt`,
+    `num`, `collectSystem`, `drawDiagram`, …) than either calculator has —
+    the same isolation rationale already documented for the Virtual
+    Experiments' own IIFEs applies equally here.
+  - **Shared-utility fix**: `removeRow`/`updateRemoveButtons` used to read
+    a container's row floor as `parseInt(container.dataset.minRows, 10) ||
+    1`, which silently forced an explicit `data-min-rows="0"` back up to a
+    floor of 1 (0 is falsy) — fine for Force/Moment Calculator, which only
+    ever use `data-min-rows="1"`, but wrong for this tool's angled-force/
+    couple rows, which are genuinely optional down to zero. Replaced with
+    a small `rowFloor(container)` helper that only falls back to 1 when
+    the attribute is missing/unparseable (`Number.isNaN`), not just falsy
+    — verified zero behavior change for the two existing
+    `data-min-rows="1"` containers, while `eqcalc-angled-rows`/
+    `eqcalc-couple-rows` (`data-min-rows="0"`) now genuinely reach zero
+    rows.
+  - **New checkbox exception**: `input[type="checkbox"]` is new to the
+    site with this tool (independent-unknown toggles on support/angled/
+    couple rows) — added the same kind of `accent-color` exception already
+    carved out for `<input type="range">`, in the same `<style>` block.
+  - Verified: full navigation regression (Home → Tools → Equilibrium
+    Calculator → back → Tools → back → Home) plus checks that Force
+    Calculator and Moment Calculator (including their own row-add/shared
+    `addRow`) still work unaffected by the `removeRow`/`rowFloor` change;
+    the seeded pin+roller-beam example (supports at (0,0) unknown Fx/Fy,
+    (6,0) known Fx=0/unknown Fy, 120N angled load at (4,0)) reproduces
+    Ax=0.00/Ay=40.00/By=80.00 with ≈0 residuals on Calculate; the block
+    renders at the correct aspect ratio with both supports exactly on its
+    boundary; live diagram updates on keystroke (not just add/remove
+    row); N>3 rejection; invalid/blank-field highlighting blocks
+    Calculate; angled-force/couple rows removable to zero while Supports
+    floor at 1 (remove button disabled at the floor); the single-support
+    fallback produces a fixed square block.
 
 ### Sections (status: done)
 - Homepage shows 3 top-level sections instead of items directly:
