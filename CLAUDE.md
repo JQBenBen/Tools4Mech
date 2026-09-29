@@ -266,21 +266,40 @@ history for details.") so the section stays skimmable as it grows.
     *both* Fx and Fy solved as independent unknowns (e.g. a pin's Ax/Ay,
     where the reaction's direction itself isn't known ahead of time),
     the "Solved" panel adds one more row right after that support's own
-    Fx/Fy rows — "Support N — Resultant: `<magnitude>` N at `<angle>`°"
-    (or "direction undefined" if the resultant is ≈0), using the same
-    0°=+x-axis/CCW-positive/[0°,360°) convention as the Force
-    Calculator's own resultant. A support with only *one* component
-    unknown (e.g. the seeded roller's By, with Fx already known as 0)
-    gets no extra row — there's nothing to combine. Implemented by
-    having `collectSystem()` record which `unknownCols`/`unknownLabels`
-    index each support row's Fx/Fy landed at (a `supportResultants` list
-    of `{supportNum, fxIdx, fyIdx, afterIdx}`), then, after solving,
+    Fx/Fy rows — "Support N — Resultant: `<arrow icon>` `<magnitude>` N
+    at `<basic angle>`°" (or "direction undefined" if the resultant is
+    ≈0). A support with only *one* component unknown (e.g. the seeded
+    roller's By, with Fx already known as 0) gets no extra row — there's
+    nothing to combine. Implemented by having `collectSystem()` record
+    which `unknownCols`/`unknownLabels` index each support row's Fx/Fy
+    landed at (a `supportResultants` list of
+    `{supportNum, fxIdx, fyIdx, afterIdx}`), then, after solving,
     splicing one extra row into the results array right after each such
     support's Fy row (highest `afterIdx` first, so earlier splices don't
     shift later insertion points). Verified the seeded pin+roller-beam
     example gains exactly one Resultant row (for the pin, Support 1) and
     not a second one for the roller (Support 2), and that its magnitude/
     angle cross-check against `hypot`/`atan2` of the solved Ax/Ay.
+    - **Basic-angle convention + direction arrow** (revised per
+      feedback): the row's angle is displayed as the site's established
+      "basic angle" (0–90°, the acute angle to the *nearest* x-axis —
+      same convention as the Resolve and Resultant Force topic's
+      non-first-quadrant examples) via a small `basicAngle(angDeg)`
+      helper, rather than the full `[0°,360°)` compass angle. Since a
+      basic angle alone can't say which of the (up to) 4 directions it
+      actually is, a small inline direction-indicator `<svg>`
+      (`directionArrowMarkup(angDeg)`) sits right beside the text,
+      rotated via a CSS `transform: rotate(-angDeg)` (negated because
+      CSS `rotate()` is clockwise-positive while the site's math
+      convention is CCW-positive) to point at the *true* angle. Its
+      arrowhead reuses the Free Body Diagram's own `#eqcalc-arrow-known`
+      marker — an SVG marker `url(#id)` reference resolves against the
+      whole document, so a marker defined in one `<svg>` renders
+      correctly from a separate inline `<svg>` elsewhere on the page,
+      no new marker needed. Per explicit feedback, this arrow is
+      **only** in the results-panel row — the Free Body Diagram itself
+      is untouched. The little arrow's own length is fixed/decorative,
+      not scaled to the resultant's magnitude.
   - **Block footprint anchored at the origin**: the block's bottom-left
     corner is fixed at data-space (0,0); its width/height are
     `max(0, max support x)` / `max(0, max support y)`, which places every

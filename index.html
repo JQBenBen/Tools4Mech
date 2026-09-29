@@ -3100,6 +3100,30 @@
         var nearRight = x >= cx;
         return { dx: nearRight ? -6 : 6, dy: y >= cy ? 14 : -8, anchor: nearRight ? 'end' : 'start' };
       }
+      // The acute angle (0-90deg) between a direction and the *nearest*
+      // x-axis — the site's established "basic angle" convention (see the
+      // Resolve and Resultant Force topic's non-first-quadrant examples).
+      // Always [0, 90]; pair with directionArrowMarkup below to show which
+      // of the 4 possible directions it actually is.
+      function basicAngle(angDeg) {
+        var a = ((angDeg % 360) + 360) % 360;
+        if (a <= 90) return a;
+        if (a <= 180) return 180 - a;
+        if (a <= 270) return a - 180;
+        return 360 - a;
+      }
+      // Small inline direction indicator (not to scale) for use beside text,
+      // reusing the Free Body Diagram's own "known" arrowhead marker — SVG
+      // marker url(#id) references resolve against the whole document, so
+      // this separate <svg> can point at a marker defined in the diagram's
+      // <defs> elsewhere on the page. CSS rotate() is clockwise-positive,
+      // so the angle is negated to match the site's CCW-positive convention
+      // (same sign flip used for the Moment Equilibrium balance animation).
+      function directionArrowMarkup(angDeg) {
+        return '<svg width="18" height="18" viewBox="0 0 18 18" class="inline-block align-middle shrink-0" style="transform: rotate(' + (-angDeg).toFixed(1) + 'deg);">' +
+          '<line x1="2" y1="9" x2="13" y2="9" class="stroke-accent dark:stroke-accent-dark" stroke-width="1.8" marker-end="url(#eqcalc-arrow-known)"></line>' +
+          '</svg>';
+      }
 
       // ---- Generic linear solver (Gaussian elimination, partial pivoting) ----
       function solveLinear(A, b) {
@@ -3413,9 +3437,13 @@
             } else {
               var angleDeg = Math.atan2(fy, fx) * 180 / Math.PI;
               if (angleDeg < 0) angleDeg += 360;
-              valueText = fmt(mag) + ' N at ' + fmt(angleDeg) + '°';
+              // The text shows the basic angle (0-90deg, the acute angle to
+              // the nearest x-axis) rather than the full compass angle; the
+              // little arrow beside it (rotated to the true angle) is what
+              // disambiguates which of the 4 directions it actually is.
+              valueText = directionArrowMarkup(angleDeg) + fmt(mag) + ' N at ' + fmt(basicAngle(angleDeg)) + '°';
             }
-            var html = '<div class="flex justify-between"><span class="text-muted dark:text-muted-dark">Support ' + r.supportNum + ' — Resultant</span><span class="font-semibold [font-variant-numeric:tabular-nums]">' + valueText + '</span></div>';
+            var html = '<div class="flex justify-between items-center"><span class="text-muted dark:text-muted-dark">Support ' + r.supportNum + ' — Resultant</span><span class="font-semibold [font-variant-numeric:tabular-nums] inline-flex items-center gap-1.5">' + valueText + '</span></div>';
             rowsHtml.splice(r.afterIdx + 1, 0, html);
           });
           listEl.innerHTML = rowsHtml.join('');
