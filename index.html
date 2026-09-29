@@ -2263,6 +2263,32 @@
       return { fx: mag * Math.cos(rad), fy: mag * Math.sin(rad) };
     }
 
+    // Shared 4-significant-figure formatter for every displayed answer
+    // (every tool/experiment calls this directly rather than each
+    // keeping its own copy, same "never redeclare" rule as toComponents/
+    // polarToXY below). Fixed notation only, never scientific.
+    function fmt(n) {
+      // Snap floating-point noise (e.g. a solved "balanced" residual of
+      // ~1e-13) to a clean zero instead of a long garbage decimal.
+      if (Math.abs(n) < 1e-9) n = 0;
+      if (n === 0) return (0).toFixed(3);
+      const sign = n < 0 ? '-' : '';
+      const abs = Math.abs(n);
+      const digitsBeforeDecimal = (v) => Math.floor(Math.log10(v)) + 1;
+      const d = digitsBeforeDecimal(abs);
+      const decimals = 4 - d;
+      const rounded = decimals >= 0
+        ? Number(abs.toFixed(decimals))
+        : Math.round(abs / Math.pow(10, -decimals)) * Math.pow(10, -decimals);
+      // Rounding can cross a power-of-ten boundary (e.g. 9.9996 -> 10.000),
+      // changing how many digits sit left of the decimal point — recompute
+      // once against the rounded value so the printed string still shows
+      // exactly 4 significant digits.
+      const d2 = rounded === 0 ? d : digitsBeforeDecimal(rounded);
+      const decimals2 = Math.max(0, 4 - d2);
+      return sign + rounded.toFixed(decimals2);
+    }
+
     function calculateForceResultant() {
       const rows = document.querySelectorAll('#force-rows [data-row]');
       const errorEl = document.getElementById('force-error');
@@ -2303,15 +2329,15 @@
       const EPS = 1e-9;
       let summary;
       if (magnitude < EPS) {
-        summary = magnitude.toFixed(2) + ' N — direction undefined (balanced)';
+        summary = fmt(magnitude) + ' N — direction undefined (balanced)';
       } else {
         let angleDeg = (Math.atan2(sumY, sumX) * 180) / Math.PI;
         if (angleDeg < 0) angleDeg += 360;
-        summary = magnitude.toFixed(2) + ' N at ' + angleDeg.toFixed(2) + '°';
+        summary = fmt(magnitude) + ' N at ' + fmt(angleDeg) + '°';
       }
       document.getElementById('force-result-summary').textContent = summary;
       document.getElementById('force-result-components').textContent =
-        'Rx = ' + sumX.toFixed(2) + ' N  ·  Ry = ' + sumY.toFixed(2) + ' N';
+        'Rx = ' + fmt(sumX) + ' N  ·  Ry = ' + fmt(sumY) + ' N';
       resultEl.classList.remove('hidden');
     }
 
@@ -2388,7 +2414,7 @@
           '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#force-arrow-resultant)"></line>' +
           '<text x="' + (p.x + a.dx).toFixed(1) + '" y="' + (p.y + a.dy).toFixed(1) +
           '" class="fill-primary dark:fill-primary-dark" font-size="10" text-anchor="' + a.anchor + '">' +
-          'R = ' + resultMag.toFixed(2) + 'N @ ' + angleDeg.toFixed(1) + '°</text>';
+          'R = ' + fmt(resultMag) + 'N @ ' + fmt(angleDeg) + '°</text>';
       }
       document.getElementById('resultant-vector').innerHTML = svg2;
     }
@@ -2455,9 +2481,9 @@
       const EPS = 1e-9;
       let summary;
       if (Math.abs(net) < EPS) {
-        summary = '0.00 N·m — balanced (no net rotation)';
+        summary = fmt(0) + ' N·m — balanced (no net rotation)';
       } else {
-        summary = Math.abs(net).toFixed(2) + ' N·m (' + (net > 0 ? 'CCW' : 'CW') + ')';
+        summary = fmt(Math.abs(net)) + ' N·m (' + (net > 0 ? 'CCW' : 'CW') + ')';
       }
       document.getElementById('moment-result-summary').textContent = summary;
 
@@ -2466,10 +2492,10 @@
           return (
             '<tr class="border-b border-hairline dark:border-hairline-dark last:border-0">' +
             '<td class="py-1.5 pr-4">F' + (i + 1) + '</td>' +
-            '<td class="py-1.5 pr-4">' + r.mag.toFixed(2) + ' N</td>' +
-            '<td class="py-1.5 pr-4">' + r.ang.toFixed(2) + '°</td>' +
-            '<td class="py-1.5 pr-4">(' + r.x.toFixed(2) + ', ' + r.y.toFixed(2) + ') m</td>' +
-            '<td class="py-1.5">' + r.moment.toFixed(2) + ' N·m</td>' +
+            '<td class="py-1.5 pr-4">' + fmt(r.mag) + ' N</td>' +
+            '<td class="py-1.5 pr-4">' + fmt(r.ang) + '°</td>' +
+            '<td class="py-1.5 pr-4">(' + fmt(r.x) + ', ' + fmt(r.y) + ') m</td>' +
+            '<td class="py-1.5">' + fmt(r.moment) + ' N·m</td>' +
             '</tr>'
           );
         })
@@ -2542,7 +2568,7 @@
           '<path d="' + path + '" fill="none" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#moment-arc-arrow)"></path>' +
           '<text x="' + DIAGRAM_CX + '" y="' + (DIAGRAM_CY - MOMENT_ARC_RADIUS - 12) +
           '" text-anchor="middle" class="fill-primary dark:fill-primary-dark" font-size="12" font-weight="600">' +
-          Math.abs(net).toFixed(2) + ' N·m (' + (ccw ? 'CCW' : 'CW') + ')</text>';
+          fmt(Math.abs(net)) + ' N·m (' + (ccw ? 'CCW' : 'CW') + ')</text>';
       }
 
       document.getElementById('moment-rotation-arc').innerHTML = svg;
@@ -2621,8 +2647,6 @@
 
       function gramsToNewtons(g) { return (g / 1000) * G; }
       function normalizeDeg(a) { return ((a % 360) + 360) % 360; }
-      function fmt(n) { return n.toFixed(2); }
-      function fmt1(n) { return n.toFixed(1); }
       function readNum(id) {
         const v = parseFloat(document.getElementById(id).value);
         return Number.isNaN(v) ? 0 : v;
@@ -2810,11 +2834,11 @@
         setStatus('e2b', s.isBalanced, e2bRevealed);
 
         document.getElementById('e2b-fr-theory').textContent = fmt(s.FR);
-        document.getElementById('e2b-thetar-theory').textContent = fmt1(s.thetaR);
+        document.getElementById('e2b-thetar-theory').textContent = fmt(s.thetaR);
         document.getElementById('e2b-fc-theory').textContent = fmt(s.FR);
-        document.getElementById('e2b-thetac-theory').textContent = fmt1(s.thetaC_theory);
+        document.getElementById('e2b-thetac-theory').textContent = fmt(s.thetaC_theory);
         document.getElementById('e2b-fc-actual').textContent = fmt(s.FC_N);
-        document.getElementById('e2b-thc-actual').textContent = fmt1(s.thC);
+        document.getElementById('e2b-thc-actual').textContent = fmt(s.thC);
       }
 
       const E2B_DEFAULTS = { 'e2b-fa-mass': 250, 'e2b-fa-angle': 30, 'e2b-fb-mass': 200, 'e2b-fb-angle': 130, 'e2b-fc-mass': 200, 'e2b-fc-angle': 90 };
@@ -2889,8 +2913,6 @@
           onChange();
         });
       }
-
-      function fmt(n) { return n.toFixed(2); }
 
       function forceArrowMarkup(anchor, angDeg, magN, scale, label) {
         if (magN < 0.001) return '';
@@ -3069,7 +3091,6 @@
       var ARROW_MAX = 45, UNKNOWN_ARROW_LEN = 32;
       var BLOCK_FALLBACK_SIZE = 2, BLOCK_FALLBACK_FRACTION = 0.25;
 
-      function fmt(n) { return n.toFixed(2); }
       function markInvalid(input, invalid) {
         input.classList.toggle('border-danger', invalid);
         input.classList.toggle('dark:border-danger-dark', invalid);
@@ -3180,6 +3201,7 @@
         });
 
         var supportPositions = []; // absolute (x,y), for sizing the block below
+        var supportResultants = []; // supports with BOTH Fx and Fy unknown — see below
         document.querySelectorAll('#eqcalc-support-rows [data-row]').forEach(function (row, idx) {
           var xIn = row.querySelector('[data-field="x"]'), yIn = row.querySelector('[data-field="y"]');
           var fxIn = row.querySelector('[data-field="fx"]'), fyIn = row.querySelector('[data-field="fy"]');
@@ -3196,16 +3218,26 @@
           supportPositions.push({ x: x, y: y });
           var rx = x - px, ry = y - py;
           var knownFx = 0, knownFy = 0;
+          var fxIdx = null, fyIdx = null;
           if (fxUnknown) {
+            fxIdx = unknownCols.length;
             unknownCols.push({ cFx: 1, cFy: 0, cM: -ry });
             unknownLabels.push({ text: 'Support ' + (idx + 1) + ' — Fx', row: row, field: fxIn });
           } else { knownSum.fx += fx; knownFx = fx; }
           if (fyUnknown) {
+            fyIdx = unknownCols.length;
             unknownCols.push({ cFx: 0, cFy: 1, cM: rx });
             unknownLabels.push({ text: 'Support ' + (idx + 1) + ' — Fy', row: row, field: fyIn });
           } else { knownSum.fy += fy; knownFy = fy; }
           if (!fxUnknown) knownSum.m += -ry * knownFx; // Fx-only contributes -ry*Fx to M
           if (!fyUnknown) knownSum.m += rx * knownFy; // Fy-only contributes rx*Fy to M
+          // When BOTH components are independently unknown (e.g. a pin's
+          // Ax/Ay), the results panel adds one more step: the resultant
+          // those two solved components combine to. A support with only
+          // one component unknown has nothing to combine, so it's skipped.
+          if (fxUnknown && fyUnknown) {
+            supportResultants.push({ supportNum: idx + 1, fxIdx: fxIdx, fyIdx: fyIdx, afterIdx: fyIdx });
+          }
           drawItems.support.push({ x: x, y: y, rx: rx, ry: ry, fx: fx, fy: fy, fxUnknown: fxUnknown, fyUnknown: fyUnknown, fxInput: fxIn, fyInput: fyIn });
         });
 
@@ -3236,7 +3268,7 @@
           drawItems.couple.push({ mag: mag, unknown: magUnknown, magInput: magIn });
         });
 
-        return { px: px, py: py, invalid: invalid, rowCount: rowCount, knownSum: knownSum, unknownCols: unknownCols, unknownLabels: unknownLabels, drawItems: drawItems, blockW: blockW, blockH: blockH };
+        return { px: px, py: py, invalid: invalid, rowCount: rowCount, knownSum: knownSum, unknownCols: unknownCols, unknownLabels: unknownLabels, supportResultants: supportResultants, drawItems: drawItems, blockW: blockW, blockH: blockH };
       }
 
       // ---- Diagram ----
@@ -3362,9 +3394,31 @@
         if (sys.unknownLabels.length === 0) {
           listEl.innerHTML = '<div>' + (result.balanced ? 'Already balanced — nothing to solve.' : 'Not balanced, and nothing was marked unknown.') + '</div>';
         } else {
-          listEl.innerHTML = sys.unknownLabels.map(function (u, i) {
+          var rowsHtml = sys.unknownLabels.map(function (u, i) {
             return '<div class="flex justify-between"><span class="text-muted dark:text-muted-dark">' + u.text + '</span><span class="font-semibold [font-variant-numeric:tabular-nums]">' + fmt(result.values[i]) + (u.text.indexOf('Couple') === 0 ? ' N·m' : ' N') + '</span></div>';
-          }).join('');
+          });
+          // For every support with BOTH Fx and Fy solved as independent
+          // unknowns, add one more step: the resultant magnitude and
+          // direction those two components combine to (0deg = +x axis,
+          // CCW positive, same convention as the Force Calculator's own
+          // resultant) — inserted right after that support's own Fx/Fy
+          // rows. Insert from the highest index down so earlier splices
+          // don't shift the position of ones still to come.
+          sys.supportResultants.slice().sort(function (a, b) { return b.afterIdx - a.afterIdx; }).forEach(function (r) {
+            var fx = result.values[r.fxIdx], fy = result.values[r.fyIdx];
+            var mag = Math.hypot(fx, fy);
+            var valueText;
+            if (mag < 1e-9) {
+              valueText = fmt(0) + ' N — direction undefined';
+            } else {
+              var angleDeg = Math.atan2(fy, fx) * 180 / Math.PI;
+              if (angleDeg < 0) angleDeg += 360;
+              valueText = fmt(mag) + ' N at ' + fmt(angleDeg) + '°';
+            }
+            var html = '<div class="flex justify-between"><span class="text-muted dark:text-muted-dark">Support ' + r.supportNum + ' — Resultant</span><span class="font-semibold [font-variant-numeric:tabular-nums]">' + valueText + '</span></div>';
+            rowsHtml.splice(r.afterIdx + 1, 0, html);
+          });
+          listEl.innerHTML = rowsHtml.join('');
         }
         document.getElementById('eqcalc-res-fx').textContent = fmt(result.residual.fx);
         document.getElementById('eqcalc-res-fy').textContent = fmt(result.residual.fy);

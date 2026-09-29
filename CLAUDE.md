@@ -196,9 +196,43 @@ history for details.") so the section stays skimmable as it grows.
   the breakdown table), a force applied exactly at the pivot (0
   contribution), and the invalid-row block/highlight cycle.
 - **Conventions/assumptions**: angle 0° = +x axis, CCW positive; units N /
-  ° / m / N·m; 2-decimal display rounding computed from full-precision
-  sums; an invalid/blank row blocks calculation and highlights that row;
-  no URL/hash routing.
+  ° / m / N·m; every displayed answer is rounded to 4 significant figures
+  (a shared top-level `fmt(n)`, computed from full-precision sums — see
+  "Site-wide 4-significant-figure display" below); an invalid/blank row
+  blocks calculation and highlights that row; no URL/hash routing.
+- **Site-wide 4-significant-figure display** (done): every tool/
+  experiment that live-computes a numeric answer (Force Calculator,
+  Moment Calculator, Equilibrium Calculator, Force Equilibrium, Moment
+  Equilibrium) switched from a fixed 2-decimal-place `toFixed(2)` to a
+  single shared top-level `function fmt(n)` (defined right after
+  `toComponents`) that rounds to 4 significant figures in fixed
+  notation — never scientific, since this is a classroom tool. Every
+  IIFE that used to keep its own local `fmt`/`fmt1` copy deletes it and
+  calls the shared one directly instead, the same "never redeclare"
+  rule already documented for `toComponents`/`polarToXY`. Algorithm:
+  snap `|n| < 1e-9` to a clean `0` first (so a solved "balanced"
+  residual's floating-point noise, e.g. `~1e-13`, prints as `"0.000"`
+  rather than a long garbage decimal); compute digits-before-the-decimal
+  via `Math.floor(log10(abs)) + 1` (not `Math.ceil`, which is off-by-one
+  for exact powers of ten); round to `4 - digits` decimal places; then
+  re-derive the digit count from the *rounded* value and reformat once
+  more, since rounding can itself cross a power-of-ten boundary (e.g.
+  `9.9996 → 10.00`, not the naive `10.000`). Only genuinely computed
+  answers were touched — raw SVG pixel coordinates, the balance-
+  animation's `transform` attribute, and diagram labels that simply echo
+  the student's own typed input (never rounded) are all untouched. Does
+  not touch the hand-authored static SVG diagrams in Concepts and Theory
+  (Resolve and Resultant Force, Moment, Free Body Diagram, Equilibrium)
+  — those numbers are hardcoded worked-example text, not computed/
+  formatted by JS. Verified against ~15 hand-traced cases (0, tiny
+  floating-point noise, exact powers of ten, values just below a
+  power-of-ten boundary, small decimals, negatives) in an isolated Node
+  script before trusting it in the page, plus spot-checks of every
+  tool/experiment's own existing worked examples (Force Calculator's
+  3-4-5 case, Moment Calculator's 20+6=26 N·m case, Force Equilibrium
+  2A/2B's balance convergence, Moment Equilibrium's verified
+  mA≈264.84/mB≈178.19/mC≈268.59 solution) confirming each still produces
+  the correct answer, now at 4 sig figs.
 - **Equilibrium Calculator** (done): a third `TOOLS_DATA` entry
   `equilibrium-calculator` in the same "Force & Moment" category,
   rendered at `#tool-view-equilibrium-calculator` (sibling of
@@ -228,6 +262,25 @@ history for details.") so the section stays skimmable as it grows.
     block footprint (see below); angled forces and couples are fully
     optional (can be removed to zero), which needed a small shared-utility
     fix — see below.
+  - **Resultant step for fully-unknown supports**: when a support has
+    *both* Fx and Fy solved as independent unknowns (e.g. a pin's Ax/Ay,
+    where the reaction's direction itself isn't known ahead of time),
+    the "Solved" panel adds one more row right after that support's own
+    Fx/Fy rows — "Support N — Resultant: `<magnitude>` N at `<angle>`°"
+    (or "direction undefined" if the resultant is ≈0), using the same
+    0°=+x-axis/CCW-positive/[0°,360°) convention as the Force
+    Calculator's own resultant. A support with only *one* component
+    unknown (e.g. the seeded roller's By, with Fx already known as 0)
+    gets no extra row — there's nothing to combine. Implemented by
+    having `collectSystem()` record which `unknownCols`/`unknownLabels`
+    index each support row's Fx/Fy landed at (a `supportResultants` list
+    of `{supportNum, fxIdx, fyIdx, afterIdx}`), then, after solving,
+    splicing one extra row into the results array right after each such
+    support's Fy row (highest `afterIdx` first, so earlier splices don't
+    shift later insertion points). Verified the seeded pin+roller-beam
+    example gains exactly one Resultant row (for the pin, Support 1) and
+    not a second one for the roller (Support 2), and that its magnitude/
+    angle cross-check against `hypot`/`atan2` of the solved Ax/Ay.
   - **Block footprint anchored at the origin**: the block's bottom-left
     corner is fixed at data-space (0,0); its width/height are
     `max(0, max support x)` / `max(0, max support y)`, which places every
