@@ -3080,15 +3080,18 @@
     // otherwise be far too generic (fmt, num, collectSystem, drawDiagram...)
     // to risk at top level among this file's other identifiers.
     (function () {
-      // PAD_BOTTOM is larger than PAD_TOP/PAD_SIDE: arrow lengths (up to
-      // ARROW_MAX) plus their label offset are drawn *on top of* the
-      // position-fit below, not accounted for by it, so a downward-
+      // PAD_BOTTOM is larger than PAD_TOP/PAD_SIDE: an arrow's fixed
+      // length (ARROW_LEN) plus its label offset are drawn *on top of*
+      // the position-fit below, not accounted for by it, so a downward-
       // pointing force can otherwise land past the viewBox edge and
       // visually collide with the "known"/"unknown" legend right below
       // the <svg>. This gives the worst case (a full-length arrow + its
       // label) room to stay inside 0..VIEW_H.
       var VIEW_W = 300, VIEW_H = 300, PAD_TOP = 40, PAD_BOTTOM = 75, PAD_SIDE = 40;
-      var ARROW_MAX = 45, UNKNOWN_ARROW_LEN = 32;
+      // Every arrow in the diagram (known or unknown) uses this same
+      // fixed length — it indicates that a force exists and its
+      // direction, not its relative magnitude.
+      var ARROW_LEN = 32;
       var BLOCK_FALLBACK_SIZE = 2, BLOCK_FALLBACK_FRACTION = 0.25;
 
       function markInvalid(input, invalid) {
@@ -3314,14 +3317,6 @@
         function screenX(x) { return PAD_SIDE + (x - minX) * scale; }
         function screenY(y) { return (VIEW_H - PAD_BOTTOM) - (y - minY) * scale; }
 
-        var maxMag = 1e-6;
-        sys.drawItems.angled.forEach(function (f) { if (!f.unknown) maxMag = Math.max(maxMag, Math.abs(f.mag)); });
-        sys.drawItems.support.forEach(function (f) {
-          if (!f.fxUnknown) maxMag = Math.max(maxMag, Math.abs(f.fx));
-          if (!f.fyUnknown) maxMag = Math.max(maxMag, Math.abs(f.fy));
-        });
-        var arrowScale = ARROW_MAX / maxMag;
-
         var svg = '';
         svg += '<rect x="' + screenX(0).toFixed(1) + '" y="' + screenY(sys.blockH).toFixed(1) + '" width="' + (scale * sys.blockW).toFixed(1) + '" height="' + (scale * sys.blockH).toFixed(1) +
           '" rx="4" fill="none" class="stroke-muted dark:stroke-muted-dark" stroke-width="1.5"></rect>';
@@ -3344,11 +3339,10 @@
         sys.drawItems.angled.forEach(function (f, idx) {
           var anchor = { x: screenX(f.x), y: screenY(f.y) };
           svg += '<circle cx="' + anchor.x.toFixed(1) + '" cy="' + anchor.y.toFixed(1) + '" r="2.5" class="fill-accent dark:fill-accent-dark"></circle>';
-          var mag = f.mag, known = !f.unknown, len;
-          if (f.unknown) { mag = solvedValues ? solvedValues[vi] : null; vi++; len = UNKNOWN_ARROW_LEN; }
-          else { len = arrowScale * Math.abs(mag); }
+          var mag = f.mag, known = !f.unknown;
+          if (f.unknown) { mag = solvedValues ? solvedValues[vi] : null; vi++; }
           var label = 'F' + (idx + 1) + ' = ' + (mag === null || mag === undefined ? '?' : fmt(mag)) + 'N';
-          svg += arrowMarkup(anchor, f.ang, len, known && mag !== null, label);
+          svg += arrowMarkup(anchor, f.ang, ARROW_LEN, known && mag !== null, label);
         });
         sys.drawItems.support.forEach(function (f, idx) {
           var anchor = { x: screenX(f.x), y: screenY(f.y) };
@@ -3356,12 +3350,10 @@
           var fx = f.fx, fy = f.fy;
           if (f.fxUnknown) { fx = solvedValues ? solvedValues[vi] : null; vi++; }
           if (f.fyUnknown) { fy = solvedValues ? solvedValues[vi] : null; vi++; }
-          var fxLen = f.fxUnknown ? UNKNOWN_ARROW_LEN : arrowScale * Math.abs(fx);
           var fxAng = (f.fxUnknown ? 1 : (fx >= 0 ? 1 : -1)) > 0 ? 0 : 180;
-          svg += arrowMarkup(anchor, fxAng, fxLen, !f.fxUnknown && fx !== null, 'F' + (idx + 1) + 'x=' + (fx === null || fx === undefined ? '?' : fmt(fx)) + 'N');
-          var fyLen = f.fyUnknown ? UNKNOWN_ARROW_LEN : arrowScale * Math.abs(fy);
+          svg += arrowMarkup(anchor, fxAng, ARROW_LEN, !f.fxUnknown && fx !== null, 'F' + (idx + 1) + 'x=' + (fx === null || fx === undefined ? '?' : fmt(fx)) + 'N');
           var fyAng = (f.fyUnknown ? 1 : (fy >= 0 ? 1 : -1)) > 0 ? 90 : 270;
-          svg += arrowMarkup(anchor, fyAng, fyLen, !f.fyUnknown && fy !== null, 'F' + (idx + 1) + 'y=' + (fy === null || fy === undefined ? '?' : fmt(fy)) + 'N');
+          svg += arrowMarkup(anchor, fyAng, ARROW_LEN, !f.fyUnknown && fy !== null, 'F' + (idx + 1) + 'y=' + (fy === null || fy === undefined ? '?' : fmt(fy)) + 'N');
         });
         sys.drawItems.couple.forEach(function (c, idx) {
           var cy = 20 + idx * 16;

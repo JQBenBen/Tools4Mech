@@ -340,16 +340,26 @@ history for details.") so the section stays skimmable as it grows.
     length until solved (matching the Equilibrium topic's own "Ax = ?"
     convention), then update to the solved number, still muted-colored
     (reusing the Free Body Diagram topic's "accent = known, muted =
-    unknown" color convention). **Asymmetric padding fix**: the fit's
-    margin is `PAD_TOP`/`PAD_SIDE` = 40 but `PAD_BOTTOM` = 75, not a
-    uniform `VIEW_PAD` — arrow *lengths* (up to `ARROW_MAX` = 45px) and
-    their label offsets are drawn on top of the position fit, not
-    accounted for by it, so a downward-pointing force's arrow + label
-    could otherwise land past the viewBox's bottom edge and visually
-    collide with the "known"/"unknown" legend directly below the `<svg>`;
-    moving the floor reference up (via the larger bottom pad) gives that
-    worst case real clearance without changing the diagram's scale for
-    the common horizontally-bound case.
+    unknown" color convention). **Every arrow uses one fixed length**
+    (`ARROW_LEN` = 32px, revised per feedback from an earlier version
+    that scaled known-force arrows to their actual magnitude via
+    `arrowScale = ARROW_MAX / maxMag`) — an arrow here only needs to
+    indicate that a force exists and its direction, not its relative
+    size, so known and unknown arrows alike (angled forces, and a
+    support's Fx/Fy) all draw at the same length regardless of
+    magnitude; verified by setting forces to widely different known
+    magnitudes (5N vs. 5000N) and confirming every drawn arrow's pixel
+    length stays equal. **Asymmetric padding fix**: the fit's margin is
+    `PAD_TOP`/`PAD_SIDE` = 40 but `PAD_BOTTOM` = 75, not a uniform
+    `VIEW_PAD` — an arrow's fixed length plus its label offset are
+    drawn on top of the position fit, not accounted for by it, so a
+    downward-pointing force's arrow + label could otherwise land past
+    the viewBox's bottom edge and visually collide with the "known"/
+    "unknown" legend directly below the `<svg>`; moving the floor
+    reference up (via the larger bottom pad) gives that worst case
+    real clearance without changing the diagram's scale for the common
+    horizontally-bound case (even more comfortably so now that every
+    arrow's length is a uniform 32px rather than up to 45px).
   - **Reconciling a ported Artifact with the site's real shared code**: the
     standalone Artifact preview had duplicated `toComponents`/`polarToXY`/
     `addRow`/`removeRow`/a `wireRow` helper (needed there since it was a
