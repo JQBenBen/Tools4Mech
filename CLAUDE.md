@@ -252,21 +252,32 @@ history for details.") so the section stays skimmable as it grows.
     against the Equilibrium topic's own two worked examples (two-cable
     junction: T1=50.00N/T2=86.60N; pin+roller beam: Ax=0.00N/Ay=40.00N/
     By=80.00N) before trusting it in the page.
-  - **Body Diagram**: one `<svg>` panel (not two side-by-side like Moment
-    Calculator's, since this tool has one unified diagram) using a
-    bounding-box-fit transform — collects every point that must stay
-    visible (the block's 4 corners including the origin, every support,
-    every angled force position, and the pivot), fits that bounding box
-    into the viewBox with margin, and maps everything through one shared
-    `screenX`/`screenY` pair — rather than the fixed-pivot-centered
-    `polarToXY`-around-one-point approach Moment Calculator uses, since
-    here the block's *true footprint* has to render to scale together
-    with the pivot and every force, not just vectors from a single origin.
-    Known values render normally (accent-colored); unknown ones show "?"
-    at a fixed nominal arrow length until solved (matching the Equilibrium
-    topic's own "Ax = ?" convention), then update to the solved number,
-    still muted-colored (reusing the Free Body Diagram topic's "accent =
-    known, muted = unknown" color convention).
+  - **Free Body Diagram** (heading renamed from "Body Diagram" to match
+    the site's established terminology): one `<svg>` panel (not two
+    side-by-side like Moment Calculator's, since this tool has one
+    unified diagram) using a bounding-box-fit transform — collects every
+    point that must stay visible (the block's 4 corners including the
+    origin, every support, every angled force position, and the pivot),
+    fits that bounding box into the viewBox with margin, and maps
+    everything through one shared `screenX`/`screenY` pair — rather than
+    the fixed-pivot-centered `polarToXY`-around-one-point approach Moment
+    Calculator uses, since here the block's *true footprint* has to
+    render to scale together with the pivot and every force, not just
+    vectors from a single origin. Known values render normally
+    (accent-colored); unknown ones show "?" at a fixed nominal arrow
+    length until solved (matching the Equilibrium topic's own "Ax = ?"
+    convention), then update to the solved number, still muted-colored
+    (reusing the Free Body Diagram topic's "accent = known, muted =
+    unknown" color convention). **Asymmetric padding fix**: the fit's
+    margin is `PAD_TOP`/`PAD_SIDE` = 40 but `PAD_BOTTOM` = 75, not a
+    uniform `VIEW_PAD` — arrow *lengths* (up to `ARROW_MAX` = 45px) and
+    their label offsets are drawn on top of the position fit, not
+    accounted for by it, so a downward-pointing force's arrow + label
+    could otherwise land past the viewBox's bottom edge and visually
+    collide with the "known"/"unknown" legend directly below the `<svg>`;
+    moving the floor reference up (via the larger bottom pad) gives that
+    worst case real clearance without changing the diagram's scale for
+    the common horizontally-bound case.
   - **Reconciling a ported Artifact with the site's real shared code**: the
     standalone Artifact preview had duplicated `toComponents`/`polarToXY`/
     `addRow`/`removeRow`/a `wireRow` helper (needed there since it was a

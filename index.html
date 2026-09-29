@@ -1466,7 +1466,7 @@
           <!-- Diagram + results -->
           <div class="flex-1 w-full flex flex-col gap-4">
             <div class="bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-5">
-              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Body Diagram</div>
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark mb-2">Free Body Diagram</div>
               <svg viewBox="0 0 300 300" class="w-full h-auto max-w-[400px] mx-auto">
                 <defs>
                   <marker id="eqcalc-arrow-known" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fill-accent dark:fill-accent-dark"></path></marker>
@@ -3058,7 +3058,14 @@
     // otherwise be far too generic (fmt, num, collectSystem, drawDiagram...)
     // to risk at top level among this file's other identifiers.
     (function () {
-      var VIEW_W = 300, VIEW_H = 300, VIEW_PAD = 40;
+      // PAD_BOTTOM is larger than PAD_TOP/PAD_SIDE: arrow lengths (up to
+      // ARROW_MAX) plus their label offset are drawn *on top of* the
+      // position-fit below, not accounted for by it, so a downward-
+      // pointing force can otherwise land past the viewBox edge and
+      // visually collide with the "known"/"unknown" legend right below
+      // the <svg>. This gives the worst case (a full-length arrow + its
+      // label) room to stay inside 0..VIEW_H.
+      var VIEW_W = 300, VIEW_H = 300, PAD_TOP = 40, PAD_BOTTOM = 75, PAD_SIDE = 40;
       var ARROW_MAX = 45, UNKNOWN_ARROW_LEN = 32;
       var BLOCK_FALLBACK_SIZE = 2, BLOCK_FALLBACK_FRACTION = 0.25;
 
@@ -3247,9 +3254,9 @@
         var minY = pts.reduce(function (m, p) { return Math.min(m, p.y); }, 0);
         var maxY = pts.reduce(function (m, p) { return Math.max(m, p.y); }, 0);
         var spanX = Math.max(maxX - minX, 1e-6), spanY = Math.max(maxY - minY, 1e-6);
-        var scale = Math.min((VIEW_W - 2 * VIEW_PAD) / spanX, (VIEW_H - 2 * VIEW_PAD) / spanY);
-        function screenX(x) { return VIEW_PAD + (x - minX) * scale; }
-        function screenY(y) { return (VIEW_H - VIEW_PAD) - (y - minY) * scale; }
+        var scale = Math.min((VIEW_W - 2 * PAD_SIDE) / spanX, (VIEW_H - PAD_TOP - PAD_BOTTOM) / spanY);
+        function screenX(x) { return PAD_SIDE + (x - minX) * scale; }
+        function screenY(y) { return (VIEW_H - PAD_BOTTOM) - (y - minY) * scale; }
 
         var maxMag = 1e-6;
         sys.drawItems.angled.forEach(function (f) { if (!f.unknown) maxMag = Math.max(maxMag, Math.abs(f.mag)); });
