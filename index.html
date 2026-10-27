@@ -1278,10 +1278,26 @@
 
           <div id="force-error" class="hidden mt-4 text-[13px] text-danger dark:text-danger-dark"></div>
 
-          <div id="force-result" class="hidden mt-6 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-2">
-            <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Resultant</div>
-            <div id="force-result-summary" class="font-display font-semibold text-[26px]"></div>
-            <div id="force-result-components" class="text-[13px] text-muted dark:text-muted-dark"></div>
+          <div id="force-result" class="hidden mt-6 bg-card dark:bg-card-dark border border-hairline dark:border-hairline-dark rounded-[14px] p-[30px] flex flex-col gap-4">
+            <div>
+              <div class="text-[12px] uppercase tracking-[0.1em] text-muted dark:text-muted-dark">Resultant</div>
+              <div id="force-result-summary" class="font-display font-semibold text-[26px] mt-1"></div>
+              <div id="force-result-components" class="text-[13px] text-muted dark:text-muted-dark mt-1"></div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-[13px] text-left">
+                <thead>
+                  <tr class="text-muted dark:text-muted-dark border-b border-hairline dark:border-hairline-dark">
+                    <th class="py-1.5 pr-4 font-medium">Force</th>
+                    <th class="py-1.5 pr-4 font-medium">Magnitude</th>
+                    <th class="py-1.5 pr-4 font-medium">Angle</th>
+                    <th class="py-1.5 pr-4 font-medium">Fx</th>
+                    <th class="py-1.5 font-medium">Fy</th>
+                  </tr>
+                </thead>
+                <tbody id="force-breakdown-body"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -2289,11 +2305,24 @@
       return sign + rounded.toFixed(decimals2);
     }
 
+    // The acute angle (0-90deg) between a direction and the *nearest*
+    // x-axis — the site's established "basic angle" convention (see the
+    // Resolve and Resultant Force topic's non-first-quadrant examples).
+    // Always [0, 90].
+    function basicAngle(angDeg) {
+      const a = ((angDeg % 360) + 360) % 360;
+      if (a <= 90) return a;
+      if (a <= 180) return 180 - a;
+      if (a <= 270) return a - 180;
+      return 360 - a;
+    }
+
     function calculateForceResultant() {
       const rows = document.querySelectorAll('#force-rows [data-row]');
       const errorEl = document.getElementById('force-error');
       const resultEl = document.getElementById('force-result');
       let sumX = 0, sumY = 0, hasInvalid = false;
+      const results = [];
 
       rows.forEach((row) => {
         const magInput = row.querySelector('[data-field="magnitude"]');
@@ -2309,6 +2338,7 @@
         const { fx, fy } = toComponents(mag, ang);
         sumX += fx;
         sumY += fy;
+        results.push({ mag: mag, ang: ang, fx: fx, fy: fy });
       });
 
       if (hasInvalid) {
@@ -2333,11 +2363,26 @@
       } else {
         let angleDeg = (Math.atan2(sumY, sumX) * 180) / Math.PI;
         if (angleDeg < 0) angleDeg += 360;
-        summary = fmt(magnitude) + ' N at ' + fmt(angleDeg) + '°';
+        summary = fmt(magnitude) + ' N at ' + fmt(basicAngle(angleDeg)) + '°';
       }
       document.getElementById('force-result-summary').textContent = summary;
       document.getElementById('force-result-components').textContent =
-        'Rx = ' + fmt(sumX) + ' N  ·  Ry = ' + fmt(sumY) + ' N';
+        'ΣFx = ' + fmt(sumX) + ' N  ·  ΣFy = ' + fmt(sumY) + ' N';
+
+      document.getElementById('force-breakdown-body').innerHTML = results
+        .map(function (r, i) {
+          return (
+            '<tr class="border-b border-hairline dark:border-hairline-dark last:border-0">' +
+            '<td class="py-1.5 pr-4">F' + (i + 1) + '</td>' +
+            '<td class="py-1.5 pr-4">' + fmt(r.mag) + ' N</td>' +
+            '<td class="py-1.5 pr-4">' + fmt(r.ang) + '°</td>' +
+            '<td class="py-1.5 pr-4">' + fmt(r.fx) + ' N</td>' +
+            '<td class="py-1.5">' + fmt(r.fy) + ' N</td>' +
+            '</tr>'
+          );
+        })
+        .join('');
+
       resultEl.classList.remove('hidden');
     }
 
@@ -2414,7 +2459,7 @@
           '" class="stroke-accent dark:stroke-accent-dark" stroke-width="2.5" marker-end="url(#force-arrow-resultant)"></line>' +
           '<text x="' + (p.x + a.dx).toFixed(1) + '" y="' + (p.y + a.dy).toFixed(1) +
           '" class="fill-primary dark:fill-primary-dark" font-size="10" text-anchor="' + a.anchor + '">' +
-          'R = ' + fmt(resultMag) + 'N @ ' + fmt(angleDeg) + '°</text>';
+          'R = ' + fmt(resultMag) + 'N @ ' + fmt(basicAngle(angleDeg)) + '°</text>';
       }
       document.getElementById('resultant-vector').innerHTML = svg2;
     }
@@ -3102,18 +3147,6 @@
       function vectorLabelAnchor(x, y, cx, cy) {
         var nearRight = x >= cx;
         return { dx: nearRight ? -6 : 6, dy: y >= cy ? 14 : -8, anchor: nearRight ? 'end' : 'start' };
-      }
-      // The acute angle (0-90deg) between a direction and the *nearest*
-      // x-axis — the site's established "basic angle" convention (see the
-      // Resolve and Resultant Force topic's non-first-quadrant examples).
-      // Always [0, 90]; pair with directionArrowMarkup below to show which
-      // of the 4 possible directions it actually is.
-      function basicAngle(angDeg) {
-        var a = ((angDeg % 360) + 360) % 360;
-        if (a <= 90) return a;
-        if (a <= 180) return 180 - a;
-        if (a <= 270) return a - 180;
-        return 360 - a;
       }
       // Small inline direction indicator (not to scale) for use beside text,
       // reusing the Free Body Diagram's own "known" arrowhead marker — SVG

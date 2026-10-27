@@ -157,18 +157,40 @@ history for details.") so the section stays skimmable as it grows.
 ### Phase 1 — Force & Moment (status: done)
 - **Force Calculator** (done): dynamic list of {magnitude, angle} force rows
   (`<template>`-based, min 1 row, default 2, shared `addRow`/`removeRow`
-  helpers) → sum to components → resultant magnitude + angle (normalized
-  to [0°, 360°)), components shown too. Explicit "Calculate" button
-  trigger (not live-as-you-type). Balanced forces (magnitude ≈ 0) show
-  "direction undefined" instead of a bogus angle. Verified with a
-  headless-browser click-through (row add/remove floor, a known 3-4-5
-  case, the balanced case, and the invalid-row block/highlight/clear
-  cycle).
+  helpers) → sum to components → resultant magnitude + direction,
+  components shown too. Explicit "Calculate" button trigger (not
+  live-as-you-type). Balanced forces (magnitude ≈ 0) show "direction
+  undefined" instead of a bogus angle. **Direction uses the basic-angle
+  convention** (0–90°, the acute angle to the nearest x-axis — the
+  shared top-level `basicAngle(angDeg)` helper, defined right after
+  `fmt`, also used by the Equilibrium Calculator's own resultant row)
+  rather than the full `[0°, 360°)` compass angle; the true angle is
+  still used to place the "Resultant Force" diagram's vector arrow, so
+  the arrow itself always shows the real direction while the printed
+  number stays 0–90° — no separate direction-indicator icon needed here
+  (unlike the Equilibrium Calculator's text-only resultant row), since
+  the diagram's own arrow already serves that role. **Shows its
+  workings**: the components line reads `ΣFx = ... · ΣFy = ...`
+  (renamed from `Rx`/`Ry` to match), and a per-force breakdown table
+  (Force / Magnitude / Angle / Fx / Fy, one row per entered force, no Σ
+  row in the table body) sits below the result summary — mirrors the
+  Moment Calculator's own breakdown table one-for-one (same column-cell
+  classes, same `fmt()`-every-value convention even for the raw
+  per-row magnitude/angle inputs). Verified with a headless-browser
+  click-through: row add/remove floor, a known 3-4-5 case (resultant
+  "5.000 N at 53.13°", already ≤90° so the basic angle is unchanged,
+  breakdown table rows match each force's `toComponents`), a
+  quadrant-crossing case (5N @ 150° shows basic angle "30.00°" in the
+  text while the diagram's vector arrow is independently confirmed
+  still drawn at the true 150°), the balanced case, and the invalid-row
+  block/highlight/clear cycle.
 - **Force Calculator diagrams** (done): two inline-SVG vector diagrams
   (axes + light grid + per-vector magnitude/angle labels) — "Individual
   Forces" plots every valid row as its own arrow from the origin;
   "Resultant Force" plots just the resultant with dashed Rx/Ry projection
-  lines. Both update live on every keystroke/row add/remove, independent
+  lines, labeled with the resultant's magnitude and basic angle (see
+  above — the arrow itself is still drawn at the true angle). Both
+  update live on every keystroke/row add/remove, independent
   of the Calculate button and its validation (invalid/blank rows are
   silently skipped in the diagrams rather than blocking them). Each
   diagram auto-scales to its own max magnitude. Reusable pieces for the
@@ -284,11 +306,15 @@ history for details.") so the section stays skimmable as it grows.
       feedback): the row's angle is displayed as the site's established
       "basic angle" (0–90°, the acute angle to the *nearest* x-axis —
       same convention as the Resolve and Resultant Force topic's
-      non-first-quadrant examples) via a small `basicAngle(angDeg)`
-      helper, rather than the full `[0°,360°)` compass angle. Since a
+      non-first-quadrant examples) via the shared top-level
+      `basicAngle(angDeg)` helper (promoted from a local helper inside
+      this tool's own IIFE to top level, beside `fmt`, once the Force
+      Calculator also needed it — same "never redeclare" rule), rather
+      than the full `[0°,360°)` compass angle. Since a
       basic angle alone can't say which of the (up to) 4 directions it
       actually is, a small inline direction-indicator `<svg>`
-      (`directionArrowMarkup(angDeg)`) sits right beside the text,
+      (`directionArrowMarkup(angDeg)`, still local to this tool's IIFE)
+      sits right beside the text,
       rotated via a CSS `transform: rotate(-angDeg)` (negated because
       CSS `rotate()` is clockwise-positive while the site's math
       convention is CCW-positive) to point at the *true* angle. Its
