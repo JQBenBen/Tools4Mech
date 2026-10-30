@@ -1054,7 +1054,10 @@ history for details.") so the section stays skimmable as it grows.
      clutter rather than clarify; the resolution itself is explained
      in prose instead, pointing back to the Resolve topic's own
      technique for readers who want the refresher.
-     - **Angle of repose** (included per the approved scope): dividing
+     - **Angle of friction** (included per the approved scope; renamed
+       from an earlier "angle of repose" per feedback — same concept,
+       more consistent with this section's own friction-focused
+       terminology): dividing
        the two equilibrium equations cancels mg, giving the
        mass-independent critical angle tan θ<sub>c</sub> = μ<sub>s</sub>;
        for this example's μ<sub>s</sub> = 0.5, θ<sub>c</sub> =
@@ -1081,7 +1084,39 @@ history for details.") so the section stays skimmable as it grows.
   Home) plus confirming the 4 existing topics still work unaffected;
   all three diagrams render with no NaN/undefined coordinates; both
   worked examples' numbers appear correctly in the rendered page text;
-  the angle-of-repose value and both Force Calculator cross-links work.
+  the angle-of-friction value and both Force Calculator cross-links work.
+  - **Follow-up fixes** (done): six wording/ordering/diagram
+    corrections from feedback on the first pass. **Terminology**:
+    "verge of slipping" → "impending motion" (§1's inequality
+    paragraph); "stays put"/"stay put" → "stays stationary"/"stay
+    stationary" (§2 and §3, 3 occurrences); "Angle of repose" → "Angle
+    of friction" (§3, formula/symbol unchanged). **Reading order**: in
+    both §2 and §3, the problem-statement sentence ("A block of mass
+    m = ... rests on ...") now appears *before* its diagram card rather
+    than after — general setup → problem statement → diagram → worked
+    steps in both sections. **Real geometry bug fixed**: §3's inclined-
+    plane diagram drew the N (normal reaction) arrow using
+    `(sin θ, -cos θ)` as the "outward normal," which is only actually
+    perpendicular to the incline at θ=0°/90° (dot product with the
+    up-slope direction is sin 2θ, not identically zero) — at this
+    diagram's θ=20° it was visibly off. The correct outward normal in
+    screen (y-down) coordinates is `(-sin θ, -cos θ)` — derived by
+    rotating the up-slope unit vector `(cos θ, -sin θ)` by 90° and
+    picking the sign that reduces to straight-up `(0,-1)` at θ=0°, the
+    flat-surface case. Recomputed the arrow's tip from the same anchor
+    and fixed 45px length: now `(102.2, 122.0)` (mirrored to the left
+    of the anchor) instead of the old `(133, 122)`, with the "N" label
+    repositioned beside it (`text-anchor="end"`, ~(98.2, 118)) — this
+    also fixes the diagram's overall read as a proper 3-force fan (N
+    and f now lean to opposite sides of the block, as they should,
+    instead of both leaning the same way). Verified the fix
+    numerically (dot product with the up-slope direction ≈ 0) before
+    trusting it in the page, same practice as every other diagram
+    geometry on this site. Verified: full Playwright re-check of all
+    old/new wording, both sections' DOM order, and the N arrow's
+    perpendicularity/direction/tip coordinates; full navigation
+    regression; a visual screenshot confirming the corrected arrow
+    direction and reordered paragraphs.
 
 ### Virtual Experiments (status: in progress — 2 experiments, no categories)
 - **Portal shell reuse**: the section's own data-driven grid follows the
