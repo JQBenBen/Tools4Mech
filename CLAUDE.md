@@ -1102,6 +1102,27 @@ history for details.") so the section stays skimmable as it grows.
        new arrow tips. Verified geometrically (block corners on the
        incline line, N⊥upslope, f∥upslope, W/N/f start points) before
        trusting it in the page, plus a visual close-up screenshot.
+     - **Same N/f-start-from-surface treatment applied to §1's and
+       §2's horizontal diagrams** (done): unlike the incline, both
+       horizontal blocks' rects already rested exactly on the ground
+       line (`rect y=165 height=25` puts the bottom edge exactly at
+       the ground line `y=190` — no embedding bug), and W already
+       started from the block's true geometric center `(120,177.5)`,
+       so neither needed to change. Only **N** and **f** moved: N's
+       start point moved from the block center down to the ground
+       contact `(120,190)`, keeping its 40px length and straight-up
+       direction (new tip `(120,150)`); f's start point moved to the
+       same ground contact, keeping its 35px length and leftward
+       direction, so the whole arrow now lies exactly on the ground
+       line (both endpoints at `y=190`) instead of cutting through the
+       block's middle. Applied identically to both §1's generic
+       "Forces on a Block" schematic (`fric-arrow-schematic` marker)
+       and §2's worked "Block on a Horizontal Surface" diagram
+       (`fric-arrow-h` marker), since their force-line geometry was
+       byte-identical. F was left untouched (not part of this
+       request). Verified via Playwright (N/f start points, f's
+       collinearity with the ground line, W unchanged) and a visual
+       close-up screenshot of both diagrams.
   All three diagrams' coordinates were precomputed with a small Node
   script (same approach as every prior topic) before writing the SVG
   markup; every worked numeric value (W, N, f<sub>max</sub>, the
