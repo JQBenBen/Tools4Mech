@@ -453,7 +453,7 @@ history for details.") so the section stays skimmable as it grows.
   experiments (see below) and its own back button → Home. See Portal
   shell above for the `SECTIONS_DATA`/navigation details.
 
-### Concepts and Theory (status: in progress — 4 topics, no categories)
+### Concepts and Theory (status: in progress — 5 topics, no categories)
 - **Resolve and Resultant Force** (done): a `CONCEPTS_DATA` topic
   `resolve-and-resultant-force` (flat, no category grouping — see Portal
   shell above), rendered at `#topic-view-resolve-and-resultant-force`. Static content (text,
@@ -983,6 +983,105 @@ history for details.") so the section stays skimmable as it grows.
   true side-by-side desktop layout was actually checked, not just the
   mobile-stacked fallback — plus the full navigation regression and a
   check that both new cross-links to Tools work.
+- **Friction** (done): a `CONCEPTS_DATA` topic `friction` (flat, no
+  category — appended after `equilibrium`, last in the topics array,
+  since every worked example here builds directly on Free Body Diagram
+  and Equilibrium: each one is itself a ΣFx=0/ΣFy=0 problem with one
+  more force type added), rendered at `#topic-view-friction` (sibling
+  of Equilibrium inside `#topic-views-container`); `CONCEPT_ICONS['friction']`
+  is a new icon — a hatched ground line (reusing the hatch-tick
+  technique from the Equilibrium/Free Body Diagram support glyphs)
+  with a small block on top and one short polyline-chevron arrow
+  pushing it (mirroring the FBD icon's own "polyline corner as a
+  minimal arrowhead" technique, not a `<marker>`). **2D, static
+  friction only** (kinetic friction gets one explanatory paragraph,
+  no worked example — confirmed via clarifying questions before
+  building, along with the depth of each worked example below), in
+  3 sections:
+  1. **What is friction?** — definition (resists relative sliding, or
+     the *tendency* to slide); **static friction is self-adjusting**,
+     stated as the inequality f ≤ μ<sub>s</sub>N (not f = μ<sub>s</sub>N
+     — friction only hits the ceiling at the exact point of slipping,
+     the same "legitimate non-maximal result" framing this site
+     already uses for Aₓ = 0.00 N in the Equilibrium topic); **kinetic
+     friction, one paragraph**: f = μ<sub>k</sub>N once sliding starts,
+     μ<sub>k</sub> typically < μ<sub>s</sub>. One generic (non-numeric)
+     schematic diagram — "Forces on a Block": a block on a hatched
+     ground line with N/W/f/F all drawn as outward arrows from one
+     common anchor point at the block's center (the F/f pair and N/W
+     pair each render as one continuous line with arrowheads at both
+     ends, since they're opposite-direction arrows from the same
+     point) — mirrors the Moment topic's own non-numeric §1/§2-intro
+     diagrams (general picture first, worked numbers later).
+  2. **Friction on a horizontal plane** — general setup: N = W = mg
+     (no vertical applied component), and while static,
+     ΣF<sub>x</sub> = 0 ⇒ f = F exactly, *not* μ<sub>s</sub>N, provided
+     F ≤ f<sub>max</sub> = μ<sub>s</sub>N. Worked example: m = 10 kg,
+     μ<sub>s</sub> = 0.4, F = 30 N → W = N = 98.10 N,
+     f<sub>max</sub> = 39.24 N; since F < f<sub>max</sub>, f = F =
+     **30.00 N** — stated right beside f<sub>max</sub> = 39.24 N (both
+     in the diagram's corner legend and in the prose) so "self-
+     adjusting, not automatically at the ceiling" is a concrete number
+     comparison, not just an assertion. Same diagram layout as §1's
+     schematic, now with real values: a corner legend (N/W/F/f values,
+     f<sub>max</sub> shown separately in muted italic as a reference
+     value, not a drawn force) plus short inline arrow tags — the
+     corner-legend pattern established on the Resolve topic's
+     inclined-body diagrams. Closing cross-link to the Force
+     Calculator (ΣFx/ΣFy).
+  3. **Friction on an inclined plane** — general setup: resolve weight
+     along/perpendicular to the incline, reusing the **Resolve and
+     Resultant Force** topic's own exact incline-ramp/rotated-block
+     diagram geometry and technique (ramp `path`, block `rect` via
+     `transform="rotate(-θ ...)"`, the anchor point computed as the
+     rotated top-edge midpoint of the block) rather than re-deriving
+     it, just recomputed for this topic's own 20° (vs. Resolve's 30°).
+     Perpendicular equilibrium ⇒ N = mg cos θ; the down-slope component
+     mg sin θ is resisted by friction up-slope, f ≤ μ<sub>s</sub>N.
+     Worked example: m = 5 kg, θ = 20°, μ<sub>s</sub> = 0.5 → W =
+     49.05 N, N = W cos 20° = 46.09 N, down-slope component =
+     W sin 20° = 16.78 N, f<sub>max</sub> = 23.05 N; since
+     16.78 N < f<sub>max</sub>, f = **16.78 N** (again exactly the
+     down-slope component, not the ceiling). Diagram shows the real
+     free-body picture of the block on the incline — W (straight down),
+     N (perpendicular, outward), and f (up-slope) as three real arrows
+     from one anchor point, plus the θ angle arc at the ramp's base
+     corner (same precomputed-polyline-arc technique as every other
+     topic, never an SVG arc command) — deliberately *not* also
+     drawing W's own parallel/perpendicular component arrows on this
+     same diagram, since those would be exactly collinear with N and f
+     respectively (equal and opposite, by construction) and would
+     clutter rather than clarify; the resolution itself is explained
+     in prose instead, pointing back to the Resolve topic's own
+     technique for readers who want the refresher.
+     - **Angle of repose** (included per the approved scope): dividing
+       the two equilibrium equations cancels mg, giving the
+       mass-independent critical angle tan θ<sub>c</sub> = μ<sub>s</sub>;
+       for this example's μ<sub>s</sub> = 0.5, θ<sub>c</sub> =
+       tan⁻¹(0.5) = **26.57°**, and since the worked example's 20° is
+       below that, it independently confirms the "it stays" conclusion
+       without redoing the force balance — the same "solve one way,
+       cross-check another way" structure the Equilibrium topic's own
+       beam example already uses. Presented via formula + the tie-back
+       numbers above, with no second diagram, keeping the section to
+       one diagram total (per the approved scope). Closing cross-link
+       to the Force Calculator.
+  All three diagrams' coordinates were precomputed with a small Node
+  script (same approach as every prior topic) before writing the SVG
+  markup; every worked numeric value (W, N, f<sub>max</sub>, the
+  down-slope component, θ<sub>c</sub>) was independently sanity-checked
+  in an isolated Node script first too. One polish pass caught during
+  review: the SVG corner legends' "f<sub>max</sub>" initially used a
+  literal underscore character ("f_max") instead of the site's
+  established `<tspan font-size="..." dy="2">` subscript technique
+  (already used for F<sub>R</sub> in the Resolve topic and elsewhere)
+  — fixed to match. Verified: the new card renders correctly in the
+  Concepts and Theory grid (icon/name/description); full navigation
+  regression (Home → Concepts and Theory → Friction → back → back →
+  Home) plus confirming the 4 existing topics still work unaffected;
+  all three diagrams render with no NaN/undefined coordinates; both
+  worked examples' numbers appear correctly in the rendered page text;
+  the angle-of-repose value and both Force Calculator cross-links work.
 
 ### Virtual Experiments (status: in progress — 2 experiments, no categories)
 - **Portal shell reuse**: the section's own data-driven grid follows the
