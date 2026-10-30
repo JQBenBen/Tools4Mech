@@ -1119,10 +1119,21 @@ history for details.") so the section stays skimmable as it grows.
        "Forces on a Block" schematic (`fric-arrow-schematic` marker)
        and §2's worked "Block on a Horizontal Surface" diagram
        (`fric-arrow-h` marker), since their force-line geometry was
-       byte-identical. F was left untouched (not part of this
-       request). Verified via Playwright (N/f start points, f's
+       byte-identical. Verified via Playwright (N/f start points, f's
        collinearity with the ground line, W unchanged) and a visual
        close-up screenshot of both diagrams.
+     - **F arrow also moved to the block's right surface** (done, a
+       follow-up to the above): F previously started from the block's
+       geometric center `(120,177.5)` and passed through the block's
+       right edge on its way out. Moved its start point to the right
+       edge itself (`rect x=95 width=50` → right edge `x=145`),
+       keeping its 35px length and rightward direction → new line
+       `(145,177.5)` to `(180,177.5)`, label shifted by the same
+       tip→label offset to `(183,181)`. Applied identically to both
+       §1's and §2's diagrams, matching N/f/W all now starting from
+       the surface where each force actually acts rather than from
+       the block's interior. Verified via Playwright (F's new start
+       point and length) and a visual close-up screenshot.
   All three diagrams' coordinates were precomputed with a small Node
   script (same approach as every prior topic) before writing the SVG
   markup; every worked numeric value (W, N, f<sub>max</sub>, the
