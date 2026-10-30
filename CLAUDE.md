@@ -1069,6 +1069,39 @@ history for details.") so the section stays skimmable as it grows.
        numbers above, with no second diagram, keeping the section to
        one diagram total (per the approved scope). Closing cross-link
        to the Force Calculator.
+     - **Block-on-incline diagram geometry** (revised per feedback,
+       after the N-arrow perpendicularity fix above): the block's
+       rotation center was originally placed exactly on the incline
+       line, so the rect was embedded half in the ramp and half above
+       it. Shifted the whole block (rect position + rotation center)
+       up along the true outward normal `(-sin θ, -cos θ)` by half its
+       height (7px), so the rotated rect's bottom edge now lies exactly
+       along the incline (verified: both bottom corners' `y` match the
+       incline line's `y` at their `x`) with the block fully above the
+       surface, resting on it — not intersecting it. This shift has a
+       convenient side effect: the new block center coincides exactly
+       with the old (pre-shift) anchor point, and the new incline
+       contact point (bottom-edge midpoint) coincides exactly with the
+       old (pre-shift) rotation center, so only the rect's own
+       coordinates and the force arrows' start points needed to change,
+       not their numeric values from scratch. **W** now starts from the
+       block's true geometric center (not the old top-surface anchor)
+       and is drawn straight down through the block, same fixed 45px
+       length as before. **N** now starts from the incline contact
+       point (not the block) and is drawn perpendicular to the surface,
+       passing up through the block's body and beyond — consistent with
+       this page's own §1 "Forces on a Block" convention of arrows
+       radiating from/through one common anchor rather than starting
+       clear of the shape. **f** now starts from the same incline
+       contact point and is drawn along the up-slope direction,
+       collinear with the block's own bottom edge (verified via cross
+       product ≈ 0 against the up-slope unit vector) — it visibly
+       emerges from under the block and continues along the surface,
+       reading unambiguously as "friction acting along the incline."
+       Label positions for N and f were nudged to keep pace with their
+       new arrow tips. Verified geometrically (block corners on the
+       incline line, N⊥upslope, f∥upslope, W/N/f start points) before
+       trusting it in the page, plus a visual close-up screenshot.
   All three diagrams' coordinates were precomputed with a small Node
   script (same approach as every prior topic) before writing the SVG
   markup; every worked numeric value (W, N, f<sub>max</sub>, the
